@@ -24,8 +24,8 @@
  * @property ScmUser $ScmUser_1
  * @property ScmUser $ScmUser_2
  * @property ScmFaturaDocStatus $ScmFaturaDocStatus
- * @property Doctrine_Collection $ScmFaturaExcecao
  * @property Doctrine_Collection $ScmFaturaItem
+ * @property Doctrine_Collection $ScmFaturaExcecao
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -151,11 +151,11 @@ abstract class BaseScmFaturaDoc extends Doctrine_Record
              'local' => 'id_fatura_doc_status',
              'foreign' => 'id'));
 
-        $this->hasMany('ScmFaturaExcecao', array(
+        $this->hasMany('ScmFaturaItem', array(
              'local' => 'id',
              'foreign' => 'id_fatura_doc'));
 
-        $this->hasMany('ScmFaturaItem', array(
+        $this->hasMany('ScmFaturaExcecao', array(
              'local' => 'id',
              'foreign' => 'id_fatura_doc'));
     }

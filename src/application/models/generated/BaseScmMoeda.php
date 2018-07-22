@@ -8,10 +8,10 @@
  * @property integer $id
  * @property string $nm_moeda
  * @property string $simbolo_moeda
- * @property Doctrine_Collection $ScmFaturaDoc
  * @property Doctrine_Collection $ScmFaturaItem
  * @property Doctrine_Collection $ScmMaquina
  * @property Doctrine_Collection $ScmTransformacaoItem
+ * @property Doctrine_Collection $ScmFaturaDoc
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -45,11 +45,7 @@ abstract class BaseScmMoeda extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-    $this->hasMany('ScmFaturaDoc', array(
-             'local' => 'id',
-             'foreign' => 'id_moeda'));
-
-        $this->hasMany('ScmFaturaItem', array(
+    $this->hasMany('ScmFaturaItem', array(
              'local' => 'id',
              'foreign' => 'id_moeda'));
 
@@ -58,6 +54,10 @@ abstract class BaseScmMoeda extends Doctrine_Record
              'foreign' => 'id_moeda'));
 
         $this->hasMany('ScmTransformacaoItem', array(
+             'local' => 'id',
+             'foreign' => 'id_moeda'));
+
+        $this->hasMany('ScmFaturaDoc', array(
              'local' => 'id',
              'foreign' => 'id_moeda'));
     }

@@ -13,15 +13,15 @@
  * @property string $language
  * @property char $status
  * @property Doctrine_Collection $ScmUserGroup
- * @property Doctrine_Collection $ScmAjustePercentual
- * @property Doctrine_Collection $ScmFaturaDoc
- * @property Doctrine_Collection $ScmHistoricoStatus
- * @property Doctrine_Collection $ScmMaquina
- * @property Doctrine_Collection $ScmMovimentacaoDoc
  * @property Doctrine_Collection $ScmRegularizacaoDoc
- * @property Doctrine_Collection $ScmSession
  * @property Doctrine_Collection $ScmTransformacaoDoc
+ * @property Doctrine_Collection $ScmSession
+ * @property Doctrine_Collection $ScmMaquina
+ * @property Doctrine_Collection $ScmHistoricoStatus
+ * @property Doctrine_Collection $ScmFaturaDoc
+ * @property Doctrine_Collection $ScmMovimentacaoDoc
  * @property Doctrine_Collection $ScmUserEmpresa
+ * @property Doctrine_Collection $ScmAjustePercentual
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -93,31 +93,7 @@ abstract class BaseScmUser extends Doctrine_Record
              'local' => 'id',
              'foreign' => 'user_id'));
 
-        $this->hasMany('ScmAjustePercentual', array(
-             'local' => 'id',
-             'foreign' => 'id_usuario'));
-
-        $this->hasMany('ScmFaturaDoc', array(
-             'local' => 'id',
-             'foreign' => 'id_usuario'));
-
-        $this->hasMany('ScmHistoricoStatus', array(
-             'local' => 'id',
-             'foreign' => 'id'));
-
-        $this->hasMany('ScmMaquina', array(
-             'local' => 'id',
-             'foreign' => 'id_usuario'));
-
-        $this->hasMany('ScmMovimentacaoDoc', array(
-             'local' => 'id',
-             'foreign' => 'id_usuario'));
-
         $this->hasMany('ScmRegularizacaoDoc', array(
-             'local' => 'id',
-             'foreign' => 'id_usuario'));
-
-        $this->hasMany('ScmSession', array(
              'local' => 'id',
              'foreign' => 'id_usuario'));
 
@@ -125,8 +101,32 @@ abstract class BaseScmUser extends Doctrine_Record
              'local' => 'id',
              'foreign' => 'id_usuario'));
 
+        $this->hasMany('ScmSession', array(
+             'local' => 'id',
+             'foreign' => 'id_usuario'));
+
+        $this->hasMany('ScmMaquina', array(
+             'local' => 'id',
+             'foreign' => 'id_usuario'));
+
+        $this->hasMany('ScmHistoricoStatus', array(
+             'local' => 'id',
+             'foreign' => 'id'));
+
+        $this->hasMany('ScmFaturaDoc', array(
+             'local' => 'id',
+             'foreign' => 'id_usuario'));
+
+        $this->hasMany('ScmMovimentacaoDoc', array(
+             'local' => 'id',
+             'foreign' => 'id_usuario'));
+
         $this->hasMany('ScmUserEmpresa', array(
              'local' => 'id',
              'foreign' => 'user_id'));
+
+        $this->hasMany('ScmAjustePercentual', array(
+             'local' => 'id',
+             'foreign' => 'id_usuario'));
     }
 }

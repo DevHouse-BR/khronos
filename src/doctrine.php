@@ -30,4 +30,4 @@ $manager->setCharset('utf8');
 $manager->openConnection($doctrineConfig['connection_string']);
 
 $manager->getCurrentConnection()->getDbh()->query("CREATE SEQUENCE scm_numero_fatura_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1");
-$manager->getCurrentConnection()->getDbh()->query("ALTER TABLE scm_numero_fatura_seq OWNER TO khronos");
+$manager->getCurrentConnection()->getDbh()->query("ALTER TABLE scm_numero_fatura_seq OWNER TO postgres");

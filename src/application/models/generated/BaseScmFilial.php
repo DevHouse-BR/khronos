@@ -12,10 +12,10 @@
  * @property Doctrine_Collection $ScmMaquina
  * @property Doctrine_Collection $ScmMovimentacaoDoc
  * @property Doctrine_Collection $ScmTransformacaoDoc
- * @property Doctrine_Collection $ScmAjustePercentual
- * @property Doctrine_Collection $ScmFaturaDoc
- * @property Doctrine_Collection $ScmHistoricoStatus
  * @property Doctrine_Collection $ScmRegularizacaoDoc
+ * @property Doctrine_Collection $ScmHistoricoStatus
+ * @property Doctrine_Collection $ScmFaturaDoc
+ * @property Doctrine_Collection $ScmAjustePercentual
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -71,11 +71,7 @@ abstract class BaseScmFilial extends Doctrine_Record
              'local' => 'id',
              'foreign' => 'id_filial'));
 
-        $this->hasMany('ScmAjustePercentual', array(
-             'local' => 'id',
-             'foreign' => 'id_filial'));
-
-        $this->hasMany('ScmFaturaDoc', array(
+        $this->hasMany('ScmRegularizacaoDoc', array(
              'local' => 'id',
              'foreign' => 'id_filial'));
 
@@ -83,7 +79,11 @@ abstract class BaseScmFilial extends Doctrine_Record
              'local' => 'id',
              'foreign' => 'id_filial'));
 
-        $this->hasMany('ScmRegularizacaoDoc', array(
+        $this->hasMany('ScmFaturaDoc', array(
+             'local' => 'id',
+             'foreign' => 'id_filial'));
+
+        $this->hasMany('ScmAjustePercentual', array(
              'local' => 'id',
              'foreign' => 'id_filial'));
     }
