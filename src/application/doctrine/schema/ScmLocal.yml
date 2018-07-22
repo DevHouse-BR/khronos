@@ -1,0 +1,62 @@
+ScmLocal:
+  tableName: scm_local
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    nm_local:
+      type: string(45)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    tp_local:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    fl_portal:
+      type: integer(1)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+      default: 0
+    user_portal:
+      type: string(50)
+      fixed: false
+      primary: false
+      notnull: false
+    pass_portal:
+      type: string(20)
+      fixed: false
+      primary: false
+      notnull: false
+  indexes:
+    userunique:
+      fields: [user_portal]
+      type: unique
+  relations:
+    ScmTipoLocal:
+      local: tp_local
+      foreign: id
+      type: one
+    ScmFechamentoDoc:
+      local: id
+      foreign: id_local
+      type: many
+    ScmMaquina:
+      local: id
+      foreign: id_local
+      type: many
+    ScmMovimentacaoDoc:
+      local: id
+      foreign: id_local
+      type: many
+    ScmTransformacaoDoc:
+      local: id
+      foreign: id_local
+      type: many

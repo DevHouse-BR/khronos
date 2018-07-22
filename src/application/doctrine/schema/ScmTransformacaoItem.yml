@@ -1,0 +1,143 @@
+ScmTransformacaoItem:
+  tableName: scm_transformacao_item
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    id_transformacao_doc:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      autoincrement: false
+    id_maquina:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    nr_cont_1:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_2:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_3:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_4:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_5:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_6:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    id_jogo:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    nr_versao_jogo:
+      type: string(45)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    vl_credito:
+      type: decimal(10)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+      scale: false
+    id_gabinete:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_moeda:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    nr_cont_1_ant:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_2_ant:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_3_ant:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_4_ant:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_5_ant:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_6_ant:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+  relations:
+    ScmJogo:
+      local: id_jogo
+      foreign: id
+      type: one
+    ScmGabinete:
+      local: id_gabinete
+      foreign: id
+      type: one
+    ScmMoeda:
+      local: id_moeda
+      foreign: id
+      type: one
+    ScmTransformacaoDoc:
+      local: id_transformacao_doc
+      foreign: id
+      type: one
+    ScmMaquina:
+      local: id_maquina
+      foreign: id
+      type: one

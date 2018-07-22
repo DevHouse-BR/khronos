@@ -1,0 +1,13 @@
+ScmUserGroup:
+  User_Group_1:
+    ScmUser: User_1
+    ScmGroup: Group_1
+  User_Group_2:
+    ScmUser: User_2
+    ScmGroup: Group_2
+  User_Group_3:
+    ScmUser: User_3
+    ScmGroup: Group_3
+  User_Group_4:
+    ScmUser: User_4
+    ScmGroup: Group_4

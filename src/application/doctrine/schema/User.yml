@@ -1,0 +1,44 @@
+ScmUser:
+  options:
+   collate: utf8_unicode_ci
+   charset: utf8
+  tableName: scm_user
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    username:
+      type: string(255)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    password:
+      type: string(255)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    email:
+      type: string(255)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    language:
+      type: string(255)
+      notnull: false
+    status: char(1)
+  relations:
+    ScmUserGroup:
+      local: id
+      foreign: user_id
+      type: many

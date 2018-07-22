@@ -1,0 +1,13 @@
+ScmModule:
+  Module_1:
+    name: 'Administración'
+  Module_2:
+    name: 'Parque'
+  Module_3:
+    name: 'Cierre'
+  Module_4:
+    name: 'Consultas y Listados'
+  Module_5:
+    name: 'Portal'
+  Module_6:
+    name: 'Relatórios'

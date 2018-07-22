@@ -1,0 +1,5 @@
+ScmProtocolo:
+  ScmProtocolo_1:
+    nm_protocolo: 'TSG'
+  ScmProtocolo_2:
+    nm_protocolo: 'SAS'

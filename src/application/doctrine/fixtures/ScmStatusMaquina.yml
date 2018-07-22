@@ -1,0 +1,28 @@
+ScmStatusMaquina:
+  StatusMaquina_1:
+    nm_status_maquina: 'Cadastrada'
+    fl_permite_movimentacao: 1
+    fl_permite_transformacao: 1
+    fl_permite_faturamento: 1
+    fl_permite_regularizacao: 1
+    fl_sistema: 1
+    fl_operativa: 1
+    fl_alta: 1
+  StatusMaquina_2:
+    nm_status_maquina: 'Em trânsito'
+    fl_permite_movimentacao: 0
+    fl_permite_transformacao: 0
+    fl_permite_faturamento: 0
+    fl_permite_regularizacao: 0
+    fl_sistema: 1
+    fl_operativa: 1
+    fl_alta: 1
+  StatusMaquina_3:
+    nm_status_maquina: 'Instalada'
+    fl_permite_movimentacao: 1
+    fl_permite_transformacao: 1
+    fl_permite_faturamento: 1
+    fl_permite_regularizacao: 1
+    fl_sistema: 1
+    fl_operativa: 1
+    fl_alta: 1

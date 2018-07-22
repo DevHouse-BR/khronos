@@ -1,0 +1,23 @@
+ScmJogo:
+  tableName: scm_jogo
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    nm_jogo:
+      type: string(45)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    ScmMaquina:
+      local: id
+      foreign: id_jogo
+      type: many
+    ScmTransformacaoItem:
+      local: id
+      foreign: id_jogo
+      type: many

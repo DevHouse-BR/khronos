@@ -1,0 +1,65 @@
+ScmMovimentacaoItem:
+  tableName: scm_movimentacao_item
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    id_movimentacao_doc:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      autoincrement: false
+    id_maquina:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    fl_cont_manual: boolean
+    nr_cont_1:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_2:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_3:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_4:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_5:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_6:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+  relations:
+    ScmMovimentacaoDoc:
+      local: id_movimentacao_doc
+      foreign: id
+      type: one
+    ScmMaquina:
+      local: id_maquina
+      foreign: id
+      type: one

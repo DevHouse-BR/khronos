@@ -1,0 +1,29 @@
+ScmUser:
+  User_1:
+    name: 'Administrador'
+    username: 'admin'
+    password: '1234'
+    email: 'rafael@agenciadmg.com.br'
+    language: 'pt_BR'
+    status: 1
+  User_2:
+    name: 'Gerente'
+    username: 'gerente'
+    password: '1234'
+    email: 'rafael@agenciadmg.com.br'
+    language: null
+    status: 1
+  User_3:
+    name: 'Tecnico'
+    username: 'tecnico'
+    password: '1234'
+    email: 'rafael@agenciadmg.com.br'
+    language: null
+    status: 1
+  User_4:
+    name: 'Listados'
+    username: 'listados'
+    password: '1234'
+    email: 'rafael@agenciadmg.com.br'
+    language: null
+    status: 1

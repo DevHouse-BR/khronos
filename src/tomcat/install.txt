@@ -1,0 +1,1 @@
+Block external access to BIRT, only by localhost

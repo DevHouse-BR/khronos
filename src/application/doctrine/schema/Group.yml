@@ -1,0 +1,26 @@
+ScmGroup:
+  options:
+   collate: utf8_unicode_ci
+   charset: utf8
+  tableName: scm_group
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    ScmGroupRule:
+      local: id
+      foreign: group_id
+      type: many
+    ScmUserGroup:
+      local: id
+      foreign: group_id
+      type: many

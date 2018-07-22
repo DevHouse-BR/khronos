@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><?php echo DMG_Config::get(2); ?></title>
+</head>
+<body>
+	<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl(); ?>/extjs/resources/css/ext-all.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl(); ?>/extjs/resources/css/xtheme-blue.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl(); ?>/css/base.css" />
+	<div id="loading"><?php echo DMG_Translate::_('i18n.loading'); ?></div>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/adapter/ext/ext-base-debug.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ext-all-debug.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/loader.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/GridFilters.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/menu/RangeMenu.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/menu/ListMenu.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/Filter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/BooleanFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/DateFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/ListFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/StringFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/NumericFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/MultiSelectField.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Portal.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Portlet.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/PortalColumn.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Spinner.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/SpinnerField.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/uiHelper.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Mask.js"></script>
+<?php if (Zend_Auth::getInstance()->hasIdentity()): ?>
+	<script type="text/javascript" src="<?php echo $this->url(array('controller' => 'index', 'action' => 'js'), null, true); ?>"></script>
+	<script type="text/javascript">
+		Ext.onReady(function() {
+			loader("<?php echo $this->url(array('controller' => 'index', 'action' => 'js'), null, true); ?>", function () {
+				new Principal();
+				Ext.QuickTips.init();
+				Ext.form.Field.prototype.msgTarget = 'side';
+				document.getElementById('loading').style.display = 'none';
+			});
+		});
+	</script>
+<?php else: ?>
+	<script type="text/javascript">
+		Ext.onReady(function(){
+			var win = new Ext.Window({
+				title: '<?php echo DMG_Translate::_('auth.title'); ?>',
+				width: 300,
+				height: 130,
+				modal: true,
+				closable: false,
+				draggable: false,
+				resizable: false,
+				cls: 'x-form-item-label-login',
+				items: [
+					new Ext.form.FormPanel({
+						id: 'formPanel',
+						bodyStyle: 'padding:5px',
+						baseCls: 'x-plain',
+						items: [{
+							xtype: 'textfield',
+							fieldLabel: '<?php echo DMG_Translate::_('auth.username'); ?>',
+							name: 'username',
+							allowBlank: false
+						},{
+							xtype: 'textfield',
+							fieldLabel: '<?php echo DMG_Translate::_('auth.password'); ?>',
+							name: 'password',
+							inputType: 'password',
+							allowBlank: false
+						}]
+					})
+				],
+				buttons: [{
+					text: 'Login',
+					handler: function(){
+						var form = Ext.getCmp('formPanel').getForm();
+						if(form.isValid()){
+							win.el.mask('Carregando');
+							form.submit({
+								url: '<?php echo $this->url(array('controller' => 'index', 'action' => 'auth'), null, true); ?>',
+								success: function(form,action){
+									loader("<?php echo $this->url(array('controller' => 'index', 'action' => 'js'), null, true); ?>", function () {
+										win.el.unmask();
+										win.destroy();
+										new Principal();
+										Ext.QuickTips.init();
+										Ext.form.Field.prototype.msgTarget = 'side';
+									});
+								},
+								failure: function(form,action){
+									win.el.unmask();
+									//Ext.Msg.alert('<?php echo DMG_Translate::_('auth.alert'); ?>', '<?php echo DMG_Translate::_('auth.error'); ?>');
+									uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('auth.alert'); ?>', msg: '<?php echo DMG_Translate::_('auth.error'); ?>'});
+									form.items.items[0].setValue('');
+									form.items.items[1].setValue('');
+								}
+							});
+						}
+					}
+				}]
+			});
+			document.getElementById('loading').style.display = 'none';
+			win.show();
+		});
+	</script>
+<?php endif; ?>
+</body>
+</html>

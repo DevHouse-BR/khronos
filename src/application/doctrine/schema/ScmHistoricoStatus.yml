@@ -1,0 +1,78 @@
+ScmHistoricoStatus:
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    dt_status:
+      type: timestamp
+      notnull: true
+    id_status:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_maquina:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_filial:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_local:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_parceiro:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    id_usuario:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    dt_sistema:
+      type: timestamp
+      notnull: true
+  relations:
+    ScmUser:
+      local: id_usuario
+      foreign: id
+      type: one
+    ScmStatus:
+      local: id_status
+      foreign: id
+      type: one
+    ScmMaquina:
+      local: id_maquina
+      foreign: id
+      type: one
+    ScmFilial:
+      local: id_filial
+      foreign: id
+      type: one
+    ScmLocal:
+      local: id_local
+      foreign: id
+      type: one
+    ScmParceiro:
+      local: id_parceiro
+      foreign: id
+      type: one
+    ScmUser:
+      local: id
+      foreign: id
+      type: one

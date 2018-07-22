@@ -1,0 +1,20 @@
+ScmTipoLocal:
+  tableName: scm_tipo_local
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    nm_tipo_local:
+      type: string(45)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    fl_sistema: boolean
+  relations:
+    ScmLocal:
+      local: id
+      foreign: tp_local
+      type: many

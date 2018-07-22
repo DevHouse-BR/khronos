@@ -1,0 +1,21 @@
+ScmParceiro:
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    nm_parceiro:
+      type: string(255)
+      notnull: true
+    id_empresa:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    ScmEmpresa:
+      local: id_empresa
+      foreign: id
+      type: one

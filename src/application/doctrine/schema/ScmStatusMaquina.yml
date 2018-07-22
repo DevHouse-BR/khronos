@@ -1,0 +1,56 @@
+ScmStatusMaquina:
+  tableName: scm_status_maquina
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    nm_status_maquina:
+      type: string(45)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    fl_permite_movimentacao:
+      type: integer(1)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    fl_permite_transformacao:
+      type: integer(1)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    fl_permite_faturamento:
+      type: integer(1)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    fl_permite_regularizacao:
+      type: integer(1)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    fl_sistema:
+      type: integer(1)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    fl_operativa:
+      type: integer(1)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    fl_alta:
+      type: integer(1)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false

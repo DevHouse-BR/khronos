@@ -1,0 +1,116 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title id="title"><?php echo DMG_Config::get(2); ?></title>
+        <style type="text/css">
+			 #loading-mask{
+		        position:absolute;
+		        left:0;
+		        top:0;
+		        width:100%;
+		        height:100%;
+		        z-index:20000;
+		        background-color:white;
+		    }
+		    #loading{
+		        position:absolute;
+		        left:40%;
+		        top:40%;
+		        padding:2px;
+		        z-index:20001;
+		        height:auto;
+		    }
+		    #loading a {
+		        color:#225588;
+		    }
+		    #loading .loading-indicator{
+		        background:white;
+		        color:#444;
+		        font:bold 13px tahoma,arial,helvetica;
+		        padding:10px;
+		        margin:0;
+		        height:auto;
+				width:240px;
+		    }
+		    #loading-msg {
+		        font: normal 10px arial,tahoma,sans-serif;
+		    }
+        </style>
+    </head>
+    <body  scroll="no">
+   		<!--<img src="<?php echo $this->BaseUrl(); ?>/images/background.jpg" width="100%" height="100%" style="position:fixed !important;top:0;left:0;z-index:0;" /> -->
+   		<div id="loading-mask" style=""></div>
+		<div id="loading">
+		    <div class="loading-indicator">
+		    	<img src="<?php echo $this->BaseUrl(); ?>/images/ajax-loader.gif" width="48" height="48" style="margin-right:8px;float:left;vertical-align:top;"/>
+		    	<div style="height: 8px;"></div>
+		    	<?php echo DMG_Config::get(2); ?><br />
+		    	<span id="loading-msg">Carregando Estilos e Imagens...</span>
+			</div>
+		</div>
+		
+		<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl(); ?>/extjs/resources/css/ext-all.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl(); ?>/extjs/resources/css/xtheme-blue.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl(); ?>/css/portal.css" />
+		<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Carregando Core do Sistema...';</script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/adapter/ext/ext-base-debug.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ext-all-debug.js"></script>
+		<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Carregando User Extensions...';</script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/PasswordField.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/HttpHelpers.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/pt-BR.js"></script>
+		
+		
+		
+		
+		
+		
+
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/loader.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/GridFilters.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/menu/RangeMenu.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/menu/ListMenu.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/Filter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/BooleanFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/DateFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/ListFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/StringFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/NumericFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/MultiSelectField.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Portal.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Portlet.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/PortalColumn.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Spinner.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/SpinnerField.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/uiHelper.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Mask.js"></script>
+		
+		
+	
+		
+		<script language="javascript">
+			Ext.onReady(function(){
+				Ext.QuickTips.init();
+				Ext.form.Field.prototype.msgTarget = 'side';
+
+				Ext.namespace('Portal');
+				Portal.baseUrl = '<?php echo $this->BaseUrl(); ?>';
+				
+				var hideMask = function () {
+					Ext.get('loading').remove();
+					Ext.fly('loading-mask').fadeOut({
+						remove: true
+					});
+				};
+
+				loader(Portal.baseUrl + '/portal/js', function(){
+					new Principal();
+					Ext.QuickTips.init();
+					Ext.form.Field.prototype.msgTarget = 'side';
+					hideMask.defer(250);
+				});
+				
+			});
+		</script>
+    </body>
+</html>

@@ -1,0 +1,7 @@
+ScmLocal:
+  ScmLocal_1:
+    nm_local: 'Sala Standard'
+    ScmTipoLocal: TipoLocal_1
+  ScmLocal_2:
+    nm_local: 'Deposito Standard'
+    ScmTipoLocal: TipoLocal_9

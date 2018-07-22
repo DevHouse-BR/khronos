@@ -1,0 +1,34 @@
+ScmLocalServer:
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    id_local:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      autoincrement: false
+      notnull: true
+    ip_server: string(255)
+    id_protocolo:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      autoincrement: false
+    num_port:
+      type: integer
+      notnull: true
+    timeout:
+      type: integer
+      notnull: true
+  relations:
+    ScmLocal:
+      local: id_local
+      foreign: id
+      type: one
+    ScmProtocolo:
+      local: id_protocolo
+      foreign: id
+      type: one

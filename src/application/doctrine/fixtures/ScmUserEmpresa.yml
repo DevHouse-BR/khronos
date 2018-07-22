@@ -1,0 +1,13 @@
+ScmUserEmpresa:
+  ScmUserEmpresa_1:
+    ScmUser: User_1
+    ScmEmpresa: ScmEmpresa_1
+  ScmUserEmpresa_2:
+    ScmUser: User_2
+    ScmEmpresa: ScmEmpresa_1
+  ScmUserEmpresa_3:
+    ScmUser: User_3
+    ScmEmpresa: ScmEmpresa_1
+  ScmUserEmpresa_4:
+    ScmUser: User_4
+    ScmEmpresa: ScmEmpresa_1

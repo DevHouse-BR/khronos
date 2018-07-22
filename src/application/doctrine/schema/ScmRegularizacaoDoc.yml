@@ -1,0 +1,61 @@
+ScmRegularizacaoDoc:
+  columns:
+    id:
+      type: integer
+      unsigned: 0
+      autoincrement: true
+      notnull: true
+      primary: true
+    dt_regularizacao:
+      type: timestamp
+      notnull: true
+    ds_motivo:
+      type: string(255)
+      notnull: true
+    tp_regularizacao:
+      type: string(1)
+      notnull: true
+    id_filial:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_local:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_parceiro:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    id_usuario:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: true
+      autoincrement: false
+    dt_sistema:
+      type: timestamp
+      notnull: true
+  relations:
+    ScmUser:
+      local: id_usuario
+      foreign: id
+      type: one
+    ScmFilial:
+      local: id_filial
+      foreign: id
+      type: one
+    ScmParceiro:
+      local: id_parceiro
+      foreign: id
+      type: one
+    ScmLocal:
+      local: id_local
+      foreign: id
+      type: one

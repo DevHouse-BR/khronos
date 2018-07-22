@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<grupos>
+	<grupo id="1">
+		<nome>parque</nome>
+		<traducao>
+			<es>Parque</es>
+			<pt_BR>Parque</pt_BR>
+			<en>Parque</en>
+		</traducao>
+	</grupo>
+	<grupo id="2">
+		<nome>administracao</nome>
+		<traducao>
+			<es>Administración</es>
+			<pt_BR>Administração</pt_BR>
+			<en>Administration</en>
+		</traducao>
+	</grupo>
+</grupos>

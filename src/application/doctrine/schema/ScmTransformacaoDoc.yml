@@ -1,0 +1,68 @@
+ScmTransformacaoDoc:
+  tableName: scm_transformacao_doc
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    id_origem: 
+      type: integer
+      unsigned: true
+      primary: false
+      autoincrement: false
+    dt_transformacao:
+      type: timestamp(25)
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_filial:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_local:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_parceiro:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    id_usuario:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: true
+      autoincrement: false
+    dt_sistema:
+      type: timestamp(25)
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    ScmUser:
+      local: id_usuario
+      foreign: id
+      type: one
+    ScmFilial:
+      local: id_filial
+      foreign: id
+      type: one
+    ScmParceiro:
+      local: id_parceiro
+      foreign: id
+      type: one
+    ScmLocal:
+      local: id_local
+      foreign: id
+      type: one
+    ScmTransformacaoItem:
+      local: id
+      foreign: id_transformacao_doc
+      type: many

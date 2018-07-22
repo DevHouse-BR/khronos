@@ -1,0 +1,19 @@
+ScmEmpresa:
+  tableName: scm_empresa
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    nm_empresa:
+      type: string(45)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    ScmFilial:
+      local: id
+      foreign: id_empresa
+      type: many

@@ -1,0 +1,183 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title id="title"><?php echo DMG_Config::get(2); ?></title>
+        <style type="text/css">
+			 #loading-mask{
+		        position:absolute;
+		        left:0;
+		        top:0;
+		        width:100%;
+		        height:100%;
+		        z-index:20000;
+		        background-color:white;
+		    }
+		    #loading{
+		        position:absolute;
+		        left:40%;
+		        top:40%;
+		        padding:2px;
+		        z-index:20001;
+		        height:auto;
+		    }
+		    #loading a {
+		        color:#225588;
+		    }
+		    #loading .loading-indicator{
+		        background:white;
+		        color:#444;
+		        font:bold 13px tahoma,arial,helvetica;
+		        padding:10px;
+		        margin:0;
+		        height:auto;
+				width:240px;
+		    }
+		    #loading-msg {
+		        font: normal 10px arial,tahoma,sans-serif;
+		    }
+        </style>
+    </head>
+    <body  scroll="no">
+   		<img src="<?php echo $this->BaseUrl(); ?>/images/background.jpg" width="100%" height="100%" style="position:fixed !important;top:0;left:0;z-index:0;" />
+   		<div id="loading-mask" style=""></div>
+		<div id="loading">
+		    <div class="loading-indicator">
+		    	<img src="<?php echo $this->BaseUrl(); ?>/images/ajax-loader.gif" width="48" height="48" style="margin-right:8px;float:left;vertical-align:top;"/>
+		    	<div style="height: 8px;"></div>
+		    	<?php echo DMG_Config::get(2); ?><br />
+		    	<span id="loading-msg">Carregando Estilos e Imagens...</span>
+			</div>
+		</div>
+		
+		<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl(); ?>/extjs/resources/css/ext-all.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl(); ?>/css/portal.css" />
+		<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Carregando Core do Sistema...';</script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/adapter/ext/ext-base-debug.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ext-all-debug.js"></script>
+		<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Carregando User Extensions...';</script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/PasswordField.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/HttpHelpers.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/pt-BR.js"></script>
+		
+		<script language="javascript">
+			var baseUrl = '<?php echo $this->BaseUrl(); ?>';
+			Ext.onReady(function(){
+				Ext.BLANK_IMAGE_URL = '../extjs/resources/images/default/s.gif';
+				Ext.QuickTips.init();
+				Ext.form.Field.prototype.msgTarget = 'side';
+				var hideMask = function () {
+					Ext.get('loading').remove();
+					Ext.fly('loading-mask').fadeOut({
+						remove:true
+					});
+				};
+				hideMask.defer(250);
+
+				login = new Ext.FormPanel({
+					url: baseUrl + '/portal/login',
+					id:'id-form-login',
+					iconCls: 'icon-lock',
+				    frame:true,
+				    title:'Login',
+				    bodyStyle: 'padding:10px;',
+					monitorValid:true,
+					layout:'hbox',
+					items:[{
+				    	html: '<img src="' + baseUrl + '/images/login.png" width="48" height="48" />',
+				        flex: 1
+					},{
+						flex:4,
+						layout:'form',
+						labelAlign:'left',
+						labelWidth: 40,
+						height:100,						
+						defaultType:'textfield',
+						items:[{
+							fieldLabel: 'Email',
+							name: 'loginUsername',
+							id: 'loginUsername',
+							allowBlank:false,
+							blankText: "Informe o usuário",
+							width: '90%',
+							listeners:{
+								specialkey:function(owner,e){
+									if (e.getKey() == 13){
+										Ext.getCmp('loginPassword').focus(true);
+									}
+								}
+							}
+						},{
+							fieldLabel:'Senha',
+							name:'loginPassword',
+							id: 'loginPassword',
+							inputType:'password',
+							xtype:'passwordfield',
+							showCapsWarning:true,
+							allowBlank:false,
+							blankText: "Informe a senha",
+							width: '90%',
+							listeners:{
+								specialkey:function(owner,e){
+									if (e.getKey() == 13){
+										var valid = true;
+										var f = Ext.getCmp('id-form-login');
+										f.form.items.each(function(f){
+											if(!f.isValid(true)){
+												valid = false;
+												return false;
+											}
+										});
+									}
+									if(valid) doLogin();
+								}
+							}
+						}]
+					}],
+					buttons:[{
+			    		id: 'botaoLogin',
+			            text:'Login',
+						type:'submit',
+						iconCls: 'silk-key',
+			            formBind: true,
+			            handler: doLogin
+			        },{
+						xtype:'panel',
+						baseCls: 'x-plain',
+						width: 13
+					}]
+				});
+
+				var win = new Ext.Window({
+			        layout:'fit',
+			        width:330,
+			        height:165,
+			        closable: false,
+			        resizable: false,
+			        plain: true,
+			        border: false,
+			        items: [login],
+			        listeners:{
+						show: function(janela){
+							Ext.getCmp('loginUsername').focus(false, 500);
+						}
+			        } 
+				});
+				win.show();
+			});
+
+			function doLogin(){	
+			    login.getForm().submit({
+			        method:'POST', 
+			        waitTitle:'Conectando', 
+			        waitMsg:'Enviando Informações...',
+
+					success:function(){
+						var redirect =  baseUrl + '/portal/desktop';
+						window.location = redirect;
+					},
+					failure:HttpHelpers.failHandler
+			    }); 
+			}
+		</script>
+    </body>
+</html>

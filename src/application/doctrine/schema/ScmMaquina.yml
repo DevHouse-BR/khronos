@@ -1,0 +1,250 @@
+ScmMaquina:
+  tableName: scm_maquina
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    nr_serie_imob:
+      type: string(45)
+      unique: true
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    nr_serie_connect:
+      type: string(45)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_serie_aux:
+      type: string(45)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    dt_ultima_movimentacao:
+      type: timestamp(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+    dt_ultima_transformacao:
+      type: timestamp(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+    dt_ultimo_faturamento:
+      type: timestamp(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+    dt_ultima_regularizacao:
+      type: timestamp(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+    dt_ultimo_status:
+      type: timestamp(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+    dt_cadastro:
+      type: timestamp(25)
+      primary: false
+      notnull: true
+      autoincrement: true
+    dt_sistema:
+      type: timestamp(25)
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_usuario:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_protocolo:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_filial:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_local:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    id_status:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_jogo:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    nr_versao_jogo:
+      type: string(45)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    vl_credito:
+      type: decimal(10)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+      scale: false
+    id_gabinete:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    nr_cont_1:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_2:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_3:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_4:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_5:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_6:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_1_parcial:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_2_parcial:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_3_parcial:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_4_parcial:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_5_parcial:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_6_parcial:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    id_moeda:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_parceiro:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+  relations:
+    ScmUser:
+      local: id_usuario
+      foreign: id
+      type: one
+    ScmFilial:
+      local: id_filial
+      foreign: id
+      type: one
+    ScmMoeda:
+      local: id_moeda
+      foreign: id
+      type: one
+    ScmParceiro:
+      local: id_parceiro
+      foreign: id
+      type: one
+    ScmLocal:
+      local: id_local
+      foreign: id
+      type: one
+    ScmStatusMaquina:
+      local: id_status
+      foreign: id
+      type: one
+    ScmJogo:
+      local: id_jogo
+      foreign: id
+      type: one
+    ScmGabinete:
+      local: id_gabinete
+      foreign: id
+      type: one
+    ScmFechamentoItem:
+      local: id
+      foreign: id_maquina
+      type: many
+    ScmMovimentacaoItem:
+      local: id
+      foreign: id_maquina
+      type: many
+    ScmTransformacaoItem:
+      local: id
+      foreign: id_maquina
+      type: many
+    ScmProtocolo:
+      local: id_protocolo
+      foreign: id
+      type: one

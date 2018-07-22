@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<relatorio>
+	<id>2</id>
+	<grupo>1</grupo>
+	<ruleID>66</ruleID>
+	<arquivo>ParqueResumido.rptdesign</arquivo>
+	<saida>Parque_Resumido</saida>
+	<nome>parque-resumido</nome>
+	<traducao>
+		<es>Parque Resumido</es>
+		<pt_BR>Parque Resumido</pt_BR>
+		<en>Parque Resumido</en>
+	</traducao>
+	<descricao>
+		<es>Descripción en Español</es>
+		<pt_BR>Descrição em Português</pt_BR>
+		<en>English Description</en>
+	</descricao>
+	<filtros>
+		<filtro>
+			<tipo>grupo</tipo>
+			<nome>grupo</nome>
+			<traducao>
+				<es>Grupos</es>
+				<pt_BR>Grupos</pt_BR>
+				<en>Groups</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>gabinete</tipo>
+			<nome>gabinete</nome>
+			<traducao>
+				<es>gabinete</es>
+				<pt_BR>gabinete</pt_BR>
+				<en>gabinete</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>jogo</tipo>
+			<nome>jogo</nome>
+			<traducao>
+				<es>jogo</es>
+				<pt_BR>jogo</pt_BR>
+				<en>jogo</en>
+			</traducao>
+		</filtro>
+	</filtros>
+</relatorio>

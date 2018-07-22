@@ -1,0 +1,41 @@
+ScmConfig:
+  Config_1:
+    id: 1
+    name: 'Lenguaje por defecto'
+    value: 'es'
+  Config_2:
+    id: 2
+    name: 'Nombre del sistema'
+    value: 'Sistema de Control Online'
+  Config_3:
+    id: 3
+    name: 'Dirección de la Logo'
+    value: 'images/logo.png'
+  Config_4:
+    id: 4
+    name: 'Contadores Obligatorios'
+    value: '1,2,3,4'
+  Config_5:
+    id: 5
+    name: 'Local por Defecto'
+    value: '1'
+  Config_6:
+    id: 6
+    name: 'Número de registros por página'
+    value: 15
+    system: true
+  Config_8:
+    id: 8
+    name: 'Dirección del Servidor de Listados'
+    value: 'localhost'
+    system: true
+  Config_11:
+    id: 11
+    name: 'Porta del Servidor de Listados'
+    value: '8080'
+    system: true
+  Config_12:
+    id: 12
+    name: 'Crédito para considerar jogando'
+    value: '0.20'
+    system: false

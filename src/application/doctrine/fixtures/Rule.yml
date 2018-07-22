@@ -1,0 +1,261 @@
+ScmRule:
+  Rule_1:
+    id: 1
+    name: 'Visualizar configurações do sistema'
+    ScmModule: Module_1
+  Rule_2:
+    id: 2
+    name: 'Modificar configurações do sistema'
+    ScmModule: Module_1
+  Rule_3:
+    id: 3
+    name: 'Visualizar lista de usuários'
+    ScmModule: Module_1
+  Rule_4:
+    id: 4
+    name: 'Modificar usuários'
+    ScmModule: Module_1
+  Rule_5:
+    id: 5
+    name: 'Adicionar usuários'
+    ScmModule: Module_1
+  Rule_6:
+    id: 6
+    name: 'Deletar usuários'
+    ScmModule: Module_1
+  Rule_7:
+    id: 7
+    name: 'Visualizar lista de grupos'
+    ScmModule: Module_1
+  Rule_8:
+    id: 8
+    name: 'Modificar grupos'
+    ScmModule: Module_1
+  Rule_9:
+    id: 9
+    name: 'Adicionar grupos'
+    ScmModule: Module_1
+  Rule_10:
+    id: 10
+    name: 'Deletar grupos'
+    ScmModule: Module_1
+  Rule_11:
+    id: 11
+    name: 'Modificar permissões do grupo'
+    ScmModule: Module_1
+  Rule_12:
+    id: 12
+    name: 'Modificar grupos do usuário'
+    ScmModule: Module_1
+  Rule_13:
+    id: 13
+    name: 'Visualizar lista de jogos'
+    ScmModule: Module_2
+  Rule_14:
+    id: 14
+    name: 'Modificar jogo'
+    ScmModule: Module_2
+  Rule_15:
+    id: 15
+    name: 'Adicionar jogo'
+    ScmModule: Module_2
+  Rule_16:
+    id: 16
+    name: 'Deletar jogo'
+    ScmModule: Module_2
+  Rule_17:
+    id: 17
+    name: 'Visualizar lista de salas'
+    ScmModule: Module_2
+  Rule_18:
+    id: 18
+    name: 'Modificar sala'
+    ScmModule: Module_2
+  Rule_19:
+    id: 19
+    name: 'Adicionar sala'
+    ScmModule: Module_2
+  Rule_20:
+    id: 20
+    name: 'Deletar sala'
+    ScmModule: Module_2
+  Rule_21:
+    id: 21
+    name: 'Visualizar lista de gabinetes'
+    ScmModule: Module_2
+  Rule_22:
+    id: 22
+    name: 'Modificar gabinete'
+    ScmModule: Module_2
+  Rule_23:
+    id: 23
+    name: 'Adicionar gabinete'
+    ScmModule: Module_2
+  Rule_24:
+    id: 24
+    name: 'Deletar gabinete'
+    ScmModule: Module_2
+  Rule_25:
+    id: 25
+    name: 'Visualizar lista de máquinas'
+    ScmModule: Module_2
+  Rule_26:
+    id: 26
+    name: 'Modificar máquina'
+    ScmModule: Module_2
+  Rule_27:
+    id: 27
+    name: 'Adicionar máquina'
+    ScmModule: Module_2
+  Rule_28:
+    id: 28
+    name: 'Transformar máquina'
+    ScmModule: Module_2
+  Rule_30:
+    id: 30
+    name: 'Consultar Contadores Atuais'
+    ScmModule: Module_4
+  Rule_32:
+    id: 32
+    name: 'Visualizar Fechamentos'
+    ScmModule: Module_3
+  Rule_33:
+    id: 33
+    name: 'Gerar Fechamento'
+    ScmModule: Module_3
+  Rule_34:
+    id: 34
+    name: 'Gráfico de Entradas'
+    ScmModule: Module_5
+  Rule_35:
+    id: 35
+    name: 'Status das máquinas'
+    ScmModule: Module_5
+  Rule_36:
+    id: 36
+    name: 'Relatórios'
+    ScmModule: Module_6
+  Rule_37:
+    id: 37
+    name: 'Modificar empresas do usuário'
+    ScmModule: Module_1
+  Rule_38:
+    id: 38
+    name: 'Visualizar empresas'
+    ScmModule: Module_1
+  Rule_39:
+    id: 39
+    name: 'Modificar empresa'
+    ScmModule: Module_1
+  Rule_40:
+    id: 40
+    name: 'Adicionar empresa'
+    ScmModule: Module_1
+  Rule_41:
+    id: 41
+    name: 'Deletar empresa'
+    ScmModule: Module_1
+  Rule_42:
+    id: 42
+    name: 'Visualizar filiais'
+    ScmModule: Module_1
+  Rule_43:
+    id: 43
+    name: 'Adicionar filial'
+    ScmModule: Module_1
+  Rule_44:
+    id: 44
+    name: 'Modificar filial'
+    ScmModule: Module_1
+  Rule_45:
+    id: 45
+    name: 'Deletar filial'
+    ScmModule: Module_1
+  Rule_46:
+    id: 46
+    name: 'Visualizar tipos de local'
+    ScmModule: Module_2
+  Rule_47:
+    id: 47
+    name: 'Adicionar tipo de local'
+    ScmModule: Module_2
+  Rule_48:
+    id: 48
+    name: 'Modificar tipo de local'
+    ScmModule: Module_2
+  Rule_49:
+    id: 49
+    name: 'Deletar tipo de local'
+    ScmModule: Module_2
+  Rule_50:
+    id: 50
+    name: 'Visualizar parceiros'
+    ScmModule: Module_1
+  Rule_51:
+    id: 51
+    name: 'Adicionar parceiro'
+    ScmModule: Module_1
+  Rule_52:
+    id: 52
+    name: 'Modificar parceiro'
+    ScmModule: Module_1
+  Rule_53:
+    id: 53
+    name: 'Deletar parceiro'
+    ScmModule: Module_1
+  Rule_54:
+    id: 54
+    name: 'Visualizar status de máquina'
+    ScmModule: Module_1
+  Rule_55:
+    id: 55
+    name: 'Adicionar status de máquina'
+    ScmModule: Module_1
+  Rule_56:
+    id: 56
+    name: 'Modificar status de máquina'
+    ScmModule: Module_1
+  Rule_57:
+    id: 57
+    name: 'Deletar status de máquina'
+    ScmModule: Module_1
+  Rule_58:
+    id: 58
+    name: 'Entrada de Máquinas'
+    ScmModule: Module_2
+  Rule_59:
+    id: 59
+    name: 'Saída de Máquinas'
+    ScmModule: Module_2
+  Rule_60:
+    id: 60
+    name: 'Digitar contadores manualmente'
+    ScmModule: Module_2
+  Rule_61:
+    id: 61
+    name: 'Permite alterar filial de uma máquina'
+    ScmModule: Module_2
+  Rule_62:
+    id: 62
+    name: 'Regularização de contadores'
+    ScmModule: Module_2
+  Rule_63:
+    id: 63
+    name: 'Regularização de contadores controlada'
+    ScmModule: Module_2
+  Rule_64:
+    id: 64
+    name: 'Regularização de contadores por falha'
+    ScmModule: Module_2
+  Rule_65:
+    id: 65
+    name: 'Mudar status de uma máquina'
+    ScmModule: Module_2
+  Rule_66:
+    id: 66
+    name: 'Parque resumido'
+    ScmModule: Module_6
+  Rule_67:
+    id: 67
+    name: 'Preencher contadores manualmente no cadastro de máquinas'
+    ScmModule: Module_2

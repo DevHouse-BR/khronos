@@ -1,0 +1,13 @@
+ScmMoeda:
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    nm_moeda:
+      type: string(255)
+      notnull: true
+    simbolo_moeda:
+      type: string(255)
+      notnull: true

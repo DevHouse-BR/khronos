@@ -1,0 +1,24 @@
+ScmConfig:
+  options:
+   collate: utf8_unicode_ci
+   charset: utf8
+  tableName: scm_config
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+    name:
+      type: string(255)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    value:
+      type: clob
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    type: string(255)
+    system: boolean

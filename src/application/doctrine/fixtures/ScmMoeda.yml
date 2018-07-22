@@ -1,0 +1,7 @@
+ScmMoeda:
+  Moeda_1:
+    nm_moeda: 'Euro'
+    simbolo_moeda: '€'
+  Moeda_2:
+    nm_moeda: 'Dolar'
+    simbolo_moeda: 'US$'

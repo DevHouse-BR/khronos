@@ -1,0 +1,4 @@
+ScmFilial:
+  Filial_1:
+    nm_filial: 'Filial Standard'
+    ScmEmpresa: ScmEmpresa_1

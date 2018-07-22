@@ -1,0 +1,11 @@
+ScmJogo:
+  Jogo_1:
+    nm_jogo: 'Big Bingo'
+  Jogo_2:
+    nm_jogo: 'Fast Ball'
+  Jogo_3:
+    nm_jogo: 'Golden Premio'
+  Jogo_4:
+    nm_jogo: 'Golden Ball'
+  Jogo_5:
+    nm_jogo: 'Bingo X'

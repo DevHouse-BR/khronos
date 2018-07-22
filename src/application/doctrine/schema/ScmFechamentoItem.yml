@@ -1,0 +1,201 @@
+ScmFechamentoItem:
+  tableName: scm_fechamento_item
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    id_fechamento_doc:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      autoincrement: false
+    id_maquina:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    vl_credito:
+      type: decimal(10)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+      scale: false
+    id_moeda:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_jogo:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    nr_cont_1:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_2:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_3:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_4:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_5:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_6:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_1_ant:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_2_ant:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_3_ant:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_4_ant:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_5_ant:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_cont_6_ant:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_dif_cont_1:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_dif_cont_2:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_dif_cont_3:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_dif_cont_4:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_dif_cont_5:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    nr_dif_cont_6:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    vl_dif_cont_1:
+      type: decimal(10)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+      scale: false
+    vl_dif_cont_2:
+      type: decimal(10)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+      scale: false
+    vl_dif_cont_3:
+      type: decimal(10)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+      scale: false
+    vl_dif_cont_4:
+      type: decimal(10)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+      scale: false
+    vl_dif_cont_5:
+      type: decimal(10)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+      scale: false
+    vl_dif_cont_6:
+      type: decimal(10)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+      scale: false
+  relations:
+    ScmFechamentoDoc:
+      local: id_fechamento_doc
+      foreign: id
+      type: one
+    ScmMoeda:
+      local: id_moeda
+      foreign: id
+      type: one
+    ScmMaquina:
+      local: id_maquina
+      foreign: id
+      type: one

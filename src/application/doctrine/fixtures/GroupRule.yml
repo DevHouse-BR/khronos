@@ -1,0 +1,268 @@
+ScmGroupRule:
+  GroupRule_1:
+    ScmGroup: Group_1
+    ScmRule: Rule_1
+  Group_Rule_2:
+    ScmGroup: Group_1
+    ScmRule: Rule_2
+  Group_Rule_3:
+    ScmGroup: Group_1
+    ScmRule: Rule_3
+  Group_Rule_4:
+    ScmGroup: Group_1
+    ScmRule: Rule_4
+  Group_Rule_5:
+    ScmGroup: Group_1
+    ScmRule: Rule_5
+  Group_Rule_6:
+    ScmGroup: Group_1
+    ScmRule: Rule_6
+  Group_Rule_7:
+    ScmGroup: Group_1
+    ScmRule: Rule_7
+  Group_Rule_8:
+    ScmGroup: Group_1
+    ScmRule: Rule_8
+  Group_Rule_9:
+    ScmGroup: Group_1
+    ScmRule: Rule_9
+  Group_Rule_10:
+    ScmGroup: Group_1
+    ScmRule: Rule_10
+  Group_Rule_11:
+    ScmGroup: Group_1
+    ScmRule: Rule_11
+  Group_Rule_12:
+    ScmGroup: Group_1
+    ScmRule: Rule_12
+  Group_Rule_13:
+    ScmGroup: Group_1
+    ScmRule: Rule_13
+  Group_Rule_14:
+    ScmGroup: Group_1
+    ScmRule: Rule_14
+  Group_Rule_15:
+    ScmGroup: Group_1
+    ScmRule: Rule_15
+  Group_Rule_16:
+    ScmGroup: Group_1
+    ScmRule: Rule_16
+  Group_Rule_17:
+    ScmGroup: Group_1
+    ScmRule: Rule_17
+  Group_Rule_18:
+    ScmGroup: Group_1
+    ScmRule: Rule_18
+  Group_Rule_19:
+    ScmGroup: Group_1
+    ScmRule: Rule_19
+  Group_Rule_20:
+    ScmGroup: Group_1
+    ScmRule: Rule_20
+  Group_Rule_21:
+    ScmGroup: Group_1
+    ScmRule: Rule_21
+  Group_Rule_22:
+    ScmGroup: Group_1
+    ScmRule: Rule_22
+  Group_Rule_23:
+    ScmGroup: Group_1
+    ScmRule: Rule_23
+  Group_Rule_24:
+    ScmGroup: Group_1
+    ScmRule: Rule_24
+  Group_Rule_25:
+    ScmGroup: Group_1
+    ScmRule: Rule_25
+  Group_Rule_26:
+    ScmGroup: Group_1
+    ScmRule: Rule_26
+  Group_Rule_27:
+    ScmGroup: Group_1
+    ScmRule: Rule_27
+  Group_Rule_28:
+    ScmGroup: Group_1
+    ScmRule: Rule_28
+  Group_Rule_30:
+    ScmGroup: Group_1
+    ScmRule: Rule_30
+  Group_Rule_32:
+    ScmGroup: Group_1
+    ScmRule: Rule_32
+  Group_Rule_33:
+    ScmGroup: Group_1
+    ScmRule: Rule_33
+  Group_Rule_34:
+    ScmGroup: Group_2
+    ScmRule: Rule_21
+  Group_Rule_35:
+    ScmGroup: Group_2
+    ScmRule: Rule_22
+  Group_Rule_36:
+    ScmGroup: Group_2
+    ScmRule: Rule_23
+  Group_Rule_37:
+    ScmGroup: Group_2
+    ScmRule: Rule_24
+  Group_Rule_38:
+    ScmGroup: Group_2
+    ScmRule: Rule_25
+  Group_Rule_39:
+    ScmGroup: Group_2
+    ScmRule: Rule_26
+  Group_Rule_40:
+    ScmGroup: Group_2
+    ScmRule: Rule_27
+  Group_Rule_41:
+    ScmGroup: Group_2
+    ScmRule: Rule_28
+  Group_Rule_42:
+    ScmGroup: Group_2
+    ScmRule: Rule_30
+  Group_Rule_44:
+    ScmGroup: Group_2
+    ScmRule: Rule_32
+  Group_Rule_45:
+    ScmGroup: Group_2
+    ScmRule: Rule_33
+  Group_Rule_46:
+    ScmGroup: Group_3
+    ScmRule: Rule_21
+  Group_Rule_47:
+    ScmGroup: Group_3
+    ScmRule: Rule_22
+  Group_Rule_48:
+    ScmGroup: Group_3
+    ScmRule: Rule_23
+  Group_Rule_49:
+    ScmGroup: Group_3
+    ScmRule: Rule_24
+  Group_Rule_50:
+    ScmGroup: Group_3
+    ScmRule: Rule_25
+  Group_Rule_51:
+    ScmGroup: Group_3
+    ScmRule: Rule_26
+  Group_Rule_52:
+    ScmGroup: Group_3
+    ScmRule: Rule_27
+  Group_Rule_53:
+    ScmGroup: Group_3
+    ScmRule: Rule_28
+  Group_Rule_54:
+    ScmGroup: Group_3
+    ScmRule: Rule_30
+  Group_Rule_56:
+    ScmGroup: Group_4
+    ScmRule: Rule_25
+  Group_Rule_57:
+    ScmGroup: Group_4
+    ScmRule: Rule_30
+  Group_Rule_58:
+    ScmGroup: Group_4
+    ScmRule: Rule_32
+  Group_Rule_59:
+    ScmGroup: Group_4
+    ScmRule: Rule_13
+  Group_Rule_60:
+    ScmGroup: Group_4
+    ScmRule: Rule_21
+  Group_Rule_61:
+    ScmGroup: Group_2
+    ScmRule: Rule_13
+  Group_Rule_62:
+    ScmGroup: Group_3
+    ScmRule: Rule_13
+  Group_Rule_63:
+    ScmGroup: Group_1
+    ScmRule: Rule_34
+  Group_Rule_65:
+    ScmGroup: Group_1
+    ScmRule: Rule_36
+  Group_Rule_66:
+    ScmGroup: Group_1
+    ScmRule: Rule_37
+  Group_Rule_67:
+    ScmGroup: Group_1
+    ScmRule: Rule_38
+  Group_Rule_68:
+    ScmGroup: Group_1
+    ScmRule: Rule_39
+  Group_Rule_69:
+    ScmGroup: Group_1
+    ScmRule: Rule_40
+  Group_Rule_70:
+    ScmGroup: Group_1
+    ScmRule: Rule_41
+  Group_Rule_71:
+    ScmGroup: Group_1
+    ScmRule: Rule_42
+  Group_Rule_72:
+    ScmGroup: Group_1
+    ScmRule: Rule_43
+  Group_Rule_73:
+    ScmGroup: Group_1
+    ScmRule: Rule_44
+  Group_Rule_74:
+    ScmGroup: Group_1
+    ScmRule: Rule_45
+  Group_Rule_75:
+    ScmGroup: Group_1
+    ScmRule: Rule_46
+  Group_Rule_76:
+    ScmGroup: Group_1
+    ScmRule: Rule_47
+  Group_Rule_77:
+    ScmGroup: Group_1
+    ScmRule: Rule_48
+  Group_Rule_78:
+    ScmGroup: Group_1
+    ScmRule: Rule_49
+  Group_Rule_79:
+    ScmGroup: Group_1
+    ScmRule: Rule_50
+  Group_Rule_80:
+    ScmGroup: Group_1
+    ScmRule: Rule_51
+  Group_Rule_81:
+    ScmGroup: Group_1
+    ScmRule: Rule_52
+  Group_Rule_82:
+    ScmGroup: Group_1
+    ScmRule: Rule_53
+  Group_Rule_83:
+    ScmGroup: Group_1
+    ScmRule: Rule_54
+  Group_Rule_84:
+    ScmGroup: Group_1
+    ScmRule: Rule_55
+  Group_Rule_85:
+    ScmGroup: Group_1
+    ScmRule: Rule_56
+  Group_Rule_86:
+    ScmGroup: Group_1
+    ScmRule: Rule_57
+  Group_Rule_87:
+    ScmGroup: Group_1
+    ScmRule: Rule_58
+  Group_Rule_88:
+    ScmGroup: Group_1
+    ScmRule: Rule_59
+  Group_Rule_89:
+    ScmGroup: Group_1
+    ScmRule: Rule_60
+  Group_Rule_90:
+    ScmGroup: Group_1
+    ScmRule: Rule_61
+  Group_Rule_91:
+    ScmGroup: Group_1
+    ScmRule: Rule_62
+  Group_Rule_92:
+    ScmGroup: Group_1
+    ScmRule: Rule_63
+  Group_Rule_93:
+    ScmGroup: Group_1
+    ScmRule: Rule_64
+  Group_Rule_94:
+    ScmGroup: Group_1
+    ScmRule: Rule_65

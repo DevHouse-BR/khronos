@@ -1,0 +1,19 @@
+ScmStatusFechamentoDoc:
+  tableName: scm_status_fechamento_doc
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+    nm_status_fechamento_doc:
+      type: string(45)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    ScmFechamentoDoc:
+      local: id
+      foreign: id_status_fechamento_doc
+      type: many

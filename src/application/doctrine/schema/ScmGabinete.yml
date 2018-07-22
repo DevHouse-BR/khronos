@@ -1,0 +1,23 @@
+ScmGabinete:
+  tableName: scm_gabinete
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    nm_gabinete:
+      type: string(45)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    ScmMaquina:
+      local: id
+      foreign: id_gabinete
+      type: many
+    ScmTransformacaoItem:
+      local: id
+      foreign: id_gabinete
+      type: many

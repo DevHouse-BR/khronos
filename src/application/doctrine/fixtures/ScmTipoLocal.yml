@@ -1,0 +1,7 @@
+ScmTipoLocal:
+  TipoLocal_1:
+    nm_tipo_local: 'Sala'
+    fl_sistema: true
+  TipoLocal_9:
+    nm_tipo_local: 'Depósito'
+    fl_sistema: true

@@ -1,0 +1,40 @@
+ScmRegularizacaoItem:
+  columns:
+    id:
+      type: integer
+      unsigned: 0
+      autoincrement: true
+      notnull: true
+      primary: true
+    id_regularizacao_doc:
+      type: integer
+      unsigned: 0
+      autoincrement: false
+      notnull: true
+    id_maquina:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    nr_cont_1: integer(4)
+    nr_cont_2: integer(4)
+    nr_cont_3: integer(4)
+    nr_cont_4: integer(4)
+    nr_cont_5: integer(4)
+    nr_cont_6: integer(4)
+    nr_cont_1_ant: integer(4)
+    nr_cont_2_ant: integer(4)
+    nr_cont_3_ant: integer(4)
+    nr_cont_4_ant: integer(4)
+    nr_cont_5_ant: integer(4)
+    nr_cont_6_ant: integer(4)
+  relations:
+    ScmRegularizacaoDoc:
+      local: id_regularizacao_doc
+      foreign: id
+      type: one
+    ScmMaquina:
+      local: id_maquina
+      foreign: id
+      type: one

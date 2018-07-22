@@ -1,0 +1,21 @@
+ScmUserEmpresa:
+  columns:
+    user_id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: false
+    id_empresa:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+  relations:
+    ScmUser:
+      local: user_id
+      foreign: id
+      type: one
+    ScmEmpresa:
+      local: id_empresa
+      foreign: id
+      type: one

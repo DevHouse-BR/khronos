@@ -1,0 +1,22 @@
+ScmModule:
+  options:
+   collate: utf8_unicode_ci
+   charset: utf8
+  tableName: scm_module
+  columns:
+    id:
+      type: integer(1)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    ScmRule:
+      local: id
+      foreign: module_id
+      type: many
