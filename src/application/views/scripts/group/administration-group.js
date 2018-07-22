@@ -54,7 +54,7 @@ var AdministrationGroupWindow = Ext.extend(Ext.grid.GridPanel, {
 				deferEmptyText: false
 			},
 			bbar: paginator,
-			<?php if (DMG_Acl::canAccess(9) || DMG_Acl::canAccess(10)): ?>
+			<?php if (DMG_Acl::canAccess(9) || DMG_Acl::canAccess(10) ||  DMG_Acl::canAccess(11)): ?>
 			tbar: ['->',
 			<?php if (DMG_Acl::canAccess(9)): ?>
 			{

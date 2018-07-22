@@ -91,6 +91,20 @@ var AdministrationUserFormEditPerfil = Ext.extend(Ext.Window, {
 			return false;
 		}
 		this.el.mask('<?php echo DMG_Translate::_('grid.form.saving'); ?>');
+		var user = this.formPanel.getForm().findField('username').getValue();
+		var pass1 = this.formPanel.getForm().findField('password').getValue();
+		var pass2 = this.formPanel.getForm().findField('password2').getValue();
+		if (this.user == 0 ) {
+			pass1 = b64_hmac_md5(b64_hmac_md5(pass1, "GB7!gj12@3fLp,hg7%$g2f"), user);
+			this.formPanel.getForm().findField('password').setValue(pass1);
+			this.formPanel.getForm().findField('password2').setValue(pass1);
+		} else {
+			if (pass1.length > 0 && pass2.length > 0) {
+				pass1 = b64_hmac_md5(b64_hmac_md5(pass1, "GB7!gj12@3fLp,hg7%$g2f"), user);
+				this.formPanel.getForm().findField('password').setValue(pass1);
+				this.formPanel.getForm().findField('password2').setValue(pass1);
+			}
+		}
 		form.submit({
 			url: '<?php echo $this->url(array('controller' => 'index', 'action' => 'user', 'do' => 'update'), null, true); ?>',
 			params: {

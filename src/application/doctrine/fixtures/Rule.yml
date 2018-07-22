@@ -50,63 +50,63 @@ ScmRule:
   Rule_13:
     id: 13
     name: 'Visualizar lista de jogos'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_14:
     id: 14
     name: 'Modificar jogo'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_15:
     id: 15
     name: 'Adicionar jogo'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_16:
     id: 16
     name: 'Deletar jogo'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_17:
     id: 17
-    name: 'Visualizar lista de salas'
-    ScmModule: Module_2
+    name: 'Visualizar lista de Locais'
+    ScmModule: Module_1
   Rule_18:
     id: 18
-    name: 'Modificar sala'
-    ScmModule: Module_2
+    name: 'Modificar Local'
+    ScmModule: Module_1
   Rule_19:
     id: 19
-    name: 'Adicionar sala'
-    ScmModule: Module_2
+    name: 'Adicionar Local'
+    ScmModule: Module_1
   Rule_20:
     id: 20
-    name: 'Deletar sala'
-    ScmModule: Module_2
+    name: 'Deletar Local'
+    ScmModule: Module_1
   Rule_21:
     id: 21
     name: 'Visualizar lista de gabinetes'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_22:
     id: 22
     name: 'Modificar gabinete'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_23:
     id: 23
     name: 'Adicionar gabinete'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_24:
     id: 24
     name: 'Deletar gabinete'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_25:
     id: 25
     name: 'Visualizar lista de máquinas'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_26:
     id: 26
     name: 'Modificar máquina'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_27:
     id: 27
     name: 'Adicionar máquina'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_28:
     id: 28
     name: 'Transformar máquina'
@@ -115,14 +115,6 @@ ScmRule:
     id: 30
     name: 'Consultar Contadores Atuais'
     ScmModule: Module_4
-  Rule_32:
-    id: 32
-    name: 'Visualizar Fechamentos'
-    ScmModule: Module_3
-  Rule_33:
-    id: 33
-    name: 'Gerar Fechamento'
-    ScmModule: Module_3
   Rule_34:
     id: 34
     name: 'Gráfico de Entradas'
@@ -133,7 +125,7 @@ ScmRule:
     ScmModule: Module_5
   Rule_36:
     id: 36
-    name: 'Relatórios'
+    name: 'Relatórios de Parque'
     ScmModule: Module_6
   Rule_37:
     id: 37
@@ -174,19 +166,19 @@ ScmRule:
   Rule_46:
     id: 46
     name: 'Visualizar tipos de local'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_47:
     id: 47
     name: 'Adicionar tipo de local'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_48:
     id: 48
     name: 'Modificar tipo de local'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_49:
     id: 49
     name: 'Deletar tipo de local'
-    ScmModule: Module_2
+    ScmModule: Module_1
   Rule_50:
     id: 50
     name: 'Visualizar parceiros'
@@ -229,7 +221,7 @@ ScmRule:
     ScmModule: Module_2
   Rule_60:
     id: 60
-    name: 'Digitar contadores manualmente'
+    name: 'Digitar contadores manualmente na movimentação'
     ScmModule: Module_2
   Rule_61:
     id: 61
@@ -253,9 +245,125 @@ ScmRule:
     ScmModule: Module_2
   Rule_66:
     id: 66
-    name: 'Parque resumido'
+    name: 'Relatório Parque resumido'
     ScmModule: Module_6
   Rule_67:
     id: 67
     name: 'Preencher contadores manualmente no cadastro de máquinas'
+    ScmModule: Module_1
+  Rule_68:
+    id: 68
+    name: 'Relatório Parque Detalhado'
+    ScmModule: Module_6
+  Rule_69:
+    id: 69
+    name: 'Relatório de Máquinas em Trânsito'
+    ScmModule: Module_6
+  Rule_70:
+    id: 70
+    name: 'Consultas Parque'
+    ScmModule: Module_4
+  Rule_71:
+    id: 71
+    name: 'Consulta histórico de máquina'
+    ScmModule: Module_4
+  Rule_72:
+    id: 72
+    name: 'Visualizar listagem de faturas'
+    ScmModule: Module_3
+  Rule_73:
+    id: 73
+    name: 'Gerar fatura online'
+    ScmModule: Module_3
+  Rule_74:
+    id: 74
+    name: 'Permite mudar a porcentagem na Entrada de Máquinas'
     ScmModule: Module_2
+  Rule_74:
+    id: 74
+    name: 'Permite mudar a porcentagem na Entrada de Máquinas'
+    ScmModule: Module_2
+  Rule_75:
+    id: 75
+    name: 'Permite Ajustar o percentual de uma Máquina'
+    ScmModule: Module_1
+  Rule_76:
+    id: 76
+    name: 'Visualizar Exceções de Faturas'
+    ScmModule: Module_3
+  Rule_77:
+    id: 77
+    name: 'Visualizar sessões ativas'
+    ScmModule: Module_1
+  Rule_78:
+    id: 78
+    name: 'Derrubar sessão ativa'
+    ScmModule: Module_1
+  Rule_79:
+    id: 79
+    name: 'Imprimir relatório de faturamento detalhado'
+    ScmModule: Module_6
+  Rule_80:
+    id: 80
+    name: 'Relatórios de Faturamento'
+    ScmModule: Module_6
+  Rule_81:
+    id: 81
+    name: 'Relatório faturamento resumido'
+    ScmModule: Module_6
+  Rule_82:
+    id: 82
+    name: 'Relatório faturamento detalhado'
+    ScmModule: Module_6
+  Rule_83:
+    id: 83
+    name: 'Gráfico Parque por Jogo'
+    ScmModule: Module_5
+  Rule_84:
+    id: 84
+    name: 'Confirmar faturas temporárias'
+    ScmModule: Module_3
+  Rule_85:
+    id: 85
+    name: 'Deletar faturas temporárias'
+    ScmModule: Module_3
+  Rule_86:
+    id: 86
+    name: 'Consulta Histórico de Faturamento'
+    ScmModule: Module_3
+  Rule_87:
+    id: 87
+    name: 'Consultar log de entradas'
+    ScmModule: Module_4
+  Rule_88:
+    id: 88
+    name: 'Consultas Faturamento'
+    ScmModule: Module_4
+  Rule_89:
+    id: 89
+    name: 'Gerar fatura offline'
+    ScmModule: Module_3
+  Rule_90:
+    id: 90
+    name: 'Relatório faturamento detalhado por máquina'
+    ScmModule: Module_6
+  Rule_91:
+    id: 91
+    name: 'Editar fatura'
+    ScmModule: Module_3
+  Rule_92:
+    id: 92
+    name: 'Relatório faturamento detalhado por jogo'
+    ScmModule: Module_6
+  Rule_93:
+    id: 93
+    name: 'Relatório Parque Histórico - Local / Máquinas'
+    ScmModule: Module_6
+  Rule_94:
+    id: 94
+    name: 'Relatório Parque Histórico Resumido'
+    ScmModule: Module_6
+  Rule_95:
+    id: 95
+    name: 'Relatório Faturamento por Local'
+    ScmModule: Module_6

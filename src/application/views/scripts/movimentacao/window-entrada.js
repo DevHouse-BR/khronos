@@ -2,11 +2,7 @@ var sm = new Ext.grid.CheckboxSelectionModel();
 var MovimentacaoEntradaWindowFilter = new Ext.ux.grid.GridFilters({
 	local: false,
 	menuFilterText: '<?php echo DMG_Translate::_('grid.filter.label'); ?>',
-	filters: [{
-		type: 'string',
-		dataIndex: 'nr_serie_imob',
-		phpMode: true
-	}]
+	filters: []
 });
 var MovimentacaoEntradaWindow = Ext.extend(Ext.grid.GridPanel, {
 	border: false,
@@ -16,6 +12,11 @@ var MovimentacaoEntradaWindow = Ext.extend(Ext.grid.GridPanel, {
 	columnLines: true,
 	plugins: [MovimentacaoEntradaWindowFilter],
 	initComponent: function () {
+		MovimentacaoEntradaWindowFilter.addFilter({
+			type: 'string',
+			dataIndex: 'nr_serie_imob',
+			phpMode: true
+		});
 		this.store = new Ext.data.JsonStore({
 			url: '<?php echo $this->url(array('controller' => 'movimentacao', 'action' => 'lista-entrada'), null, true); ?>',
 			root: 'data',
@@ -46,18 +47,21 @@ var MovimentacaoEntradaWindow = Ext.extend(Ext.grid.GridPanel, {
 				{name: 'nr_cont_6', type: 'int'}
 			]
 		});
+		
 		var paginator = new Ext.PagingToolbar({
 			store: this.store,
 			pageSize: 30,
-			plugins: [MovimentacaoEntradaWindowFilter]
+			plugins: [MovimentacaoEntradaWindowFilter],
+			buttons:['-', {
+				text: '<?php echo DMG_Translate::_('grid.bbar.clearfilter'); ?>',
+				scope:this,
+				handler: function(botao, evento){
+					MovimentacaoEntradaWindowFilter.clearFilters();
+					this.filtroField.reset();
+				}
+			}]
 		});
-		paginator.addSeparator();
-		var button = new Ext.Toolbar.Button();
-		button.text = '<?php echo DMG_Translate::_('grid.bbar.clearfilter'); ?>';
-		button.addListener('click', function(a, b) {
-			MovimentacaoEntradaWindowFilter.clearFilters();
-		});
-		paginator.addButton(button);
+
 		var comboFilial = new Ext.form.ComboBox({
 			name: 'status',
 			store: new Ext.data.JsonStore({
@@ -75,7 +79,9 @@ var MovimentacaoEntradaWindow = Ext.extend(Ext.grid.GridPanel, {
 		});
 		comboFilial.on('select', function(combo, record) {
 			this.store.baseParams.filial = parseInt(record.get('id'));
-			this.store.reload();
+			MovimentacaoEntradaWindowFilter.getFilter(0).active = true;
+			MovimentacaoEntradaWindowFilter.getFilter(0).setValue(this.filtroField.getValue());
+			//this.store.reload();
 		}, this);
 		Ext.apply(this, {
 			viewConfig: {
@@ -83,7 +89,21 @@ var MovimentacaoEntradaWindow = Ext.extend(Ext.grid.GridPanel, {
 				deferEmptyText: false
 			},
 			bbar: paginator,
-			tbar: [comboFilial, '->',
+			tbar: [comboFilial,
+			{
+				xtype:'textfield',
+				style:'margin-left:5px',
+				ref: '../filtroField',
+				listeners:{
+					specialkey:function(campo, e){
+						if (e.getKey() == 13){
+							MovimentacaoEntradaWindowFilter.getFilter(0).active = true;
+							MovimentacaoEntradaWindowFilter.getFilter(0).setValue(campo.getValue());
+						}
+					}
+				}
+			}, 
+			'->',
 			{
 				text: '<?php echo DMG_Translate::_('movimentacao-entrada.adicionar'); ?>',
 				iconCls: 'silk-cog',

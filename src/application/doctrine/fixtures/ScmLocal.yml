@@ -2,6 +2,14 @@ ScmLocal:
   ScmLocal_1:
     nm_local: 'Sala Standard'
     ScmTipoLocal: TipoLocal_1
+    fl_portal: 1
+    user_portal: 'sala'
+    pass_portal: '1234'
+    percent_local: '50'
   ScmLocal_2:
     nm_local: 'Deposito Standard'
     ScmTipoLocal: TipoLocal_9
+    fl_portal: 1
+    user_portal: 'deposito'
+    pass_portal: '1234'
+    percent_local: '55'

@@ -26,11 +26,13 @@ class StatusMaquinaAssignController extends Zend_Controller_Action {
 				if (!$maquina) {
 					throw new Exception();
 				}
-				
-				
+
 				if((int)$maquina->ScmStatusMaquina->id == (int)$this->getRequest()->getParam('id_status_maquina')){
 					throw new Exception('status-maquina.error.sameoldstatus');
 				}
+				
+				if(Khronos_Faturamento_Misc::maquinaFatTemp($maquina->id))
+					throw new Exception(DMG_Translate::_('faturamento.operacoes.maquina.em.fatura.temp'));
 
 				$hs = new ScmHistoricoStatus();
 				try {
@@ -111,7 +113,7 @@ class StatusMaquinaAssignController extends Zend_Controller_Action {
 						'nr_versao_jogo' => $k->nr_versao_jogo,
 						'nm_gabinete' => $k->ScmGabinete->nm_gabinete,
 						'simbolo_moeda' => $k->ScmMoeda->simbolo_moeda,
-						'vl_credito' => $k->vl_credito,
+						'vl_credito' => Khronos_Moeda::format($k->vl_credito),
 						'nm_status_maquina' => $k->ScmStatusMaquina->nm_status_maquina
 					);
 				}

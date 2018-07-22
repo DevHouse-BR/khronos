@@ -11,16 +11,46 @@ class IndexController extends Zend_Controller_Action {
 		if (!$this->getRequest()->isPost()) {
 			return;
 		}
+		Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session(DMG_Config::get(18)));
 		if (!Zend_Auth::getInstance()->authenticate(new DMG_Auth_Adapter($this->getRequest()->getParam('username'),$this->getRequest()->getParam('password')))->isValid()) {
 			echo Zend_Json::encode(array('failure' => true));
 		} else {
 			$user = Doctrine::getTable('ScmUser')->find(Zend_Auth::getInstance()->getIdentity()->id);
+			
+			$session = Doctrine::getTable('ScmSession')->findOneByPhpsessid(session_id());
+			if ($session) {
+				$session->dt_fim_sessao = null;
+			}
+			else{
+				$session = new ScmSession();
+				$session->id_usuario = $user->id;
+				$session->dt_inicio_sessao = DMG_Date::now();
+				$session->ip = $_SERVER['REMOTE_ADDR'];
+				$session->hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+				$session->navegador = $_SERVER['HTTP_USER_AGENT'];
+				$session->phpsessid = session_id();
+			}
+			$session->save();
 			echo Zend_Json::encode(array('success' => true, 'user' => array(
 				'id' => $user->id,
 				'name' => $user->name
 			)));
 		}
 	}
+	
+	public function logoutAction () {
+		Zend_Auth::getInstance()->setStorage(new Zend_Auth_Storage_Session(DMG_Config::get(18)));
+		$session = Doctrine::getTable('ScmSession')->findOneByPhpsessid(session_id());
+		if ($session) {
+			$session->dt_fim_sessao = DMG_Date::now();
+			$session->save();
+		}
+		//Zend_Session::regenerateId();
+		Zend_Auth::getInstance()->clearIdentity();
+		
+		$this->_helper->redirector('index', 'index');
+	}
+	
 	public function userAction () {
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			return;
@@ -192,9 +222,6 @@ class IndexController extends Zend_Controller_Action {
 		if (DMG_Acl::canAccess(30)) {
 			$js .= $this->view->render('consulta-parque/parque-consulta-parque.js');
 		}
-		if (DMG_Acl::canAccess(32) || DMG_Acl::canAccess(33)) {
-			$js .= $this->view->render('fechamento/parque-fechamento.js');
-		}
 		if (DMG_Acl::canAccess(36)) {
 			$js .= $this->view->render('index/reports.js');
 		}
@@ -221,68 +248,113 @@ class IndexController extends Zend_Controller_Action {
 			$js .= $this->view->render('status-maquina-assign/window.js');
 			$js .= $this->view->render('status-maquina-assign/form.js');
 		}
+		if ((DMG_Acl::canAccess(70)) || DMG_Acl::canAccess(71)){
+			$js .= $this->view->render('index/consultas.js');
+		}
+		if (DMG_Acl::canAccess(71)) {
+			$js .= $this->view->render('maquina/consulta-historico-maquina.js');
+		}
+		if (DMG_Acl::canAccess(72)) {
+			$js .= $this->view->render('faturamento/window.js');
+		}
+		if (DMG_Acl::canAccess(73)) {
+			$js .= $this->view->render('faturamento/form-online.js');
+		}
+		if (DMG_Acl::canAccess(89)) {
+			$js .= $this->view->render('faturamento/form-offline.js');
+			$js .= $this->view->render('faturamento/form-offline-manual.js');
+		}
+		if (DMG_Acl::canAccess(76)) {
+			$js .= $this->view->render('faturamento/window-excecoes.js');
+		}
+		if (DMG_Acl::canAccess(77)) {
+			$js .= $this->view->render('session/window.js');
+		}
+		if (DMG_Acl::canAccess(80)) {
+			$js .= $this->view->render('faturamento/reports.js');
+		}
+		if (DMG_Acl::canAccess(88)) {
+			$js .= $this->view->render('faturamento/consultas.js');
+		}
+		if (DMG_Acl::canAccess(86)) {
+			$js .= $this->view->render('faturamento/consulta-historico.js');
+		}
+		if (DMG_Acl::canAccess(87)) {
+			$js .= $this->view->render('movimentacao/consulta-entrada.js');
+		}
 		//echo DMG_JSMin::minify($js);
-		echo($js);
+		echo $js;
 	}
-	public function logoutAction () {
-		Zend_Auth::getInstance()->clearIdentity();
-		$this->_helper->redirector('index', 'index');
-	}
+	
 	public function infoAction () {
 		switch ($this->getRequest()->getParam('data')) {
 			case 'status-maquina':
 				if (DMG_ACl::canAccess(35)) {
-				try {
-					$addr = @fsockopen(DMG_Config::get(7), DMG_Config::get(9), $errno, $errstr, DMG_Config::get(10));
-					if ($errno != 0) {
-						throw new Exception(DMG_Translate::_('parque.fechamento.xml.errno.1'));
-					}
-					fwrite($addr, "GET /machines HTTP/1.1\r\nHost: " . DMG_Config::get(7) . "\r\nConnection: Close\r\n\r\n");
-					$xml = null;
-					$header = null;
-					do {
-						$header .= fgets($addr);
-					} while(strpos($header, "\r\n\r\n") === false);
-					while (!feof($addr)) {
-						$xml .= fgets($addr);
-					}
-					fclose($addr);
-					if (preg_match("/200 OK/", $header) !== 1) {
-						throw new Exception(DMG_Translate::_('parque.fechamento.xml.errno.2'));
-					}
-					$xml = preg_replace('/<machine name="(\w+)">0<jogo>/', '<machine name="$1"><jogo>', $xml);
-					$xml = simplexml_load_string($xml);
-					$maquinas = Doctrine::getTable('ScmMaquina')->findAll();
-					$offline = $online = $jogando = 0;
-					foreach ($maquinas as $k) {
-						$m = 0;
-						foreach ($xml as $l) {
-							if ($k->nr_serie_connect == reset($l->attributes()->name)) {
-								if (reset($l->offline) == 1) {
-									$offline++;
-								} else {
-									$online++;
-								}
-								if (reset($l->creditos)*$k->vl_credito > DMG_Config::get(12)) {
-									$jogando++;
-								}
-								break;
-							}
-							$m++;
+					$query = Doctrine_Query::create()
+						->from('ScmStatusMaquina st')
+						->innerJoin('st.ScmMaquina m')
+						->where('st.fl_alta = ?', 1)
+						->select('COUNT(m.id) AS total')
+						->addSelect('st.nm_status_maquina')
+						->groupBy('st.nm_status_maquina')
+						->execute(array(), Doctrine::HYDRATE_SCALAR)
+					;
+				}
+				echo Zend_Json::encode(array('success' => true, 'data' => $query));
+			break;
+		}
+	}
+	public function portalFaturamentoAction () {
+		if (DMG_Acl::canAccess(34)) {
+			$moedas = Doctrine::getTable('ScmMoeda')->createQuery('m');
+			$data = array();
+			$series = array();
+			$fields = array('data', 'intervalo');
+			foreach($moedas->execute() as $moeda){
+				$fields[] = $moeda->nm_moeda;
+				
+				$series[] = array(
+					'yField' => $moeda->nm_moeda,
+				    'displayName' => $moeda->nm_moeda,
+				   	'style' => array('size' => 15)
+				);
+				
+				$dias = Doctrine_Query::create()
+					->select('to_char(fd.dt_fatura, \'WW\') AS semana')
+					->addSelect('to_char(fd.dt_fatura, \'YYYY\') AS ano')
+					->addSelect('SUM(fi.vl_empresa) AS valor_empresa')
+					->from('ScmFaturaDoc fd')
+					->innerJoin('fd.ScmFaturaItem fi')
+					->orderBy('semana DESC')
+					->groupBy('semana, ano')
+					->addWhere('fi.id_moeda = ?', $moeda->id)
+					->addWhere('fd.id_fatura_doc_status = ?', 2)
+					->addWhere('fd.dt_fatura > (current_date - 70)')
+				;
+				
+				foreach ($dias->execute(array(), Doctrine::HYDRATE_SCALAR) as $k) {
+					
+					$intervalo = DMG_Date::getDaysInWeek($k['fd_semana'], $k['fd_ano']);
+					$intervalo = strftime('%d/%m/%Y', $intervalo[0]) . chr(10) . strftime('%d/%m/%Y', $intervalo[6]);
+					
+					$flag = false;
+					foreach($data as &$d){
+						if($d['data'] == $k['fd_semana']){
+							$d[$moeda->nm_moeda] = (float) $k['fi_valor_empresa'];
+							$flag = true;
+							break;
 						}
-						if (count($xml) == $m) {
-							$offline++;
-						}
 					}
-					echo Zend_Json::encode(array('total' => 3, 'data' => array(
-						array('status' => DMG_Translate::_('window.portal.status_maquina.online'), 'count' => $online),
-						array('status' => DMG_Translate::_('window.portal.status_maquina.offline'), 'count' => $offline),
-						array('status' => DMG_Translate::_('window.portal.status_maquina.jogando'), 'count' => $jogando),
-					)));
-				} catch (Exception $e) {
-					echo $e->getMessage();
+					if(!$flag){
+						$data[] = array(
+							'data' => $k['fd_semana'],
+							'intervalo' => $intervalo,
+							$moeda->nm_moeda => (float) $k['fi_valor_empresa']
+						);
+					}
 				}
 			}
+			echo Zend_Json::encode(array('success' => true, 'data' => $data, 'series' => $series, 'fields' => $fields));
 		}
 	}
 }

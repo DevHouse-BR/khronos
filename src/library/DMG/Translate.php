@@ -4,7 +4,7 @@ class DMG_Translate {
 	protected function __construct () {
 		throw new Exception("This class can't be instanciated.");
 	}
-	public function _($text) {
+	public static function _($text) {
 		static $instance = null;
 		static $log = null;
 		static $write = null;
@@ -33,7 +33,7 @@ class DMG_Translate {
 		}
 		return utf8_encode($instance->_($text));
 	}
-	public function getLang () {
+	public static function getLang () {
 		if (Zend_Auth::getInstance()->hasIdentity()) {
 			$lang = Zend_Auth::getInstance()->getIdentity()->language;
 		}

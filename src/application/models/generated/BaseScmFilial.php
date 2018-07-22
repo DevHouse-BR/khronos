@@ -9,10 +9,11 @@
  * @property integer $id_empresa
  * @property string $nm_filial
  * @property ScmEmpresa $ScmEmpresa
- * @property Doctrine_Collection $ScmFechamentoDoc
  * @property Doctrine_Collection $ScmMaquina
  * @property Doctrine_Collection $ScmMovimentacaoDoc
  * @property Doctrine_Collection $ScmTransformacaoDoc
+ * @property Doctrine_Collection $ScmAjustePercentual
+ * @property Doctrine_Collection $ScmFaturaDoc
  * @property Doctrine_Collection $ScmHistoricoStatus
  * @property Doctrine_Collection $ScmRegularizacaoDoc
  * 
@@ -58,10 +59,6 @@ abstract class BaseScmFilial extends Doctrine_Record
              'local' => 'id_empresa',
              'foreign' => 'id'));
 
-        $this->hasMany('ScmFechamentoDoc', array(
-             'local' => 'id',
-             'foreign' => 'id_filial'));
-
         $this->hasMany('ScmMaquina', array(
              'local' => 'id',
              'foreign' => 'id_filial'));
@@ -71,6 +68,14 @@ abstract class BaseScmFilial extends Doctrine_Record
              'foreign' => 'id_filial'));
 
         $this->hasMany('ScmTransformacaoDoc', array(
+             'local' => 'id',
+             'foreign' => 'id_filial'));
+
+        $this->hasMany('ScmAjustePercentual', array(
+             'local' => 'id',
+             'foreign' => 'id_filial'));
+
+        $this->hasMany('ScmFaturaDoc', array(
              'local' => 'id',
              'foreign' => 'id_filial'));
 

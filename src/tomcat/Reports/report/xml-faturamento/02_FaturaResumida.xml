@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relatorio>
+	<id>1</id>
+	<grupo>1</grupo>
+	<ruleID>81</ruleID>
+	<arquivo>fatura-resumida.rptdesign</arquivo>
+	<saida>Fatura_Resumida</saida>
+	<nome>fatura-resumida</nome>
+	<traducao>
+		<es>Facturación Resumen – Empresa / Filial</es>
+		<pt_BR>Faturamento - Empresa / Filial</pt_BR>
+		<en>Fatura Resumida</en>
+	</traducao>
+	<descricao>
+		<es>Presenta la suma de las facturas dentro de un período. La información es agrupada por Empresa y Filial.</es>
+		<pt_BR>Descrição em Português</pt_BR>
+		<en>English Description</en>
+	</descricao>
+	<filtros>
+		<filtro>
+			<tipo>data_inicial</tipo>
+			<nome>data_inicial</nome>
+			<traducao>
+				<es>Fecha inicial</es>
+				<pt_BR>Data inicial</pt_BR>
+				<en>Starting date</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>data_final</tipo>
+			<nome>data_final</nome>
+			<traducao>
+				<es>Fecha final</es>
+				<pt_BR>Data final</pt_BR>
+				<en>Ending date</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>empresa</tipo>
+			<nome>empresa</nome>
+			<traducao>
+				<es>Empresa</es>
+				<pt_BR>Empresa</pt_BR>
+				<en>Empresa</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>filial</tipo>
+			<nome>filial</nome>
+			<traducao>
+				<es>Filial</es>
+				<pt_BR>Filial</pt_BR>
+				<en>Filial</en>
+			</traducao>
+		</filtro>
+	</filtros>
+</relatorio>

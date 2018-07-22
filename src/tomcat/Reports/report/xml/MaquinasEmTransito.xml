@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relatorio>
+	<id>4</id>
+	<grupo>1</grupo>
+	<ruleID>69</ruleID>
+	<arquivo>maquinas-em-transito.rptdesign</arquivo>
+	<saida>Maquinas_em_Transito</saida>
+	<nome>maquinas-em-transito</nome>
+	<traducao>
+		<es>Máquinas en Tránsito</es>
+		<pt_BR>Máquinas em Trânsito</pt_BR>
+		<en>Máquinas em Trânsito</en>
+	</traducao>
+	<descricao>
+		<es>Presenta todas las máquinas del parque que están en Tránsito, o sea, que salieran de una Sala y aún no fueran ingresadas en otra Sala o en un Depósito.</es>
+		<pt_BR>Descrição em Português</pt_BR>
+		<en>English Description</en>
+	</descricao>
+	<filtros>
+		<filtro>
+			<tipo>empresa</tipo>
+			<nome>empresa</nome>
+			<traducao>
+				<es>Empresa</es>
+				<pt_BR>Empresa</pt_BR>
+				<en>Empresa</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>filial</tipo>
+			<nome>filial</nome>
+			<traducao>
+				<es>Filial</es>
+				<pt_BR>Filial</pt_BR>
+				<en>Filial</en>
+			</traducao>
+		</filtro>
+	</filtros>
+</relatorio>

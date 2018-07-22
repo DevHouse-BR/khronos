@@ -15,6 +15,14 @@
  * @property integer $nr_cont_4
  * @property integer $nr_cont_5
  * @property integer $nr_cont_6
+ * @property integer $percent_local
+ * @property boolean $fl_diferenca
+ * @property integer $nr_dif_cont_1
+ * @property integer $nr_dif_cont_2
+ * @property integer $nr_dif_cont_3
+ * @property integer $nr_dif_cont_4
+ * @property integer $nr_dif_cont_5
+ * @property integer $nr_dif_cont_6
  * @property ScmMovimentacaoDoc $ScmMovimentacaoDoc
  * @property ScmMaquina $ScmMaquina
  * 
@@ -101,6 +109,39 @@ abstract class BaseScmMovimentacaoItem extends Doctrine_Record
              'autoincrement' => false,
              'length' => '4',
              ));
+        $this->hasColumn('percent_local', 'integer', null, array(
+             'type' => 'integer',
+             'notnull' => false,
+             'range' => 
+             array(
+              0 => 0,
+              1 => '100',
+             ),
+             ));
+        $this->hasColumn('fl_diferenca', 'boolean', null, array(
+             'type' => 'boolean',
+             ));
+        $this->hasColumn('nr_dif_cont_1', 'integer', null, array(
+             'type' => 'integer',
+             ));
+        $this->hasColumn('nr_dif_cont_2', 'integer', null, array(
+             'type' => 'integer',
+             ));
+        $this->hasColumn('nr_dif_cont_3', 'integer', null, array(
+             'type' => 'integer',
+             ));
+        $this->hasColumn('nr_dif_cont_4', 'integer', null, array(
+             'type' => 'integer',
+             ));
+        $this->hasColumn('nr_dif_cont_5', 'integer', null, array(
+             'type' => 'integer',
+             ));
+        $this->hasColumn('nr_dif_cont_6', 'integer', null, array(
+             'type' => 'integer',
+             ));
+
+        $this->check('percent_local >= 0');
+        $this->check('percent_local <= 100');
     }
 
     public function setUp()

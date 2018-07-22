@@ -9,6 +9,7 @@
  * @property string $nm_jogo
  * @property Doctrine_Collection $ScmMaquina
  * @property Doctrine_Collection $ScmTransformacaoItem
+ * @property Doctrine_Collection $ScmFaturaItem
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -45,6 +46,10 @@ abstract class BaseScmJogo extends Doctrine_Record
              'foreign' => 'id_jogo'));
 
         $this->hasMany('ScmTransformacaoItem', array(
+             'local' => 'id',
+             'foreign' => 'id_jogo'));
+
+        $this->hasMany('ScmFaturaItem', array(
              'local' => 'id',
              'foreign' => 'id_jogo'));
     }

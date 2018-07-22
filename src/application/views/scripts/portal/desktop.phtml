@@ -56,35 +56,29 @@
 		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/adapter/ext/ext-base-debug.js"></script>
 		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ext-all-debug.js"></script>
 		<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Carregando User Extensions...';</script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/loader.js"></script>
 		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/PasswordField.js"></script>
 		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/HttpHelpers.js"></script>
 		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/pt-BR.js"></script>
-		
-		
-		
-		
-		
-		
-
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/loader.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/GridFilters.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/menu/RangeMenu.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/menu/ListMenu.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/Filter.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/BooleanFilter.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/DateFilter.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/ListFilter.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/StringFilter.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/NumericFilter.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/MultiSelectField.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Portal.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Portlet.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/PortalColumn.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Spinner.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/SpinnerField.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/uiHelper.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Mask.js"></script>
-		
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/ProgressPagingToolbar.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/GridFilters.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/menu/RangeMenu.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/menu/ListMenu.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/Filter.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/BooleanFilter.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/DateFilter.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/ListFilter.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/StringFilter.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/NumericFilter.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/MultiSelectField.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Portal.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Portlet.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/PortalColumn.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Spinner.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/SpinnerField.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/uiHelper.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Mask.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/collapsedPanelTitlePlugin.js"></script>
 		
 	
 		
@@ -96,7 +90,7 @@
 				Ext.namespace('Portal');
 				Portal.baseUrl = '<?php echo $this->BaseUrl(); ?>';
 				
-				var hideMask = function () {
+				var hideMask = function(){
 					Ext.get('loading').remove();
 					Ext.fly('loading-mask').fadeOut({
 						remove: true

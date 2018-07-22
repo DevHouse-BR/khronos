@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relatorio>
+	<id>5</id>
+	<grupo>1</grupo>
+	<ruleID>90</ruleID>
+	<arquivo>fatura-detalhada-maquina.rptdesign</arquivo>
+	<saida>Fatura_Detalhada_Maquina</saida>
+	<nome>fatura-detalhada-maquina</nome>
+	<traducao>
+		<es>Rentabilidad de los Locales / por Máquina</es>
+		<pt_BR>Rentabilidade - Local / Máquina</pt_BR>
+		<en>Invoice Detailed by Machine</en>
+	</traducao>
+	<descricao>
+		<es>Presenta la rentabilidad de los locales dentro de un período. La información es agrupada por Local y por Máquina.</es>
+		<pt_BR>Mostra os detalhes da fatura por máquina</pt_BR>
+		<en>Show invoice detailed by machine</en>
+	</descricao>
+	<filtros>
+		<filtro>
+			<tipo>data_inicial</tipo>
+			<nome>data_inicial</nome>
+			<traducao>
+				<es>Fecha inicial</es>
+				<pt_BR>Data inicial</pt_BR>
+				<en>Starting date</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>data_final</tipo>
+			<nome>data_final</nome>
+			<traducao>
+				<es>Fecha final</es>
+				<pt_BR>Data final</pt_BR>
+				<en>Ending date</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>empresa</tipo>
+			<nome>empresa</nome>
+			<traducao>
+				<es>Empresa</es>
+				<pt_BR>Empresa</pt_BR>
+				<en>Empresa</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>filial</tipo>
+			<nome>filial</nome>
+			<traducao>
+				<es>Filial</es>
+				<pt_BR>Filial</pt_BR>
+				<en>Filial</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>local</tipo>
+			<nome>local</nome>
+			<traducao>
+				<es>Local</es>
+				<pt_BR>Local</pt_BR>
+				<en>Local</en>
+			</traducao>
+		</filtro>
+	</filtros>
+</relatorio>

@@ -54,9 +54,9 @@ var AdministrationEmpresaWindow = Ext.extend(Ext.grid.GridPanel, {
 				deferEmptyText: false
 			},
 			bbar: paginator,
-			<?php if (DMG_Acl::canAccess(9) || DMG_Acl::canAccess(10)): ?>
+			<?php if (DMG_Acl::canAccess(40) || DMG_Acl::canAccess(41)): ?>
 			tbar: ['->',
-			<?php if (DMG_Acl::canAccess(9)): ?>
+			<?php if (DMG_Acl::canAccess(40)): ?>
 			{
 				text: '<?php echo DMG_Translate::_('grid.form.add'); ?>',
 				iconCls: 'silk-add',
@@ -64,7 +64,7 @@ var AdministrationEmpresaWindow = Ext.extend(Ext.grid.GridPanel, {
 				handler: this._onBtnNovoUsuarioClick
 			},
 			<?php endif; ?>
-			<?php if (DMG_Acl::canAccess(10)): ?>
+			<?php if (DMG_Acl::canAccess(41)): ?>
 			{
 				text: '<?php echo DMG_Translate::_('grid.form.delete'); ?>',
 				iconCls: 'silk-delete',

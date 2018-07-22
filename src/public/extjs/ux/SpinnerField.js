@@ -16,8 +16,12 @@ Ext.ux.form.SpinnerField = Ext.extend(Ext.form.NumberField, {
     actionMode: 'wrap',
     deferHeight: true,
     autoSize: Ext.emptyFn,
-    onBlur: Ext.emptyFn,
+//    onBlur: Ext.emptyFn,
     adjustSize: Ext.BoxComponent.prototype.adjustSize,
+
+	initEvents: function () {
+		Ext.ux.form.SpinnerField.superclass.initEvents.call(this, arguments);
+	},
 
 	constructor: function(config) {
 		var spinnerConfig = Ext.copyTo({}, config, 'incrementValue,alternateIncrementValue,accelerate,defaultValue,triggerClass,splitterClass');

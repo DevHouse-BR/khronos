@@ -35,6 +35,9 @@ ScmLocal:
       fixed: false
       primary: false
       notnull: false
+    percent_local:
+      type: integer
+      notnull: false
   indexes:
     userunique:
       fields: [user_portal]
@@ -44,10 +47,6 @@ ScmLocal:
       local: tp_local
       foreign: id
       type: one
-    ScmFechamentoDoc:
-      local: id
-      foreign: id_local
-      type: many
     ScmMaquina:
       local: id
       foreign: id_local

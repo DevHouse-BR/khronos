@@ -7,7 +7,7 @@ var MovimentacaoEntradaForm = Ext.extend(Ext.Window, {
 	maximizable: false,
 	resizable: false,
 	width: 370,
-	height: 340,
+	height: 370,
 	title: '<?php echo DMG_Translate::_('movimentacao-entrada.title'); ?>',
 	layout: 'fit',
 	closeAction: 'hide',
@@ -78,12 +78,13 @@ var MovimentacaoEntradaForm = Ext.extend(Ext.Window, {
 			<?php if (DMG_Acl::canAccess(61)): ?>
 			new Ext.form.ComboBox({
 				store: new Ext.data.JsonStore({
+					autoLoad:true,
 					url: '<?php echo $this->url(array('controller' => 'movimentacao', 'action' => 'filiais'), null, true); ?>',
 					baseParams: {
-						limit: 15,
+						limit: 15
 					},
 					root: 'data',
-					fields: ['id', 'nome'],
+					fields: ['id', 'nome']
 				}),
 				minChars: 0,
 				editable: false,
@@ -97,10 +98,11 @@ var MovimentacaoEntradaForm = Ext.extend(Ext.Window, {
 				triggerAction: 'all',
 				emptyText: '<?php echo DMG_Translate::_('grid.form.combobox.select'); ?>',
 				fieldLabel: '<?php echo DMG_Translate::_('movimentacao-entrada.filial.text'); ?>',
-				width: 190,
+				width: 190
 			}),
 			<?php endif; ?>
 			new Ext.form.ComboBox({
+				id:'comboEntradaLocal',
 				store: new Ext.data.JsonStore({
 					url: '<?php echo $this->url(array('controller' => 'local', 'action' => 'list'), null, true); ?>',
 					baseParams: {
@@ -108,10 +110,11 @@ var MovimentacaoEntradaForm = Ext.extend(Ext.Window, {
 						sort: 'nm_local',
 						limit: 15,
 						'filter[0][data][type]': 'string',
-						'filter[0][field]': 'nm_local',
+						'filter[0][data][value]': '',
+						'filter[0][field]': 'nm_local'
 					},
 					root: 'data',
-					fields: ['id', 'nm_local'],
+					fields: ['id', 'nm_local', 'percent_local']
 				}),
 				minChars: 0,
 				editable: false,
@@ -134,7 +137,7 @@ var MovimentacaoEntradaForm = Ext.extend(Ext.Window, {
 							url: '<?php echo $this->url(array('controller' => 'movimentacao', 'action' => 'contadores')); ?>',
 							params: {
 								id: this.maquina,
-								local: b.data.id,
+								local: b.data.id
 							},
 							method: 'post',
 							scope: this,
@@ -157,8 +160,8 @@ var MovimentacaoEntradaForm = Ext.extend(Ext.Window, {
 										this.formPanel.getForm().findField('nr_cont_6').setValue(data.data.nr_cont_6);
 										this.cont_manual = 'N';
 										this.naoEnvia = 'N';
+										this.formPanel.getForm().findField('percent_local').setValue(data.data.percent_local);
 									} else {
-										//Ext.Msg.alert('<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', data.message);
 										uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: data.message});
 										<?php if (DMG_Acl::canAccess(60)): ?>
 										this.formPanel.getForm().findField('nr_cont_1').enable();
@@ -179,8 +182,16 @@ var MovimentacaoEntradaForm = Ext.extend(Ext.Window, {
 										this.naoEnvia = 'S';
 										return;
 										<?php endif; ?>
+										this.formPanel.getForm().findField('percent_local').setValue(b.get('percent_local').replace('%',''));
 									}
-								} catch (g) {};
+									<?php if (DMG_Acl::canAccess(74)): ?>
+										this.formPanel.getForm().findField('percent_local').enable();
+									<?php else: ?>
+										this.formPanel.getForm().findField('percent_local').disable();
+									<?php endif; ?>
+								} catch (g) {
+									alert(g);
+								};
 							}
 						});
 					}
@@ -212,6 +223,7 @@ var MovimentacaoEntradaForm = Ext.extend(Ext.Window, {
 				emptyText: '<?php echo DMG_Translate::_('grid.form.combobox.select'); ?>',
 				fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.id_parceiro.text'); ?>'
 			}),
+			{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.percent_local.text'); ?>', <?php if (!DMG_Acl::canAccess(74)): ?>disabled: 'disabled', <?php endif; ?>name: 'percent_local', allowBlank: false, maxLength: 3, maskRe:/[0-9]/, xtype: 'textfield'},
 			{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_1.text'); ?>', disabled: 'disabled', name: 'nr_cont_1', allowBlank: false, maxLength: 100, xtype: 'textfield'},
 			{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_2.text'); ?>', disabled: 'disabled', name: 'nr_cont_2', allowBlank: false, maxLength: 100, xtype: 'textfield'},
 			{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_3.text'); ?>', disabled: 'disabled', name: 'nr_cont_3', allowBlank: false, maxLength: 100, xtype: 'textfield'},
@@ -245,11 +257,10 @@ var MovimentacaoEntradaForm = Ext.extend(Ext.Window, {
 		this.formPanel.getForm().findField('dt_movimentacao').setValue(dtnow.getFullYear() + '-' + dtnow_month + '-' + dtnow_day);
 		this.formPanel.getForm().findField('minuto').setValue(dtnow.getMinutes());
 		this.formPanel.getForm().findField('hora').setValue(dtnow.getHours());
-		<?php if (!DMG_Acl::canAccess(61)): ?>
+		<?php if (DMG_Acl::canAccess(61)): ?>
 		this.formPanel.getForm().findField('id_filial').store.reload();
 		<?php endif; ?>
 		this.formPanel.getForm().findField('id_parceiro').store.reload();
-		this.formPanel.getForm().findField('id_filial').store.reload();
 		this.formPanel.getForm().findField('id_local').store.reload();		
 		this.formPanel.getForm().load({
 			url: '<?php echo $this->url(array('controller' => 'movimentacao', 'action' => 'get-maquina'), null, true); ?>',
@@ -280,31 +291,38 @@ var MovimentacaoEntradaForm = Ext.extend(Ext.Window, {
 			uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: '<?php echo DMG_Translate::_('movimentacao-entrada.contadores.naoEnviar'); ?>'});
 			return false;
 		}
-		this.el.mask('<?php echo DMG_Translate::_('grid.form.saving'); ?>');
-		form.submit({
-			url: '<?php echo $this->url(array('controller' => 'movimentacao', 'action' => 'entrada-save'), null, true); ?>',
-			params: {
-				id: this.maquina,
-				cont_manual: this.cont_manual,
-				nr_cont_1: this.formPanel.getForm().findField('nr_cont_1').getValue(),
-				nr_cont_2: this.formPanel.getForm().findField('nr_cont_2').getValue(),
-				nr_cont_3: this.formPanel.getForm().findField('nr_cont_3').getValue(),
-				nr_cont_4: this.formPanel.getForm().findField('nr_cont_4').getValue(),
-				nr_cont_5: this.formPanel.getForm().findField('nr_cont_5').getValue(),
-				nr_cont_6: this.formPanel.getForm().findField('nr_cont_6').getValue(),
-			},
-			scope: this,
-			success: function() {
-				this.el.unmask();
-				this.hide();
-				this.fireEvent('salvar', this);
-			},
-			failure: function (form, request) {
-				this.el.unmask();
-				//Ext.Msg.alert('<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', request.result.message);
-				uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>'});
+
+		uiHelper.confirm('<?php echo DMG_Translate::_('grid.form.confirm.title'); ?>', '<?php echo DMG_Translate::_('movimentacao.entrada.confirmar'); ?>', function (o) {
+			if (o == 'no') {
+				return;
 			}
-		});
+			this.el.mask('<?php echo DMG_Translate::_('grid.form.saving'); ?>');
+			form.submit({
+				url: '<?php echo $this->url(array('controller' => 'movimentacao', 'action' => 'entrada-save'), null, true); ?>',
+				params: {
+					id: this.maquina,
+					cont_manual: this.cont_manual,
+					nr_cont_1: this.formPanel.getForm().findField('nr_cont_1').getValue(),
+					nr_cont_2: this.formPanel.getForm().findField('nr_cont_2').getValue(),
+					nr_cont_3: this.formPanel.getForm().findField('nr_cont_3').getValue(),
+					nr_cont_4: this.formPanel.getForm().findField('nr_cont_4').getValue(),
+					nr_cont_5: this.formPanel.getForm().findField('nr_cont_5').getValue(),
+					nr_cont_6: this.formPanel.getForm().findField('nr_cont_6').getValue(),
+					percent_local: this.formPanel.getForm().findField('percent_local').getValue()
+				},
+				scope: this,
+				success: function() {
+					this.el.unmask();
+					this.hide();
+					this.fireEvent('salvar', this);
+				},
+				failure: function (form, request) {
+					this.el.unmask();
+					//Ext.Msg.alert('<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', request.result.message);
+					uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: request.result.message});
+				}
+			});
+		}, this);
 	},
 	_onBtnCancelarClick: function() {
 		this.hide();

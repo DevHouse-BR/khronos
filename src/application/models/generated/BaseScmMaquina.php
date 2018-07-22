@@ -39,6 +39,7 @@
  * @property integer $nr_cont_6_parcial
  * @property integer $id_moeda
  * @property integer $id_parceiro
+ * @property integer $percent_local
  * @property ScmUser $ScmUser
  * @property ScmFilial $ScmFilial
  * @property ScmMoeda $ScmMoeda
@@ -47,10 +48,12 @@
  * @property ScmStatusMaquina $ScmStatusMaquina
  * @property ScmJogo $ScmJogo
  * @property ScmGabinete $ScmGabinete
- * @property Doctrine_Collection $ScmFechamentoItem
  * @property Doctrine_Collection $ScmMovimentacaoItem
  * @property Doctrine_Collection $ScmTransformacaoItem
  * @property ScmProtocolo $ScmProtocolo
+ * @property Doctrine_Collection $ScmAjustePercentual
+ * @property Doctrine_Collection $ScmFaturaExcecao
+ * @property Doctrine_Collection $ScmFaturaItem
  * @property Doctrine_Collection $ScmHistoricoStatus
  * @property Doctrine_Collection $ScmRegularizacaoItem
  * 
@@ -330,6 +333,20 @@ abstract class BaseScmMaquina extends Doctrine_Record
              'autoincrement' => false,
              'length' => '4',
              ));
+        $this->hasColumn('percent_local', 'integer', null, array(
+             'type' => 'integer',
+             'notnull' => false,
+             'range' => 
+             array(
+              0 => 0,
+              1 => '100',
+             ),
+             ));
+
+        $this->check('percent_local >= 0');
+        $this->check('percent_local <= 100');
+        $this->check('vl_credito > -1');
+        $this->check('vl_credito <> 0');
     }
 
     public function setUp()
@@ -367,10 +384,6 @@ abstract class BaseScmMaquina extends Doctrine_Record
              'local' => 'id_gabinete',
              'foreign' => 'id'));
 
-        $this->hasMany('ScmFechamentoItem', array(
-             'local' => 'id',
-             'foreign' => 'id_maquina'));
-
         $this->hasMany('ScmMovimentacaoItem', array(
              'local' => 'id',
              'foreign' => 'id_maquina'));
@@ -382,6 +395,18 @@ abstract class BaseScmMaquina extends Doctrine_Record
         $this->hasOne('ScmProtocolo', array(
              'local' => 'id_protocolo',
              'foreign' => 'id'));
+
+        $this->hasMany('ScmAjustePercentual', array(
+             'local' => 'id',
+             'foreign' => 'id_maquina'));
+
+        $this->hasMany('ScmFaturaExcecao', array(
+             'local' => 'id',
+             'foreign' => 'id_maquina'));
+
+        $this->hasMany('ScmFaturaItem', array(
+             'local' => 'id',
+             'foreign' => 'id_maquina'));
 
         $this->hasMany('ScmHistoricoStatus', array(
              'local' => 'id',

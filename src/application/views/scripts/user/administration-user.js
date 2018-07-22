@@ -79,7 +79,7 @@ var AdministrationUserWindow = Ext.extend(Ext.grid.GridPanel, {
 				deferEmptyText: false
 			},
 			bbar: paginator,
-<?php if (DMG_Acl::canAccess(5) || DMG_Acl::canAccess(6)): ?>
+<?php if (DMG_Acl::canAccess(5) || DMG_Acl::canAccess(6) || DMG_Acl::canAccess(12) || DMG_Acl::canAccess(37)): ?>
 			tbar: ['->',
 <?php if (DMG_Acl::canAccess(5)): ?>
 			{
@@ -292,11 +292,11 @@ var AdministrationUserWindow = Ext.extend(Ext.grid.GridPanel, {
 		this.window.setUser(0);
 		this.window.show();
 	},
+	<?php endif; ?>
+	<?php if (DMG_Acl::canAccess(4) || DMG_Acl::canAccess(5)): ?>
 	_onCadastroUsuarioSalvarExcluir: function () {
 		this.store.reload();
 	},
-	<?php endif; ?>
-	<?php if (DMG_Acl::canAccess(4) || DMG_Acl::canAccess(5)): ?>
 	_newForm: function () {
 		if (!this.window) {
 			this.window = new AdministrationUserForm({

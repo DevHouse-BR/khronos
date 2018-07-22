@@ -23,10 +23,6 @@ ScmFilial:
       local: id_empresa
       foreign: id
       type: one
-    ScmFechamentoDoc:
-      local: id
-      foreign: id_filial
-      type: many
     ScmMaquina:
       local: id
       foreign: id_filial

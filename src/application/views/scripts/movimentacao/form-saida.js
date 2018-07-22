@@ -162,31 +162,37 @@ var MovimentacaoSaidaForm = Ext.extend(Ext.Window, {
 			uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: '<?php echo DMG_Translate::_('grid.form.alert.invalid'); ?>'});
 			return false;
 		}
-		this.el.mask('<?php echo DMG_Translate::_('grid.form.saving'); ?>');
-		form.submit({
-			url: '<?php echo $this->url(array('controller' => 'movimentacao', 'action' => 'saida-save'), null, true); ?>',
-			params: {
-				id: this.maquina,
-				cont_manual: this.cont_manual,
-				nr_cont_1: this.formPanel.getForm().findField('nr_cont_1').getValue(),
-				nr_cont_2: this.formPanel.getForm().findField('nr_cont_2').getValue(),
-				nr_cont_3: this.formPanel.getForm().findField('nr_cont_3').getValue(),
-				nr_cont_4: this.formPanel.getForm().findField('nr_cont_4').getValue(),
-				nr_cont_5: this.formPanel.getForm().findField('nr_cont_5').getValue(),
-				nr_cont_6: this.formPanel.getForm().findField('nr_cont_6').getValue(),
-			},
-			scope:this,
-			success: function() {
-				this.el.unmask();
-				this.hide();
-				this.fireEvent('salvar', this);
-			},
-			failure: function (form, request) {
-				this.el.unmask();
-				//Ext.Msg.alert('<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', request.result.message);
-				uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: request.result.message});
+		
+		uiHelper.confirm('<?php echo DMG_Translate::_('grid.form.confirm.title'); ?>', '<?php echo DMG_Translate::_('movimentacao.saida.confirmar'); ?>', function (o) {
+			if (o == 'no') {
+				return;
 			}
-		});
+			this.el.mask('<?php echo DMG_Translate::_('grid.form.saving'); ?>');
+			form.submit({
+				url: '<?php echo $this->url(array('controller' => 'movimentacao', 'action' => 'saida-save'), null, true); ?>',
+				params: {
+					id: this.maquina,
+					cont_manual: this.cont_manual,
+					nr_cont_1: this.formPanel.getForm().findField('nr_cont_1').getValue(),
+					nr_cont_2: this.formPanel.getForm().findField('nr_cont_2').getValue(),
+					nr_cont_3: this.formPanel.getForm().findField('nr_cont_3').getValue(),
+					nr_cont_4: this.formPanel.getForm().findField('nr_cont_4').getValue(),
+					nr_cont_5: this.formPanel.getForm().findField('nr_cont_5').getValue(),
+					nr_cont_6: this.formPanel.getForm().findField('nr_cont_6').getValue(),
+				},
+				scope:this,
+				success: function() {
+					this.el.unmask();
+					this.hide();
+					this.fireEvent('salvar', this);
+				},
+				failure: function (form, request) {
+					this.el.unmask();
+					//Ext.Msg.alert('<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', request.result.message);
+					uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: request.result.message});
+				}
+			});
+		}, this);
 	},
 	_onBtnCancelarClick: function() {
 		this.hide();

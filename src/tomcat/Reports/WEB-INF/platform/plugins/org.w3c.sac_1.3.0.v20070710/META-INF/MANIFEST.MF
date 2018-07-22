@@ -15,7 +15,7 @@ Name: eclipse32.png
 SHA1-Digest: eCk/A3/COXL3S6qAVDOSrlsqmLw=
 
 Name: lib/flute.jar
-SHA1-Digest: /ZinnWydALYm9x/yrZ13izUwvjE=
+SHA1-Digest: zsMPetBwK+AOkJgg96Q6FCLKvpk=
 
 Name: about.ini
 SHA1-Digest: 2w8BfdBzQbbWHJNbazxzu9YMYwo=
@@ -27,7 +27,7 @@ Name: about.properties
 SHA1-Digest: b9o9hf3/JNJGJ6WjGuGWHR/pBvY=
 
 Name: about.mappings
-SHA1-Digest: 4fkRPbakxJw/l7UVJfFDuPncInU=
+SHA1-Digest: 7fWXWpBVaPXv2G/FWw3i4eblO9g=
 
 Name: about_files/copyright-software-20021231_files/base.css
 SHA1-Digest: Ku5eFn8rDgc1RsAHfYVI3aLl8Ao=

@@ -7,7 +7,7 @@ class UserController extends Zend_Controller_Action {
 	}
 	public function listAction () {
 		if (DMG_Acl::canAccess(3)) {
-			echo DMG_Crud::index('ScmUser', 'id, name, username, email, language, status');
+			echo DMG_Crud::index($this, 'ScmUser', 'id, name, username, email, language, status');
 		}
 	}
 	public function getAction () {

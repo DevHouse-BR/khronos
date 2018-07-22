@@ -199,6 +199,15 @@ ScmMaquina:
       primary: false
       notnull: false
       autoincrement: false
+    percent_local:
+      type: integer
+      notnull: false
+      range: [0, 100]
+  checks:
+    check_1: percent_local >= 0
+    check_2: percent_local <= 100
+    check_3: vl_credito > -1 
+    check_4: vl_credito <> 0 
   relations:
     ScmUser:
       local: id_usuario
@@ -232,10 +241,6 @@ ScmMaquina:
       local: id_gabinete
       foreign: id
       type: one
-    ScmFechamentoItem:
-      local: id
-      foreign: id_maquina
-      type: many
     ScmMovimentacaoItem:
       local: id
       foreign: id_maquina

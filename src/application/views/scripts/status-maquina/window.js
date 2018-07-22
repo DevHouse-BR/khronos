@@ -152,6 +152,9 @@ var StatusMaquinaWindow = Ext.extend(Ext.grid.GridPanel, {
 			}
 			var id = [];
 			var n = 0;
+			for (var i = 0; i < arrSelecionados.length; i++) {
+				id.push(arrSelecionados[i].get('id'));
+			}			
 			this.el.mask('<?php echo DMG_Translate::_('grid.form.deleting'); ?>');
 			Ext.Ajax.request({
 				url: '<?php echo $this->url(array('controller' => 'status-maquina', 'action' => 'delete'), null, true); ?>',

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relatorio>
+	<id>1</id>
+	<grupo>1</grupo>
+	<ruleID>93</ruleID>
+	<arquivo>parque-historico.rptdesign</arquivo>
+	<saida>Parque_Historico</saida>
+	<nome>parque-historico</nome>
+	<traducao>
+		<es>Parque Detallado – Situación Histórica</es>
+		<pt_BR>Parque Histórico - Local / Máquinas</pt_BR>
+		<en>Parque Histórico</en>
+	</traducao>
+	<descricao>
+		<es>Presenta la situación del parque de Máquinas detallado en una FECHA/HORA específica. La información es  agrupada por Local y también considera las máquinas que están en Tránsito.</es>
+		<pt_BR>Descrição em Português</pt_BR>
+		<en>English Description</en>
+	</descricao>
+	<filtros>
+		<filtro>
+			<tipo>empresa</tipo>
+			<nome>empresa</nome>
+			<traducao>
+				<es>Empresa</es>
+				<pt_BR>Empresa</pt_BR>
+				<en>Empresa</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>filial</tipo>
+			<nome>filial</nome>
+			<traducao>
+				<es>Filial</es>
+				<pt_BR>Filial</pt_BR>
+				<en>Filial</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>local</tipo>
+			<nome>local</nome>
+			<traducao>
+				<es>Local</es>
+				<pt_BR>Local</pt_BR>
+				<en>Local</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>gabinete</tipo>
+			<nome>gabinete</nome>
+			<traducao>
+				<es>Mueble</es>
+				<pt_BR>Gabinete</pt_BR>
+				<en>Gabinete</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>jogo</tipo>
+			<nome>jogo</nome>
+			<traducao>
+				<es>Juego</es>
+				<pt_BR>Jogo</pt_BR>
+				<en>Jogo</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>data</tipo>
+			<nome>data</nome>
+			<traducao>
+				<es>Fecha</es>
+				<pt_BR>Data</pt_BR>
+				<en>Date</en>
+			</traducao>
+		</filtro>
+	</filtros>
+</relatorio>

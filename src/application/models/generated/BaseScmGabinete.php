@@ -9,6 +9,7 @@
  * @property string $nm_gabinete
  * @property Doctrine_Collection $ScmMaquina
  * @property Doctrine_Collection $ScmTransformacaoItem
+ * @property Doctrine_Collection $ScmFaturaItem
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -45,6 +46,10 @@ abstract class BaseScmGabinete extends Doctrine_Record
              'foreign' => 'id_gabinete'));
 
         $this->hasMany('ScmTransformacaoItem', array(
+             'local' => 'id',
+             'foreign' => 'id_gabinete'));
+
+        $this->hasMany('ScmFaturaItem', array(
              'local' => 'id',
              'foreign' => 'id_gabinete'));
     }

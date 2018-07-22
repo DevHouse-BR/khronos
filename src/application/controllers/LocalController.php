@@ -43,6 +43,7 @@ class LocalController extends Zend_Controller_Action {
 					'id' => $k->id,
 					'nm_local' => $k->nm_local,
 					'tp_local' => $k->ScmTipoLocal->nm_tipo_local,
+					'percent_local' => ($k->percent_local ? $k->percent_local . '%' : ''),
 				);
 			}
 			echo Zend_Json::encode(array('total' => $query->count(), 'data' => $data));
@@ -50,18 +51,44 @@ class LocalController extends Zend_Controller_Action {
 	}
 	public function getAction () {
 		if (DMG_Acl::canAccess(18)) {
-			echo DMG_Crud::get('ScmLocal', (int) $this->getRequest()->getParam('id'));
+			echo DMG_Crud::get($this, 'ScmLocal', (int) $this->getRequest()->getParam('id'));
+		}
+	}
+	public function percentAction () {
+		if (DMG_Acl::canAccess(26) || DMG_Acl::canAccess(27)) {
+			try {
+				$local = Doctrine::getTable('ScmLocal')->find((int) $this->getRequest()->getParam('id_local'));
+				if (!$local) {
+					throw new Exception();
+				}
+				echo Zend_Json::encode(array('success' => true, 'percent_local' => $local->percent_local));
+			} catch (Exception $e) {
+				echo Zend_Json::encode(array('success' => false));
+			}
 		}
 	}
 	public function saveAction () {
 		$id = (int) $this->getRequest()->getParam('id');
 		if ($id > 0) {
 			if (DMG_Acl::canAccess(18)) {
+				$error = array();
 				$obj = Doctrine::getTable('ScmLocal')->find($id);
 				if ($obj) {
 					$obj->nm_local = $this->getRequest()->getParam('nm_local');
 					$obj->tp_local = $this->getRequest()->getParam('tp_local');
+					$obj->percent_local = $this->getRequest()->getParam('percent_local');
 					
+					$notEmpty = new Zend_Validate_NotEmpty();
+					$Int = new Zend_Validate_Int();
+					
+					if ($notEmpty->isValid($obj->percent_local)) {
+						if (!$Int->isValid($obj->percent_local)) {
+							$error['percent_local'] = DMG_Translate::_('parque.local.percent_local.string');
+						} else if ($obj->percent_local < 0 || $obj->percent_local > 100) {
+							$error['percent_local'] = DMG_Translate::_('parque.local.percent_local.negativo');
+						}
+					}
+										
 					if($this->getRequest()->getParam('fl_portal') == 'on'){
 						$obj->fl_portal = 1;
 						$obj->user_portal = $this->getRequest()->getParam('user_portal');
@@ -72,21 +99,39 @@ class LocalController extends Zend_Controller_Action {
 					}
 
 					try {
+						if (count($error)) {
+	 						throw new Exception();
+						}
 						$obj->save();
 						echo Zend_Json::encode(array('success' => true));
 					} catch (Exception $e) {
 						if($e->getCode() == 23505){
-							echo Zend_Json::encode(array('success' => false, 'errormsg' => DMG_Translate::_('parque.local.form.unique_error')));
+							echo Zend_Json::encode(array('success' => false, 'message' => DMG_Translate::_('parque.local.form.unique_error')));
+						} else {
+							echo Zend_Json::encode(array('success' => false, 'message' => reset($error), 'error' => $error));
 						}
 					}
 				}
 			}
 		} else {
 			if (DMG_Acl::canAccess(19)) {
+				$error = array();
 				$obj = new ScmLocal();
 				$obj->nm_local = $this->getRequest()->getParam('nm_local');
 				$obj->tp_local = $this->getRequest()->getParam('tp_local');
+				$obj->percent_local = $this->getRequest()->getParam('percent_local');
 				
+				$notEmpty = new Zend_Validate_NotEmpty();
+				$Int = new Zend_Validate_Int();
+				
+				if ($notEmpty->isValid($obj->percent_local)) {
+					if (!$Int->isValid($obj->percent_local)) {
+						$error['percent_local'] = DMG_Translate::_('parque.local.percent_local.string');
+					} else if ($obj->percent_local < 0 || $obj->percent_local > 100) {
+						$error['percent_local'] = DMG_Translate::_('parque.local.percent_local.negativo');
+					}
+				}
+								
 				if($this->getRequest()->getParam('fl_portal') == 'on'){
 					$obj->fl_portal = 1;
 					$obj->user_portal = $this->getRequest()->getParam('user_portal');
@@ -97,11 +142,16 @@ class LocalController extends Zend_Controller_Action {
 				}
 				
 				try {
+					if (count($error)) {
+ 						throw new Exception();
+					}
 					$obj->save();
 					echo Zend_Json::encode(array('success' => true));
 				} catch (Exception $e) {
 					if($e->getCode() == 23505){
-						echo Zend_Json::encode(array('success' => false, 'errormsg' => DMG_Translate::_('parque.local.form.unique_error')));
+						echo Zend_Json::encode(array('success' => false, 'message' => DMG_Translate::_('parque.local.form.unique_error')));
+					} else {
+						echo Zend_Json::encode(array('success' => false, 'message' => reset($error), 'error' => $error));
 					}
 				}
 			}
@@ -109,7 +159,7 @@ class LocalController extends Zend_Controller_Action {
 	}
 	public function deleteAction () {
 		if (DMG_Acl::canAccess(20)) {
-			echo DMG_Crud::delete('ScmLocal', $this->getRequest()->getParam('id'));
+			echo DMG_Crud::delete($this, 'ScmLocal', $this->getRequest()->getParam('id'));
 		}
 	}
 }

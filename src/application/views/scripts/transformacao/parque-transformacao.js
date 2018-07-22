@@ -4,7 +4,7 @@ var ParqueTransformacaoWindowFilter = new Ext.ux.grid.GridFilters({
 	menuFilterText: '<?php echo DMG_Translate::_('grid.filter.label'); ?>',
 	filters: [{
 		type: 'string',
-		dataIndex: 'name',
+		dataIndex: 'nr_serie_imob',
 		phpMode: true
 	}]
 });
@@ -16,6 +16,11 @@ var ParqueTransformacaoWindow = Ext.extend(Ext.grid.GridPanel, {
 	columnLines: true,
 	plugins: [ParqueTransformacaoWindowFilter],
 	initComponent: function () {
+		ParqueTransformacaoWindowFilter.addFilter({
+			type: 'string',
+			dataIndex: 'nr_serie_imob',
+			phpMode: true
+		});
 		this.store = new Ext.data.JsonStore({
 			url: '<?php echo $this->url(array('controller' => 'transformacao', 'action' => 'list'), null, true); ?>',
 			root: 'data',
@@ -48,15 +53,17 @@ var ParqueTransformacaoWindow = Ext.extend(Ext.grid.GridPanel, {
 		var paginator = new Ext.PagingToolbar({
 			store: this.store,
 			pageSize: 30,
-			plugins: [ParqueTransformacaoWindowFilter]
+			plugins: [ParqueTransformacaoWindowFilter],
+			buttons:['-', {
+				text: '<?php echo DMG_Translate::_('grid.bbar.clearfilter'); ?>',
+				scope:this,
+				handler: function(botao, evento){
+					ParqueTransformacaoWindowFilter.clearFilters();
+					this.filtroField.reset();
+				}
+			}]
 		});
-		paginator.addSeparator();
-		var button = new Ext.Toolbar.Button();
-		button.text = '<?php echo DMG_Translate::_('grid.bbar.clearfilter'); ?>';
-		button.addListener('click', function(a, b) {
-			ParqueTransformacaoWindowFilter.clearFilters();
-		});
-		paginator.addButton(button);
+
 		Ext.apply(this, {
 			viewConfig: {
 				emptyText: '<?php echo DMG_Translate::_('grid.empty'); ?>',
@@ -83,10 +90,24 @@ var ParqueTransformacaoWindow = Ext.extend(Ext.grid.GridPanel, {
 					scope: this,
 					select: function(combo, record) {
 						this.store.baseParams.local = parseInt(record.get('id'));
-						this.store.reload();
+						ParqueTransformacaoWindowFilter.getFilter(0).active = true;
+						ParqueTransformacaoWindowFilter.getFilter(0).setValue(this.filtroField.getValue());
+						//this.store.reload();
 					}
 				}
-			}), '->', {
+			}),{
+				xtype:'textfield',
+				style:'margin-left:5px',
+				ref: '../filtroField',
+				listeners:{
+					specialkey:function(campo, e){
+						if (e.getKey() == 13){
+							ParqueTransformacaoWindowFilter.getFilter(0).active = true;
+							ParqueTransformacaoWindowFilter.getFilter(0).setValue(campo.getValue());
+						}
+					}
+				}
+			}, '->', {
 				text: '<?php echo DMG_Translate::_('parque.transformacao.grid.transformar'); ?>',
 				iconCls: 'silk-wrench',
 				scope: this,
@@ -108,22 +129,22 @@ var ParqueTransformacaoWindow = Ext.extend(Ext.grid.GridPanel, {
 				sortable: true
 			}, {
 				dataIndex: 'nm_jogo',
-				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_jogo.text'); ?>',
+				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_jogo.text'); ?>'
 			}, {
 				dataIndex: 'nr_versao_jogo',
-				header: '<?php echo DMG_Translate::_('parque.maquina.form.nr_versao_jogo.text'); ?>',
+				header: '<?php echo DMG_Translate::_('parque.maquina.form.nr_versao_jogo.text'); ?>'
 			}, {
 				dataIndex: 'nm_gabinete',
-				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_gabinete.text'); ?>',
+				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_gabinete.text'); ?>'
 			}, {
 				dataIndex: 'simbolo_moeda',
-				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_moeda.text'); ?>',
+				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_moeda.text'); ?>'
 			}, {
 				dataIndex: 'vl_credito',
-				header: '<?php echo DMG_Translate::_('parque.maquina.form.vl_credito.text'); ?>',
+				header: '<?php echo DMG_Translate::_('parque.maquina.form.vl_credito.text'); ?>'
 			}, {
 				dataIndex: 'nm_status_maquina',
-				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_status.text'); ?>',
+				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_status.text'); ?>'
 			}]
 		});
 		ParqueTransformacaoWindow.superclass.initComponent.call(this);
@@ -153,6 +174,13 @@ var ParqueTransformacaoWindow = Ext.extend(Ext.grid.GridPanel, {
 			return false;
 		}
 		var record = this.getSelectionModel().getSelections();
+		
+		
+		if(verificaMaquinaFaturaTemp(record[0].get('id'))){
+			uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: '<?php echo DMG_Translate::_('faturamento.operacoes.maquina.em.fatura.temp'); ?>'});
+			return;
+		}
+		
 		this._newForm();
 		this.window.settransformacao(record[0].get('id'));
 		this.window.show();
@@ -163,6 +191,13 @@ var ParqueTransformacaoWindow = Ext.extend(Ext.grid.GridPanel, {
 	_onGridRowDblClick: function (grid, rowIndex, e) {
 		var record = grid.getStore().getAt(rowIndex);
 		var id = record.get('id');
+		
+		if(verificaMaquinaFaturaTemp(id)){
+			uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: '<?php echo DMG_Translate::_('faturamento.operacoes.maquina.em.fatura.temp'); ?>'});
+			return;
+		}
+		
+		
 		this._newForm();
 		this.window.settransformacao(id);
 		this.window.show();

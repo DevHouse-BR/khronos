@@ -17,20 +17,47 @@ var AdministrationFilialForm = Ext.extend(Ext.Window, {
 		AdministrationFilialForm.superclass.constructor.apply(this, arguments);
 	},
 	initComponent: function() {
+		
+		
+		this.comboEmpresas = new Ext.form.ComboBox({
+			typeAhead: true,
+			id: 'idEmpresaField',
+			triggerAction: 'all',
+			lazyRender:true,
+			mode: 'remote',
+			
+			
+			store: new Ext.data.JsonStore({
+				autoLoad : true,  //Popula o store antes de mostrar a tela e assim permite a visualizaï¿½ï¿½o do registro e nï¿½o o cï¿½digo
+				url: '<?php echo $this->url(array('controller' => 'empresa', 'action' => 'list'), null, true); ?>',
+				baseParams: {
+					dir: 'ASC',
+					sort: 'nm_empresa',
+					limit: 15,
+					'filter[0][data][type]': 'string',
+					'filter[0][field]': 'nm_empresa'
+				},
+				root: 'data',
+				fields: ['id', 'nm_empresa']
+			}),
+			minChars: 0,
+			queryParam: 'filter[0][data][value]',
+			hiddenName: 'id_empresa',
+			allowBlank: false,
+			displayField: 'nm_empresa',
+			valueField: 'id',
+			
+			
+			emptyText: '<?php echo DMG_Translate::_('grid.form.combobox.select'); ?>',
+			fieldLabel: '<?php echo DMG_Translate::_('administration.filial.form.nm_empresa.text'); ?>'
+		});
+		
 		this.formPanel = new Ext.form.FormPanel({
 			bodyStyle: 'padding:10px;',
 			border: false,
 			autoScroll: true,
 			defaultType: 'textfield',
 			defaults: {anchor: '-19'},
-			
-			/*
-			 * Alteração feita por Leonardo para impedir a edição do campo empresa após o load do registro
-			 */
-			
-			
-			
-			
 			listeners:{
 				actioncomplete: function(form, action){
 					if(action.type == 'load'){
@@ -38,46 +65,9 @@ var AdministrationFilialForm = Ext.extend(Ext.Window, {
 					}
 				}
 			},
-			
-			
-			
-			
-			
-			
 			items:[
 				{fieldLabel: '<?php echo DMG_Translate::_('administration.filial.form.nm_filial.text'); ?>', name: 'nm_filial', allowBlank: false, maxLength: 255},
-				new Ext.form.ComboBox({
-					typeAhead: true,
-					id: 'idEmpresaField',
-					triggerAction: 'all',
-					lazyRender:true,
-					mode: 'remote',
-					
-					
-					store: new Ext.data.JsonStore({
-						autoLoad : true,  //Popula o store antes de mostrar a tela e assim permite a visualização do registro e não o código
-						url: '<?php echo $this->url(array('controller' => 'empresa', 'action' => 'list'), null, true); ?>',
-						baseParams: {
-							dir: 'ASC',
-							sort: 'nm_empresa',
-							limit: 15,
-							'filter[0][data][type]': 'string',
-							'filter[0][field]': 'nm_empresa',
-						},
-						root: 'data',
-						fields: ['id', 'nm_empresa'],
-					}),
-					minChars: 0,
-					queryParam: 'filter[0][data][value]',
-					hiddenName: 'id_empresa',
-					allowBlank: false,
-					displayField: 'nm_empresa',
-					valueField: 'id',
-					
-					
-					emptyText: '<?php echo DMG_Translate::_('grid.form.combobox.select'); ?>',
-					fieldLabel: '<?php echo DMG_Translate::_('administration.filial.form.nm_empresa.text'); ?>'
-				}),
+				this.comboEmpresas
 			]
 		});
 		Ext.apply(this, {
@@ -137,12 +127,13 @@ var AdministrationFilialForm = Ext.extend(Ext.Window, {
 				id: this.filial
 			},
 			scope:this,
-			success: function() {
+			success: function(form, action) {
 				this.el.unmask();
 				this.hide();
 				this.fireEvent('salvar', this);
 			},
-			failure: function () {
+			failure: function (form, action) {
+				uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: action.result.errormsg});
 				this.el.unmask();
 			}
 		});

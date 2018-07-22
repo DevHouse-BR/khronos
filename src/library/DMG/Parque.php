@@ -97,18 +97,9 @@ class DMG_Parque {
 		} else {
 			$trItem->id_gabinete = $maquina->id_gabinete;
 		}
-		$query = Doctrine_Query::create()
-			->from('ScmFechamentoItem i')
-			->innerJoin('i.ScmFechamentoDoc d')
-			->innerJoin('d.ScmStatusFechamentoDoc s')
-			->addWhere('s.id = ?', 1)
-			->addWhere('i.id_maquina = ?', $maquina->id);
-		if ($query->count()) {
-			throw new Exception(DMG_Translate::_('parque.transformacao.fechamentoerror'));
-		}
 		$d1 = new Zend_Date($trDoc->dt_transformacao);
 		$d2 = new Zend_Date((empty($maquina->dt_ultima_transformacao) ? 0 : $maquina->dt_ultima_transformacao));
-		$d3 = new Zend_Date((empty($maquina->dt_ultimo_fechamento) ? 0 : $maquina->dt_ultimo_fechamento));
+		$d3 = new Zend_Date((empty($maquina->dt_ultimo_faturamento) ? 0 : $maquina->dt_ultimo_faturamento));
 		$d4 = new Zend_Date((empty($maquina->dt_ultima_movimentacao) ? 0 : $maquina->dt_ultima_movimentacao));
 		$now = new Zend_Date(time());
 		if (!($d1->get(Zend_Date::TIMESTAMP) > $d2->get(Zend_Date::TIMESTAMP) && $d1->get(Zend_Date::TIMESTAMP) > $d3->get(Zend_Date::TIMESTAMP) && $d1->get(Zend_Date::TIMESTAMP) > $d4->get(Zend_Date::TIMESTAMP))) {
@@ -166,18 +157,9 @@ class DMG_Parque {
 				$trItem->$_nm = $valores[$_nm];
 			}
 		}
-		$query = Doctrine_Query::create()
-			->from('ScmFechamentoItem i')
-			->innerJoin('i.ScmFechamentoDoc d')
-			->innerJoin('d.ScmStatusFechamentoDoc s')
-			->addWhere('s.id = ?', 1)
-			->addWhere('i.id_maquina = ?', $maquina->id);
-		if ($query->count()) {
-			throw new Exception(DMG_Translate::_('parque.movimentacao.fechamentoerror'));
-		}
 		$d1 = new Zend_Date($trDoc->dt_movimentacao);
 		$d2 = new Zend_Date((empty($maquina->dt_ultima_transformacao) ? 0 : $maquina->dt_ultima_transformacao));
-		$d3 = new Zend_Date((empty($maquina->dt_ultimo_fechamento) ? 0 : $maquina->dt_ultimo_fechamento));
+		$d3 = new Zend_Date((empty($maquina->dt_ultimo_faturamento) ? 0 : $maquina->dt_ultimo_faturamento));
 		$d4 = new Zend_Date((empty($maquina->dt_ultima_movimentacao) ? 0 : $maquina->dt_ultima_movimentacao));
 		$now = new Zend_Date(time());
 		if (!($d1->get(Zend_Date::TIMESTAMP) > $d2->get(Zend_Date::TIMESTAMP) && $d1->get(Zend_Date::TIMESTAMP) > $d3->get(Zend_Date::TIMESTAMP) && $d1->get(Zend_Date::TIMESTAMP) > $d4->get(Zend_Date::TIMESTAMP))) {

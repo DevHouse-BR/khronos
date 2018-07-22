@@ -168,7 +168,7 @@ var AdministrationParceiroWindow = Ext.extend(Ext.grid.GridPanel, {
 		this.window.show();
 	},
 	<?php endif; ?>
-	<?php if (DMG_Acl::canAccess(52) || DMG_Acl::canAccess(41)): ?>
+	<?php if (DMG_Acl::canAccess(52) || DMG_Acl::canAccess(51)): ?>
 	_newForm: function () {
 		if (!this.window) {
 			this.window = new AdministrationParceiroForm({

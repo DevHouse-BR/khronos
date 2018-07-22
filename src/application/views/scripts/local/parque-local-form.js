@@ -5,7 +5,7 @@ var ParqueLocalForm = Ext.extend(Ext.Window, {
 	maximizable: false,
 	resizable: false,
 	width: 450,
-	height: 225,
+	height: 260,
 	title: '<?php echo DMG_Translate::_('parque.local.form.title'); ?>',
 	layout: 'fit',
 	closeAction: 'hide',
@@ -58,6 +58,11 @@ foreach (Doctrine::getTable('ScmTipoLocal')->findAll() as $k) {
 				name: 'nm_local', 
 				allowBlank: false,
 				maxLength: 255
+			}, {
+				fieldLabel: '<?php echo DMG_Translate::_('parque.local.form.percent_local.text'); ?>',
+				name: 'percent_local',
+				allowBlank: true,
+				maxLenght: 50
 			},
 				this.tp_local,
 			{
@@ -150,7 +155,7 @@ foreach (Doctrine::getTable('ScmTipoLocal')->findAll() as $k) {
 			failure: function (formulario, acao) {
 				this.el.unmask();
 				var obj = Ext.decode(acao.response.responseText)
-				uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: obj.errormsg});
+				uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: obj.message});
 			}
 		});
 	},

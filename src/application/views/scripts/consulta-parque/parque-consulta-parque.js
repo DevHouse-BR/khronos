@@ -10,6 +10,8 @@ var ParqueConsultaParqueWindowFilter = new Ext.ux.grid.GridFilters({
 });
 var ParqueConsultaParqueWindow = Ext.extend(Ext.grid.GridPanel, {
 	border: false,
+	id:'gridConsultaContadores',
+	title: '<?php echo DMG_Translate::_('menu.parque.consulta-parque'); ?>',
 	stripeRows: true,
 	loadMask: true,
 	sm: sm,
@@ -21,7 +23,7 @@ var ParqueConsultaParqueWindow = Ext.extend(Ext.grid.GridPanel, {
 			root: 'data',
 			idProperty: 'id',
 			totalProperty: 'total',
-			autoLoad: true,
+			//autoLoad: true,
 			autoDestroy: true,
 			remoteSort: true,
 			sortInfo: {
@@ -31,15 +33,24 @@ var ParqueConsultaParqueWindow = Ext.extend(Ext.grid.GridPanel, {
 			baseParams: {
 				limit: <?php echo DMG_Config::get(6); ?>
 			},
+			listeners:{
+				load: function(store, records, options){
+					if(records.length == 0) Ext.getCmp('btnConsultaContadores').disable();
+					else Ext.getCmp('btnConsultaContadores').enable();
+				}
+			},
 			fields: [
 				{name: 'id', type: 'int'},
 				{name: 'nr_serie_imob', type: 'string'},
 				{name: 'nr_serie_aux', type: 'string'},
+				{name: 'nr_serie_connect', type: 'string'},
 				{name: 'nm_jogo', type: 'string'},
 				{name: 'nr_versao_jogo', type: 'string'},
 				{name: 'simbolo_moeda', type: 'string'},
 				{name: 'nm_status_maquina', type: 'string'},
 				{name: 'vl_credito', type: 'string'},
+				{name: 'id_local', type: 'int'},
+				{name: 'id_protocolo', type: 'int'},
 				{name: 'nr_cont_1', type: 'int'},
 				{name: 'nr_cont_2', type: 'int'},
 				{name: 'nr_cont_3', type: 'int'},
@@ -50,6 +61,35 @@ var ParqueConsultaParqueWindow = Ext.extend(Ext.grid.GridPanel, {
 				{name: 'nr_cont_4_parcial', type: 'int'},
 			]
 		});
+		
+
+		var comboLocal = new Ext.form.ComboBox({
+			name: 'status',
+			minChars:3,
+			typeAhead: true,
+			emptyText: '<?php echo DMG_Translate::_('parque.maquina.form.id_local.invalid'); ?>',
+			store: new Ext.data.JsonStore({
+				url: '<?php echo $this->url(array('controller' => 'movimentacao', 'action' => 'locais'), null, true); ?>',
+				root: 'data',
+				fields: ['id', 'nm_local'],
+			}),
+			mode: 'remote',
+			width: 200,
+			triggerAction: 'all',
+			displayField: 'nm_local',
+			valueField: 'id',
+			//editable: false,
+			forceSelection: true,
+			listeners: {
+				scope: this,
+				select: function(combo, record) {
+					this.store.baseParams.local = parseInt(record.get('id'));
+					this.store.reload();
+				}
+			}
+		});
+
+		
 		var comboPaginator = new Ext.form.ComboBox({
 			name: 'perpage',
 			width: 40,
@@ -99,11 +139,13 @@ var ParqueConsultaParqueWindow = Ext.extend(Ext.grid.GridPanel, {
 				deferEmptyText: false
 			},
 			bbar: paginator,
-			tbar: ['->',
+			tbar: [comboLocal, '->',
 			{
 				text: '<?php echo DMG_Translate::_('parque.consulta-parque.grid.movimentar'); ?>',
 				iconCls: 'silk-cog',
+				id: 'btnConsultaContadores',
 				scope: this,
+				disabled:true,
 				handler: this._onBtnMovimentarSelecionadosClick
 			},
 			],
@@ -181,7 +223,8 @@ var ParqueConsultaParqueWindow = Ext.extend(Ext.grid.GridPanel, {
 			scope: this,
 		});
 	},
-	_onBtnMovimentarSelecionadosClick: function () {
+	_onBtnMovimentarSelecionadosClick: function(){
+		this.el.mask('<?php echo DMG_Translate::_('i18n.loading'); ?>');
 		var arrSelecionados = this.getSelectionModel().getSelections();
 		var ids = [];
 		if (arrSelecionados.length == 0) {
@@ -193,7 +236,6 @@ var ParqueConsultaParqueWindow = Ext.extend(Ext.grid.GridPanel, {
 				ids[i] = arrSelecionados[i].id;
 			}
 		}
-		this.el.mask('<?php echo DMG_Translate::_('i18n.loading'); ?>');
 		var con = new Ext.data.Connection();
 		con.request({
 			disableCaching: true,
@@ -203,9 +245,9 @@ var ParqueConsultaParqueWindow = Ext.extend(Ext.grid.GridPanel, {
 				'id[]': ids
 			},
 			scope: this,
-			callback: function (a, b, c) {
+			success: function(response, opts){
 				try {
-					var data = Ext.decode(c.responseText);
+					var data = Ext.decode(response.responseText);
 					if (data.success == true) {
 						var i = 0;
 						while (true) {
@@ -213,42 +255,49 @@ var ParqueConsultaParqueWindow = Ext.extend(Ext.grid.GridPanel, {
 								break;
 							}
 							var idx = this.store.data.findIndex('id', data.data[i].id);
-							if (data.data[i].online > 0) {
-								this.store.data.items[idx].set('nr_cont_1', data.data[i].nr_cont_1);
-								this.store.data.items[idx].set('nr_cont_2', data.data[i].nr_cont_2);
-								this.store.data.items[idx].set('nr_cont_3', data.data[i].nr_cont_3);
-								this.store.data.items[idx].set('nr_cont_4', data.data[i].nr_cont_4);
-								this.store.data.items[idx].set('nr_cont_5', data.data[i].nr_cont_5);
-								this.store.data.items[idx].set('nr_cont_6', data.data[i].nr_cont_6);
-								this.store.data.items[idx].set('nr_cont_1_parcial', data.data[i].nr_cont_1_parcial);
-								this.store.data.items[idx].set('nr_cont_2_parcial', data.data[i].nr_cont_2_parcial);
-								this.store.data.items[idx].set('nr_cont_3_parcial', data.data[i].nr_cont_3_parcial);
-								this.store.data.items[idx].set('nr_cont_4_parcial', data.data[i].nr_cont_4_parcial);
-								this.store.data.items[idx].set('nr_cont_5_parcial', data.data[i].nr_cont_5_parcial);
-								this.store.data.items[idx].set('nr_cont_6_parcial', data.data[i].nr_cont_6_parcial);
-								if (data.data[i].online == 3) {
+							var registro = this.store.getAt(idx);
+							var dado = data.data[i];
+							if (dado.online > 0) {
+								registro.set('nr_cont_1', dado.nr_cont_1);
+								registro.set('nr_cont_2', dado.nr_cont_2);
+								registro.set('nr_cont_3', dado.nr_cont_3);
+								registro.set('nr_cont_4', dado.nr_cont_4);
+								registro.set('nr_cont_5', dado.nr_cont_5);
+								registro.set('nr_cont_6', dado.nr_cont_6);
+								registro.set('nr_cont_1_parcial', dado.nr_cont_1_parcial);
+								registro.set('nr_cont_2_parcial', dado.nr_cont_2_parcial);
+								registro.set('nr_cont_3_parcial', dado.nr_cont_3_parcial);
+								registro.set('nr_cont_4_parcial', dado.nr_cont_4_parcial);
+								registro.set('nr_cont_5_parcial', dado.nr_cont_5_parcial);
+								registro.set('nr_cont_6_parcial', dado.nr_cont_6_parcial);
+								registro.commit();
+								if (dado.online == 3) {
 									Ext.get(this.getView().getRow(idx)).addClass('tgridjogando');
 									Ext.get(this.getView().getRow(idx)).removeClass('tgriderror');
-								} else if (data.data[i].online == 2) {
+								}
+								else if (dado.online == 2) {
 									Ext.get(this.getView().getRow(idx)).addClass('tgriderror');
 									Ext.get(this.getView().getRow(idx)).removeClass('tgridjogando');
-								} else if (data.data[i].online == 1) {
+								}
+								else if (dado.online == 1) {
 									Ext.get(this.getView().getRow(idx)).removeClass('tgridjogando');
 									Ext.get(this.getView().getRow(idx)).removeClass('tgriderror');
 								}
-							} else {
-								this.store.data.items[idx].set('nr_cont_1', '');
-								this.store.data.items[idx].set('nr_cont_2', '');
-								this.store.data.items[idx].set('nr_cont_3', '');
-								this.store.data.items[idx].set('nr_cont_4', '');
-								this.store.data.items[idx].set('nr_cont_5', '');
-								this.store.data.items[idx].set('nr_cont_6', '');
-								this.store.data.items[idx].set('nr_cont_1_parcial', '');
-								this.store.data.items[idx].set('nr_cont_2_parcial', '');
-								this.store.data.items[idx].set('nr_cont_3_parcial', '');
-								this.store.data.items[idx].set('nr_cont_4_parcial', '');
-								this.store.data.items[idx].set('nr_cont_5_parcial', '');
-								this.store.data.items[idx].set('nr_cont_6_parcial', '');
+							}
+							else {
+								registro.set('nr_cont_1', '');
+								registro.set('nr_cont_2', '');
+								registro.set('nr_cont_3', '');
+								registro.set('nr_cont_4', '');
+								registro.set('nr_cont_5', '');
+								registro.set('nr_cont_6', '');
+								registro.set('nr_cont_1_parcial', '');
+								registro.set('nr_cont_2_parcial', '');
+								registro.set('nr_cont_3_parcial', '');
+								registro.set('nr_cont_4_parcial', '');
+								registro.set('nr_cont_5_parcial', '');
+								registro.set('nr_cont_6_parcial', '');
+								registro.commit();
 								Ext.get(this.getView().getRow(idx)).addClass('tgriderror');
 								Ext.get(this.getView().getRow(idx)).removeClass('tgridjogando');
 							}
@@ -256,50 +305,13 @@ var ParqueConsultaParqueWindow = Ext.extend(Ext.grid.GridPanel, {
 							i++;
 						}
 					} else {
-						Ext.MessageBox.alert('<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', data.message);
+						uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: data.message});
 					}
 				} catch (e) {};
 				this.el.unmask();
-			}
+			},
+			failure: function(){}
 		});
-		return;
-		for (var i = 0; i < arrSelecionados.length; i++) {
-			var con = new Ext.data.Connection();
-			con.request({
-				callback: function (a, b, c) {
-					try {
-						var tam = c.responseText.length;
-						if (tam == 0) {
-							throw null;
-						}
-						var data = Ext.decode(c.responseText);
-						if (data.success == true) {
-							this.store.data.items[a.idx].set('nr_cont_1', data.data.nr_cont_1);
-							this.store.data.items[a.idx].set('nr_cont_2', data.data.nr_cont_2);
-							this.store.data.items[a.idx].set('nr_cont_3', data.data.nr_cont_3);
-							this.store.data.items[a.idx].set('nr_cont_4', data.data.nr_cont_4);
-							this.store.data.items[a.idx].set('nr_cont_5', data.data.nr_cont_5);
-							this.store.data.items[a.idx].set('nr_cont_6', data.data.nr_cont_6);
-							if (data.online == true) {
-								Ext.get(this.getView().getRow(a.idx)).removeClass('tgriderror');
-							} else {
-								throw null;
-							}
-						} else {
-							this.store.data.items[a.idx].set('nr_cont_1', '');
-							this.store.data.items[a.idx].set('nr_cont_2', '');
-							this.store.data.items[a.idx].set('nr_cont_3', '');
-							this.store.data.items[a.idx].set('nr_cont_4', '');
-							this.store.data.items[a.idx].set('nr_cont_5', '');
-							this.store.data.items[a.idx].set('nr_cont_6', '');
-						}
-					} catch (e) {
-						Ext.get(this.getView().getRow(a.idx)).addClass('tgriderror');
-					}
-					this.getSelectionModel().deselectRow(a.idx);
-				},
-			});
-		}
 	},
 	_onCadastroUsuarioSalvarExcluir: function () {
 		this.store.reload();

@@ -38,7 +38,7 @@
         </style>
     </head>
     <body  scroll="no">
-   		<img src="<?php echo $this->BaseUrl(); ?>/images/background.jpg" width="100%" height="100%" style="position:fixed !important;top:0;left:0;z-index:0;" />
+   		<!-- <img src="<?php echo $this->BaseUrl(); ?>/images/background.jpg" width="100%" height="100%" style="position:fixed !important;top:0;left:0;z-index:0;" /> -->
    		<div id="loading-mask" style=""></div>
 		<div id="loading">
 		    <div class="loading-indicator">
@@ -57,7 +57,9 @@
 		<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Carregando User Extensions...';</script>
 		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/PasswordField.js"></script>
 		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/HttpHelpers.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/uiHelpers.js"></script>
 		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/pt-BR.js"></script>
+		<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/portal/jslogin"></script>
 		
 		<script language="javascript">
 			var baseUrl = '<?php echo $this->BaseUrl(); ?>';
@@ -74,11 +76,11 @@
 				hideMask.defer(250);
 
 				login = new Ext.FormPanel({
-					url: baseUrl + '/portal/login',
+					url: baseUrl + '/portal/auth',
 					id:'id-form-login',
 					iconCls: 'icon-lock',
 				    frame:true,
-				    title:'Login',
+				    title: Portal.Names.br.auth_title,
 				    bodyStyle: 'padding:10px;',
 					monitorValid:true,
 					layout:'hbox',
@@ -89,15 +91,15 @@
 						flex:4,
 						layout:'form',
 						labelAlign:'left',
-						labelWidth: 40,
+						labelWidth: 66,
 						height:100,						
 						defaultType:'textfield',
 						items:[{
-							fieldLabel: 'Email',
+							fieldLabel: Portal.Names.br.auth_username,
 							name: 'loginUsername',
 							id: 'loginUsername',
 							allowBlank:false,
-							blankText: "Informe o usuário",
+							//blankText: "Informe o usuário",
 							width: '90%',
 							listeners:{
 								specialkey:function(owner,e){
@@ -107,14 +109,14 @@
 								}
 							}
 						},{
-							fieldLabel:'Senha',
+							fieldLabel:Portal.Names.br.auth_password,
 							name:'loginPassword',
 							id: 'loginPassword',
 							inputType:'password',
 							xtype:'passwordfield',
 							showCapsWarning:true,
 							allowBlank:false,
-							blankText: "Informe a senha",
+							//blankText: "Informe a senha",
 							width: '90%',
 							listeners:{
 								specialkey:function(owner,e){
@@ -149,7 +151,7 @@
 
 				var win = new Ext.Window({
 			        layout:'fit',
-			        width:330,
+			        width:356,
 			        height:165,
 			        closable: false,
 			        resizable: false,
@@ -168,12 +170,14 @@
 			function doLogin(){	
 			    login.getForm().submit({
 			        method:'POST', 
-			        waitTitle:'Conectando', 
-			        waitMsg:'Enviando Informações...',
+			        waitTitle:Portal.Names.br.auth_alert, 
+			        waitMsg:Portal.Names.br.loading,
 
-					success:function(){
-						var redirect =  baseUrl + '/portal/desktop';
-						window.location = redirect;
+					success:function(form, action){
+			    		if(action.result.success){
+							var redirect =  baseUrl + '/portal/desktop';
+							window.location = redirect;
+			    		}
 					},
 					failure:HttpHelpers.failHandler
 			    }); 

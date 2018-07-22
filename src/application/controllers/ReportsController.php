@@ -45,11 +45,25 @@ class ReportsController extends Zend_Controller_Action {
 					continue;
 				}
 				foreach ($k->filtros->filtro as $l) {
-					foreach ($this->getRequest()->getParam(reset($l->nome)) as $m) {
-						$url .= "&" . reset($l->nome) . "[]=" . $m;
+					if ($l->tipo == 'data') {
+						$url .= "&" . reset($l->nome) . "=" . $this->getRequest()->getParam(reset($l->nome));
+					}
+					else {
+						if($this->getRequest()->getParam(reset($l->nome))){
+							foreach ($this->getRequest()->getParam(reset($l->nome)) as $m) {
+								$url .= "&" . reset($l->nome) . "[]=" . $m;
+							}
+						}
+						else{
+							$url .= "&" . reset($l->nome) . "[]=all";
+						}
 					}
 				}
-				header("Location: $url");
+				// 	Previnir CACHE
+				$date = gmdate("D, d M Y H:i:s");
+				$hash = md5($date);
+				
+				header('Location: ' . $url . '&_nocache=' . $hash);
 				die();
 			}
 		}
@@ -91,6 +105,38 @@ class ReportsController extends Zend_Controller_Action {
 							$json[] = array(
 								'id' => $l->id,
 								'nome' => $l->nm_gabinete,
+							);
+						}
+					break;
+					case 'empresa':
+						$query = Doctrine_Query::create()->from('ScmEmpresa e')
+							->innerJoin('e.ScmUserEmpresa ue')
+							->addWhere('ue.user_id = ' . Zend_Auth::getInstance()->getIdentity()->id)->execute();
+						foreach ($query as $l) {
+							$json[] = array(
+								'id' => $l->id,
+								'nome' => $l->nm_empresa,
+							);
+						}
+					break;
+					case 'filial':
+						$query = Doctrine_Query::create()->from('ScmFilial f')
+							->innerJoin('f.ScmEmpresa e')
+							->innerJoin('e.ScmUserEmpresa ue')
+							->addWhere('ue.user_id = ' . Zend_Auth::getInstance()->getIdentity()->id)->execute();
+						foreach ($query as $l) {
+							$json[] = array(
+								'id' => $l->id,
+								'nome' => $l->nm_filial,
+							);
+						}
+					break;
+					case 'local':
+						$data = Doctrine::getTable('ScmLocal')->findAll();
+						foreach ($data as $l) {
+							$json[] = array(
+								'id' => $l->id,
+								'nome' => $l->nm_local,
 							);
 						}
 					break;

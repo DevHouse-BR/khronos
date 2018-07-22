@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
+    <list-property name="configVars">
+        <structure>
+            <property name="name">__isdisplay__id_55_0</property>
+            <property name="value">61</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__id_usuario_996_1</property>
+            <property name="value">1</property>
+        </structure>
+        <structure>
+            <property name="name">id_55_2</property>
+            <property name="value">61</property>
+        </structure>
+        <structure>
+            <property name="name">id_55_type_</property>
+            <property name="value">integer</property>
+        </structure>
+        <structure>
+            <property name="name">id_usuario_996_3</property>
+            <property name="value">1</property>
+        </structure>
+        <structure>
+            <property name="name">id_usuario_996_type_</property>
+            <property name="value">integer</property>
+        </structure>
+    </list-property>
+</report>

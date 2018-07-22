@@ -7,12 +7,12 @@ class StatusMaquinaController extends Zend_Controller_Action {
 	}
 	public function listAction () {
 		if (DMG_Acl::canAccess(54)) {
-			echo DMG_Crud::index('ScmStatusMaquina', 'id, nm_status_maquina, fl_permite_movimentacao, fl_permite_transformacao, fl_permite_faturamento, fl_permite_regularizacao, fl_sistema, fl_operativa, fl_alta');
+			echo DMG_Crud::index($this, 'ScmStatusMaquina', 'id, nm_status_maquina, fl_permite_movimentacao, fl_permite_transformacao, fl_permite_faturamento, fl_permite_regularizacao, fl_sistema, fl_operativa, fl_alta');
 		}
 	}
 	public function getAction () {
 		if (DMG_Acl::canAccess(56)) {
-			echo DMG_Crud::get('ScmStatusMaquina', (int) $this->getRequest()->getParam('id'));
+			echo DMG_Crud::get($this, 'ScmStatusMaquina', (int) $this->getRequest()->getParam('id'));
 		}
 	}
 	public function saveAction () {

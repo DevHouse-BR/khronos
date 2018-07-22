@@ -106,8 +106,19 @@ var ParqueTransformacaoForm = Ext.extend(Ext.Window, {
 							emptyText: '<?php echo DMG_Translate::_('grid.form.combobox.select'); ?>',
 							fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.id_jogo.text'); ?>'
 						}),
-						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_versao_jogo.text'); ?>', disabled: true, xtype: 'textfield', name: 'nr_versao_jogo_ant', allowBlank: true},
-						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.vl_credito.text'); ?>', disabled: true, xtype: 'textfield', name: 'vl_credito_ant', allowBlank: true},
+						{
+							fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_versao_jogo.text'); ?>', 
+							disabled: true, 
+							xtype: 'textfield', 
+							name: 'nr_versao_jogo_ant', 
+							allowBlank: true
+						},{
+							fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.vl_credito.text'); ?>', 
+							disabled: true, 
+							xtype: 'textfield', 
+							name: 'vl_credito_ant', 
+							allowBlank: true
+						},
 						new Ext.form.ComboBox({
 							store: new Ext.data.JsonStore({
 								url: '<?php echo $this->url(array('controller' => 'gabinete', 'action' => 'list'), null, true); ?>',
@@ -176,8 +187,22 @@ var ParqueTransformacaoForm = Ext.extend(Ext.Window, {
 							emptyText: '<?php echo DMG_Translate::_('grid.form.combobox.select'); ?>',
 							fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.id_jogo.text'); ?>'
 						}),
-						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_versao_jogo.text'); ?>', xtype: 'textfield', id: 'nr_versao_jogo', name: 'nr_versao_jogo', allowBlank: true, maxLength: 255},
-						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.vl_credito.text'); ?>', xtype: 'textfield', id: 'vl_credito', name: 'vl_credito', allowBlank: true, maxLength: 255},
+						{
+							fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_versao_jogo.text'); ?>', 
+							xtype: 'textfield', 
+							//id: 'nr_versao_jogo', 
+							name: 'nr_versao_jogo', 
+							allowBlank: true, 
+							maxLength: 255
+						},{
+							fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.vl_credito.text'); ?>', 
+							xtype: 'textfield', 
+							//id: 'vl_credito', 
+							name: 'vl_credito',
+							maskRe: /[0-9]/, 
+							allowBlank: true, 
+							maxLength: 255
+						},
 						new Ext.form.ComboBox({
 							store: new Ext.data.JsonStore({
 								url: '<?php echo $this->url(array('controller' => 'gabinete', 'action' => 'list'), null, true); ?>',
@@ -234,10 +259,10 @@ var ParqueTransformacaoForm = Ext.extend(Ext.Window, {
 					layout: 'form',
 					items: [
 						{xtype: 'label', text: '<?php echo DMG_Translate::_('parque.transformacao.contadores_anteriores'); ?>', style: 'font-weight: bold'},
-						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_1.text'); ?>', xtype: 'textfield', name: 'nr_cont_1_ant', allowBlank: true},
-						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_2.text'); ?>', xtype: 'textfield', name: 'nr_cont_2_ant', allowBlank: true},
-						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_3.text'); ?>', xtype: 'textfield', name: 'nr_cont_3_ant', allowBlank: true},
-						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_4.text'); ?>', xtype: 'textfield', name: 'nr_cont_4_ant', allowBlank: true},
+						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_1.text'); ?>', xtype: 'textfield', name: 'nr_cont_1_ant', allowBlank: false},
+						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_2.text'); ?>', xtype: 'textfield', name: 'nr_cont_2_ant', allowBlank: false},
+						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_3.text'); ?>', xtype: 'textfield', name: 'nr_cont_3_ant', allowBlank: false},
+						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_4.text'); ?>', xtype: 'textfield', name: 'nr_cont_4_ant', allowBlank: false},
 						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_5.text'); ?>', xtype: 'textfield', name: 'nr_cont_5_ant', allowBlank: true},
 						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_6.text'); ?>', xtype: 'textfield', name: 'nr_cont_6_ant', allowBlank: true}
 					]
@@ -249,10 +274,10 @@ var ParqueTransformacaoForm = Ext.extend(Ext.Window, {
 					layout: 'form',
 					items: [
 						{xtype: 'label', text: '<?php echo DMG_Translate::_('parque.transformacao.contadores_posteriores'); ?>', style: 'font-weight: bold'},
-						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_1.text'); ?>', xtype: 'textfield', name: 'nr_cont_1', allowBlank: true},
-						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_2.text'); ?>', xtype: 'textfield', name: 'nr_cont_2', allowBlank: true},
-						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_3.text'); ?>', xtype: 'textfield', name: 'nr_cont_3', allowBlank: true},
-						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_4.text'); ?>', xtype: 'textfield', name: 'nr_cont_4', allowBlank: true},
+						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_1.text'); ?>', xtype: 'textfield', name: 'nr_cont_1', allowBlank: false},
+						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_2.text'); ?>', xtype: 'textfield', name: 'nr_cont_2', allowBlank: false},
+						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_3.text'); ?>', xtype: 'textfield', name: 'nr_cont_3', allowBlank: false},
+						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_4.text'); ?>', xtype: 'textfield', name: 'nr_cont_4', allowBlank: false},
 						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_5.text'); ?>', xtype: 'textfield', name: 'nr_cont_5', allowBlank: true},
 						{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_cont_6.text'); ?>', xtype: 'textfield', name: 'nr_cont_6', allowBlank: true}
 					]
@@ -302,24 +327,30 @@ var ParqueTransformacaoForm = Ext.extend(Ext.Window, {
 			uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: '<?php echo DMG_Translate::_('grid.form.alert.invalid'); ?>'});
 			return false;
 		}
-		this.el.mask('<?php echo DMG_Translate::_('grid.form.saving'); ?>');
-		form.submit({
-			url: '<?php echo $this->url(array('controller' => 'transformacao', 'action' => 'save'), null, true); ?>',
-			params: {
-				id: this.transformacao
-			},
-			scope:this,
-			success: function() {
-				this.el.unmask();
-				this.hide();
-				this.fireEvent('salvar', this);
-			},
-			failure: function (form, request) {
-				this.el.unmask();
-				//Ext.Msg.alert('<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', request.result.message);
-				uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: request.result.message});
+		
+		uiHelper.confirm('<?php echo DMG_Translate::_('grid.form.confirm.title'); ?>', '<?php echo DMG_Translate::_('transformacao.confirmar'); ?>', function (o) {
+			if (o == 'no') {
+				return;
 			}
-		});
+			this.el.mask('<?php echo DMG_Translate::_('grid.form.saving'); ?>');
+			form.submit({
+				url: '<?php echo $this->url(array('controller' => 'transformacao', 'action' => 'save'), null, true); ?>',
+				params: {
+					id: this.transformacao
+				},
+				scope:this,
+				success: function() {
+					this.el.unmask();
+					this.hide();
+					this.fireEvent('salvar', this);
+				},
+				failure: function (form, request) {
+					this.el.unmask();
+					//Ext.Msg.alert('<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', request.result.message);
+					uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: request.result.message});
+				}
+			});
+		}, this);
 	},
 	_onBtnCancelarClick: function() {
 		this.hide();

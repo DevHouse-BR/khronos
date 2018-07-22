@@ -7,12 +7,12 @@ class GroupController extends Zend_Controller_Action {
 	}
 	public function listAction () {
 		if (DMG_Acl::canAccess(7)) {
-			echo DMG_Crud::index('ScmGroup', 'id, name');
+			echo DMG_Crud::index($this, 'ScmGroup', 'id, name');
 		}
 	}
 	public function getAction () {
 		if (DMG_Acl::canAccess(8)) {
-			echo DMG_Crud::get('ScmGroup', (int) $this->getRequest()->getParam('id'));
+			echo DMG_Crud::get($this, 'ScmGroup', (int) $this->getRequest()->getParam('id'));
 		}
 	}
 	public function deleteAction () {

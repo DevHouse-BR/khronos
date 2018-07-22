@@ -6,7 +6,7 @@ class DMG_Acl {
 	protected function __construct () {
 		//
 	}
-	public function canAccess ($rule) {
+	public static function canAccess ($rule) {
 		if (Zend_Auth::getInstance()->hasIdentity()) {
 			if (!self::$_instance) {
 				self::$_instance = new self;

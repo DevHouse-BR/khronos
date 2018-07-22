@@ -47,7 +47,8 @@ var ParqueLocalWindow = Ext.extend(Ext.grid.GridPanel, {
 			fields: [
 				{name: 'id', type: 'int'},
 				{name: 'nm_local', type: 'string'},
-				{name: 'tp_local', type: 'string'}
+				{name: 'tp_local', type: 'string'},
+				{name: 'percent_local', type: 'string'}
 			]
 		});
 		var paginator = new Ext.PagingToolbar({
@@ -100,6 +101,9 @@ var ParqueLocalWindow = Ext.extend(Ext.grid.GridPanel, {
 			}, {
 				dataIndex: 'tp_local',
 				header: '<?php echo DMG_Translate::_('parque.local.form.tp_local.text'); ?>',
+			}, {
+				dataIndex: 'percent_local',
+				header: '<?php echo DMG_Translate::_('parque.local.form.percent_local.text'); ?>',
 			}]
 		});
 		ParqueLocalWindow.superclass.initComponent.call(this);

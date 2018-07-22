@@ -3,7 +3,7 @@
 class Khronos_Reports {
 	public static $xmlGrupos = '/../tomcat/Reports/report/grupos.xml';
 	public static $xmlRelatorios = '/../tomcat/Reports/report/xml/';
-	public function getJsonTreeList () {
+	public static function getJsonTreeList () {
 		$lang = DMG_Translate::getLang();
 		$a = realpath(APPLICATION_PATH . Khronos_Reports::$xmlGrupos);
 		$b = realpath(APPLICATION_PATH . Khronos_Reports::$xmlRelatorios) . DIRECTORY_SEPARATOR . '*.xml';
@@ -13,6 +13,7 @@ class Khronos_Reports {
 			$fr = glob($b);
 			foreach ($fg->grupo as $k) {
 				$tmpgrupo = array(
+					'expanded' => true,
 					'text' => reset($k->traducao->{$lang}),
 					'id' => 'g_' .  reset($k->nome),
 					'leaf' => false,
@@ -41,7 +42,7 @@ class Khronos_Reports {
 		}
 		return Zend_Json::encode($json);
 	}
-	public function getFilterList ($reportID) {
+	public static function getFilterList ($reportID) {
 		$lang = DMG_Translate::getLang();
 		$b = glob(realpath(APPLICATION_PATH . Khronos_Reports::$xmlRelatorios) . DIRECTORY_SEPARATOR . '*.xml');
 		foreach ($b as $k) {

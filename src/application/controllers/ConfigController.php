@@ -7,7 +7,38 @@ class ConfigController extends Zend_Controller_Action {
 	}
 	public function listAction () {
 		if (DMG_Acl::canAccess(1)) {
-			echo DMG_Crud::index('ScmConfig', 'id, name, value, system');
+                $query = Doctrine_Query::create()->from('ScmConfig');
+		$query->addWhere('system = ?', false);
+                $limit = (int) $this->getRequest()->getParam('limit');
+                if ($limit > 0) {
+                        $query->limit($limit);
+                }
+                $offset = (int) $this->getRequest()->getParam('start');
+                if ($offset > 0) {
+                        $query->offset($offset);
+                }
+                $sort = (string) $this->getRequest()->getParam('sort');
+                $dir = (string) $this->getRequest()->getParam('dir');
+                if ($sort && ($dir == 'ASC' || $dir == 'DESC')) {
+                        $query->orderby($sort . ' ' . $dir);
+                }
+                $filter = $this->getRequest()->getParam('filter');
+                if (is_array($filter)) {
+                        foreach ($filter as $k) {
+                                switch ($k['data']['type']) {
+                                        case 'string':
+                                                $query->addWhere($k['field'] . ' LIKE ?', '%' . $k['data']['value'] . '%');
+                                        break;
+                                        case 'list':
+                                                $l = explode(',', $k['data']['value']);
+                                                foreach ($l as $m) {
+                                                        $query->orWhere($k['field'] . ' = ?', $m);
+                                                }
+                                        break;
+                                }
+                        }
+                }
+                echo Zend_Json::encode(array('total' => $query->count(), 'data' => $query->execute()->toArray()));
 		}
 	}
 	public function getAction () {
@@ -21,7 +52,7 @@ class ConfigController extends Zend_Controller_Action {
 	}
 	public function saveAction () {
 		if (DMG_Acl::canAccess(2)) {
-			echo DMG_Crud::save('ScmConfig', (int) $this->getRequest()->getParam('id'), array('value'));
+			echo DMG_Crud::save($this, 'ScmConfig', (int) $this->getRequest()->getParam('id'), array('value'));
 		}
 	}
 }

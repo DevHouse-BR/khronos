@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relatorio>
+	<id>2</id>
+	<grupo>1</grupo>
+	<ruleID>82</ruleID>
+	<arquivo>fatura-detalhada.rptdesign</arquivo>
+	<saida>Fatura_Detalhada</saida>
+	<nome>fatura-detalhada</nome>
+	<traducao>
+		<es>Facturación Detallada – Local / Facturas</es>
+		<pt_BR>Faturamento - Local / Facturas</pt_BR>
+		<en>Faturamento - Local / Facturas</en>
+	</traducao>
+	<descricao>
+		<es>Presenta las Facturas generadas en el Khronos dentro de un período. La información es agrupada por Local y por Albarán de Factura.</es>
+		<pt_BR>Descrição em Português</pt_BR>
+		<en>English Description</en>
+	</descricao>
+	<filtros>
+		<filtro>
+			<tipo>data_inicial</tipo>
+			<nome>data_inicial</nome>
+			<traducao>
+				<es>Fecha inicial</es>
+				<pt_BR>Data inicial</pt_BR>
+				<en>Starting date</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>data_final</tipo>
+			<nome>data_final</nome>
+			<traducao>
+				<es>Fecha final</es>
+				<pt_BR>Data final</pt_BR>
+				<en>Ending date</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>empresa</tipo>
+			<nome>empresa</nome>
+			<traducao>
+				<es>Empresa</es>
+				<pt_BR>Empresa</pt_BR>
+				<en>Empresa</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>filial</tipo>
+			<nome>filial</nome>
+			<traducao>
+				<es>Filial</es>
+				<pt_BR>Filial</pt_BR>
+				<en>Filial</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>local</tipo>
+			<nome>local</nome>
+			<traducao>
+				<es>Local</es>
+				<pt_BR>Local</pt_BR>
+				<en>Local</en>
+			</traducao>
+		</filtro>
+	</filtros>
+</relatorio>

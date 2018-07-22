@@ -21,46 +21,7 @@ var onOfRenderer = function (e) {
 var tabs;
 var Principal = Ext.extend(Ext.util.Observable, {
 	constructor: function() {
-		<?php if (DMG_Acl::canAccess(34)): ?>
-		this.chart = new Ext.Panel({
-			cls: 'x-portlet',
-			bodyStyle: 'padding:10px',
-			width: '100%',
-			height: 300,
-			items: {
-				url: '<?php echo $this->BaseUrl(); ?>/extjs/resources/charts.swf',
-				xtype: 'columnchart',
-				store: new Ext.data.JsonStore({
-					fields:['data', 'credito'],
-					data: [
-					<?php
-					$query = Doctrine_Query::create()->select('to_char(d.dt_fechamento, \'YYYY-mm-dd\') AS data, SUM(i.nr_dif_cont_4) AS di')
-					->from('ScmFechamentoItem i')
-					->innerJoin('i.ScmFechamentoDoc d')
-					->groupBy('data')
-					->orderBy('data DESC')
-					->limit(7)->execute(array(), Doctrine::HYDRATE_NONE); ?>
-					<?php foreach (array_reverse($query) as $k): ?>
-							{data: '<?php echo implode("/", array_reverse(explode("-", $k[0]))); ?>', credito: <?php echo floatval($k[1]); ?>},
-					<?php endforeach; ?>
-					]
-				}),
-				yField: 'credito',
-				xField: 'data',
-				xAxis: new Ext.chart.CategoryAxis({
-					title: '<?php echo DMG_Translate::_('window.portal.grafico_di.dias'); ?>'
-				}),
-				yAxis: new Ext.chart.NumericAxis({
-					title: '<?php echo DMG_Translate::_('window.portal.grafico_di.credito'); ?>'
-				}),
-				extraStyle: {
-					xAxis: {
-						labelRotation: -90
-					}
-				}
-			}
-		});
-		<?php endif; ?>
+		
 		<?php if (DMG_ACl::canAccess(35)): ?>
 		this.bntReload = new Ext.Toolbar.Button({
 			text: '<?php echo DMG_Translate::_('i18n.PagingToolbar.refreshText'); ?>',
@@ -92,11 +53,11 @@ var Principal = Ext.extend(Ext.util.Observable, {
 				columns: [
 					{header: '<?php echo DMG_Translate::_('window.portal.status_maquina.status'); ?>', dataIndex: 'status'},
 					{header: '<?php echo DMG_Translate::_('window.portal.status_maquina.qtde'); ?>', dataIndex: 'count'}
-				],
+				]
 			}),
 			viewConfig: {
 				forceFit: true,
-			},
+			}
 		});
 		<?php endif; ?>
 		tabs = new Ext.TabPanel({
@@ -118,39 +79,31 @@ var Principal = Ext.extend(Ext.util.Observable, {
 						title: '<?php echo DMG_Translate::_('window.welcome'); ?>',
 						bodyStyle: 'padding:10px',
 						html: '<?php echo DMG_Translate::_('window.saudacao'); ?>'
-					},
-					<?php if (DMG_ACl::canAccess(35)): ?>
-					{
-						title: '<?php echo DMG_Translate::_('window.portal.status_maquina'); ?>',
-						items: [this.grid]
-					}
-					<?php endif; ?>
-					]
-				},
-				{
-					columnWidth: .5,
-					style: 'padding:10px',
-					items: [
-						<?php if (DMG_ACl::canAccess(34)): ?>
-						{
-							title: '<?php echo DMG_Translate::_('window.portal.grafico_di'); ?>',
-							items: [this.chart]
-						}
-						<?php endif; ?>
-					]
-				},
-				]
+					}]
+				}]
 			}]
 		});
 		new Ext.Viewport({
 			layout: 'border',
+			id: 'tabs',
 			items: [{
+				region: 'south',
+                split: false,
+                height: 34,
+                minSize: 34,
+                maxSize: 34,
+                collapsible: true,
+                frame:true,
+                margins: '0 0 0 0',
+                bodyStyle: 'text-align:right',
+                html:'<p><?php echo DMG_Config::get(13); ?></p>'
+			},{
 				region: 'north',
 				bodyStyle: 'border: 0',
 				defaults: {
 					border: false,
 					rootVisible: false,
-					bodyStyle: 'background:white;',
+					//bodyStyle: 'background:white;',
 					listeners: {
 						scope: this,
 						click: this.onNodeClick
@@ -166,16 +119,16 @@ var Principal = Ext.extend(Ext.util.Observable, {
 					}, {
 						xtype: 'tbtext',
 						cls: 'x-btnblack',
-						text: '<div style="color: black; float: left; font-family: Arial; font-size: 20px; margin-left: 313px; margin-top: -5px;"><?php echo DMG_Config::get(2); ?></div>'
+						text: '<div style="color: black; float: left; font-family: Arial; font-size: 18px; margin-left: 60px; margin-top: 0px;"><?php echo DMG_Config::get(14); ?></div>'
 					}, '->', {
-						text: '<?php echo DMG_Translate::_('window.ola'); ?> <?php echo Zend_Auth::getInstance()->getIdentity()->name; ?>.'
+						text: '<?php echo DMG_Translate::_('window.ola'); ?> <?php echo Zend_Auth::getInstance()->getIdentity()->name; ?> (<?php echo Zend_Auth::getInstance()->getIdentity()->nm_local; ?>).'
 					}, {
-						text: '<?php echo DMG_Translate::_('window.profile'); ?>',
+/*						text: '<?php echo DMG_Translate::_('window.profile'); ?>',
 						cls: 'x-btnblack',
 						iconCls: 'silk-profile',
 						scope: this,
 						handler: this.editProfileClick
-					}, {
+					}, { */
 						text: '<?php echo DMG_Translate::_('window.exit'); ?>',
 						iconCls: 'silk-close',
 						scope: this,
@@ -190,6 +143,7 @@ var Principal = Ext.extend(Ext.util.Observable, {
 				width: 200,
 				split: true,
 				collapsible: true,
+				collapsed:true,
 				layoutConfig: {fill: false, animate:true},
 				defaults: {
 					border: false,
@@ -197,7 +151,10 @@ var Principal = Ext.extend(Ext.util.Observable, {
 					bodyStyle: 'background:white;',
 					listeners: {
 						scope: this,
-						click: this.onNodeClick
+						click: this.onNodeClick,
+						afterrender: function(painel){
+							Ext.getCmp('tabs').layout.west.getCollapsedEl().titleEl.dom.innerHTML = '<img style="margin:5px" src="images/menu.png" />';
+						}
 					}
 				},
 				items: [<?php echo Khronos_MenuPortal::getJson(); ?>]
@@ -240,6 +197,6 @@ var Principal = Ext.extend(Ext.util.Observable, {
 		return this.window;
 	},
 	logout: function () {
-		window.location = '<?php echo $this->url(array('controller' => 'index', 'action' => 'logout'), null, true); ?>';
+		window.location = '<?php echo $this->url(array('controller' => 'portal', 'action' => 'logout'), null, true); ?>';
 	}
 });

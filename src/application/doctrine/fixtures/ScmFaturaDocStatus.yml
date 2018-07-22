@@ -1,0 +1,7 @@
+ScmFaturaDocStatus:
+  FaturaDocStatus_1:
+    id: 1
+    nm_fatura_doc_status: 'Temporária'
+  FaturaDocStatus_2:
+    id: 2
+    nm_fatura_doc_status: 'Definitiva'

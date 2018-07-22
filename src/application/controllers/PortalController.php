@@ -1,148 +1,210 @@
 <?php
 
 class PortalController extends Zend_Controller_Action {
-	
 	public function init () {
 		$this->_helper->viewRenderer->setNoRender(true);
 	}
-	
+	public function logoutAction () {
+		$session = Doctrine::getTable('ScmSession')->findOneByPhpsessid(session_id());
+		$session->dt_fim_sessao = DMG_Date::now();
+		$session->save();
+		$auth = Zend_Auth::getInstance();
+		$auth->setStorage(new Zend_Auth_Storage_Session('portalAuth'));
+		$auth->clearIdentity();
+		Zend_Session::regenerateId();
+		$this->_helper->redirector('index', 'portal');
+	}
 	public function indexAction () {
 		echo $this->view->render('portal/index.phtml');
 	}
-	
-	public function loginAction() {
-		$this->_helper->viewRenderer->setNoRender(true);
+	public function authAction () {
+		if (!$this->getRequest()->isPost()) {
+			return;
+		}
+		$auth = Zend_Auth::getInstance();
+		$auth->setStorage(new Zend_Auth_Storage_Session('portalAuth'));
+		$resultado = $auth->authenticate(new DMG_PortalAuth_Adapter($this->getRequest()->getParam('loginUsername'),$this->getRequest()->getParam('loginPassword')));
 		$this->getResponse()->setHeader('Content-Type', 'application/json');
-		echo Zend_Json::encode(array('success' => true));
+		if (!$resultado->isValid()) {
+			echo Zend_Json::encode(array('failure' => true, 'errormsg'=>$resultado->getMessages()));
+		} else {
+			$local = Doctrine::getTable('ScmLocal')->find($auth->getIdentity()->id);
+			$session = new ScmSession();
+			$session->id_local = $local->id;
+			$session->dt_inicio_sessao = DMG_Date::now();
+			$session->ip = $_SERVER['REMOTE_ADDR'];
+			$session->hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+			$session->navegador = $_SERVER['HTTP_USER_AGENT'];
+			$session->phpsessid = session_id();
+			$session->save();
+		 	echo Zend_Json::encode(array('success' => true));
+		}
 	}
 	
 	public function desktopAction () {
-		echo $this->view->render('portal/desktop.phtml');
+		$auth = Zend_Auth::getInstance();
+		$auth->setStorage(new Zend_Auth_Storage_Session('portalAuth'));
+		if($auth->hasIdentity()) echo $this->view->render('portal/desktop.phtml');
+		else echo $this->view->render('portal/index.phtml');
 	}
 	
-public function jsAction () {
+	public function jsloginAction () {		
 		$this->view->headMeta()->appendHttpEquiv('Content-Type', 'text/javascript; charset=UTF-8');
+			
+		$js = $this->view->render('index/i18n.js');
+		$js .= $this->view->render('portal/pt-BR.js');
+		
+		
+		/*$js = str_replace('"images/', '"../images/', $js);
+		$js = str_replace("'images/", "'../images/", $js);
+		$js = str_replace("'extjs/resources", "'../extjs/resources", $js);
+		$js = str_replace('"extjs/resources', '"../extjs/resources', $js);*/
+		
+		if(getenv('APPLICATION_ENV') == 'development') echo($js);
+		else echo(DMG_JSMin::minify($js));
+	}
+	
+	public function jsAction () {
+		$auth = Zend_Auth::getInstance();
+		$auth->setStorage(new Zend_Auth_Storage_Session('portalAuth'));
+		if(!$auth->hasIdentity()) return;
+		
+		$this->view->headMeta()->appendHttpEquiv('Content-Type', 'text/javascript; charset=UTF-8');
+			
 		$js = $this->view->render('index/i18n.js');
 		$js .= $this->view->render('portal/base.js');
-		$js .= $this->view->render('index/edit-profile.js');
-		if (DMG_Acl::canAccess(1)) {
-			$js .= $this->view->render('config/administration-config.js');
-		}
-		if (DMG_Acl::canAccess(2)) {
-			$js .= $this->view->render('config/administration-config-form.js');
-		}
-		if (DMG_Acl::canAccess(3)) {
-			$js .= $this->view->render('user/administration-user.js');
-		}
-		if (DMG_Acl::canAccess(4) || DMG_Acl::canAccess(5)) {
-			$js .= $this->view->render('user/administration-user-form.js');
-		}
-		if (DMG_Acl::canAccess(7)) {
-			$js .= $this->view->render('group/administration-group.js');
-		}
-		if (DMG_Acl::canAccess(8) || DMG_Acl::canAccess(9)) {
-			$js .= $this->view->render('group/administration-group-form.js');
-		}
-		if (DMG_Acl::canAccess(11)) {
-			$js .= $this->view->render('group/administration-group-permission.js');
-		}
-		if (DMG_Acl::canAccess(12)) {
-			$js .= $this->view->render('user/administration-user-group.js');
-		}
-		if (DMG_Acl::canAccess(37)) {
-			$js .= $this->view->render('user/administration-user-empresa.js');
-		}
-		if (DMG_Acl::canAccess(38)) {
-			$js .= $this->view->render('empresa/administration-empresa.js');
-		}
-		if (DMG_Acl::canAccess(39) || DMG_Acl::canAccess(40)) {
-			$js .= $this->view->render('empresa/administration-empresa-form.js');
-		}
-		if (DMG_Acl::canAccess(50)) {
-			$js .= $this->view->render('parceiro/administration-parceiro.js');
-		}
-		if (DMG_Acl::canAccess(51) || DMG_Acl::canAccess(52)) {
-			$js .= $this->view->render('parceiro/administration-parceiro-form.js');
-		}
-		if (DMG_Acl::canAccess(42)) {
-			$js .= $this->view->render('filial/administration-filial.js');
-		}
-		if (DMG_Acl::canAccess(43) || DMG_Acl::canAccess(44)) {
-			$js .= $this->view->render('filial/administration-filial-form.js');
-		}
-		if (DMG_Acl::canAccess(13)) {
-			$js .= $this->view->render('jogo/parque-jogo.js');
-		}
-		if (DMG_Acl::canAccess(14) || DMG_Acl::canAccess(15)) {
-			$js .= $this->view->render('jogo/parque-jogo-form.js');
-		}
-		if (DMG_Acl::canAccess(17)) {
-			$js .= $this->view->render('local/parque-local.js');
-		}
-		if (DMG_Acl::canAccess(18) || DMG_Acl::canAccess(19)) {
-			$js .= $this->view->render('local/parque-local-form.js');
-		}
-		if (DMG_Acl::canAccess(46)) {
-			$js .= $this->view->render('local-tipo/parque-local-tipo.js');
-		}
-		if (DMG_Acl::canAccess(47) || DMG_Acl::canAccess(48)) {
-			$js .= $this->view->render('local-tipo/parque-local-tipo-form.js');
-		}
-		if (DMG_Acl::canAccess(21)) {
-			$js .= $this->view->render('gabinete/parque-gabinete.js');
-		}
-		if (DMG_Acl::canAccess(22) || DMG_Acl::canAccess(23)) {
-			$js .= $this->view->render('gabinete/parque-gabinete-form.js');
-		}
-		if (DMG_Acl::canAccess(25)) {
-			$js .= $this->view->render('maquina/parque-maquina.js');
-		}
-		if (DMG_Acl::canAccess(26) || DMG_Acl::canAccess(27)) {
-			$js .= $this->view->render('maquina/parque-maquina-form.js');
-		}
-		if (DMG_Acl::canAccess(28)) {
-			$js .= $this->view->render('transformacao/parque-transformacao.js');
-			$js .= $this->view->render('transformacao/parque-transformacao-form.js');
-		}
-		if (DMG_Acl::canAccess(30)) {
-			$js .= $this->view->render('consulta-parque/parque-consulta-parque.js');
-		}
-		if (DMG_Acl::canAccess(32) || DMG_Acl::canAccess(33)) {
-			$js .= $this->view->render('fechamento/parque-fechamento.js');
-		}
-		if (DMG_Acl::canAccess(36)) {
-			$js .= $this->view->render('index/reports.js');
-		}
-		if (DMG_Acl::canAccess(54)) {
-			$js .= $this->view->render('status-maquina/window.js');
-		}
-		if (DMG_Acl::canAccess(55) || DMG_Acl::canAccess(56)) {
-			$js .= $this->view->render('status-maquina/form.js');
-		}
-		if (DMG_Acl::canAccess(58)) {
-			$js .= $this->view->render('movimentacao/window-entrada.js');
-			$js .= $this->view->render('movimentacao/form-entrada.js');
-		}
-		if (DMG_Acl::canAccess(59)) {
-			$js .= $this->view->render('movimentacao/window-saida.js');
-			$js .= $this->view->render('movimentacao/form-saida.js');
-		}
-		if (DMG_Acl::canAccess(62)) {
-			$js .= $this->view->render('regularizacao/window.js');
-			$js .= $this->view->render('regularizacao/form-controlada.js');
-			$js .= $this->view->render('regularizacao/form-falha.js');
-		}
-		if (DMG_Acl::canAccess(65)) {
-			$js .= $this->view->render('status-maquina-assign/window.js');
-			$js .= $this->view->render('status-maquina-assign/form.js');
-		}
-		//echo DMG_JSMin::minify($js);
+		$js .= $this->view->render('portal/pt-BR.js');
+		
+		
 		$js = str_replace('"images/', '"../images/', $js);
 		$js = str_replace("'images/", "'../images/", $js);
 		$js = str_replace("'extjs/resources", "'../extjs/resources", $js);
 		$js = str_replace('"extjs/resources', '"../extjs/resources', $js);
 		
-		echo($js);
+		$js .= $this->view->render('portal/consulta-parque-maquinas.js');
+		$js .= $this->view->render('portal/consulta-contadores.js');
+		$js .= $this->view->render('portal/consulta-faturas.js');
+
+		if(getenv('APPLICATION_ENV') == 'development') echo($js);
+		else echo DMG_JSMin::minify($js);
 	}
 	
+	public function parquelistAction() {
+		$auth = Zend_Auth::getInstance();
+		$auth->setStorage(new Zend_Auth_Storage_Session('portalAuth'));
+		if(!$auth->hasIdentity()) return;
+		
+		$id_local = $auth->getIdentity()->id_local;
+		
+		$query = Doctrine_Query::create()->from('ScmMaquina m');
+		$query->where('m.id_local = ' . $id_local);
+		$query->innerJoin('m.ScmStatusMaquina s')->addWhere('s.fl_alta = 1');
+		
+		$limit = (int) $this->getRequest()->getParam('limit');
+		if ($limit > 0) $query->limit($limit);
+		
+		$offset = (int) $this->getRequest()->getParam('start');
+		if ($offset > 0) $query->offset($offset);
+		
+		$sort = (string) $this->getRequest()->getParam('sort');
+		$dir = (string) $this->getRequest()->getParam('dir');
+		
+		if ($sort && ($dir == 'ASC' || $dir == 'DESC')) {
+			$query->orderby($sort . ' ' . $dir);
+		}
+		
+		$data = array();
+		foreach ($query->execute() as $k) {
+			$data[] = array(
+				'id' => $k->id,
+				'nr_serie_imob' => $k->nr_serie_imob,
+				'nr_serie_connect' => $k->nr_serie_connect,
+				'nr_serie_aux' => $k->nr_serie_aux,
+				'nm_jogo' => $k->ScmJogo->nm_jogo,
+				'nr_versao_jogo' => $k->nr_versao_jogo,
+				'nm_gabinete' => $k->ScmGabinete->nm_gabinete,
+				'nm_moeda' => $k->ScmMoeda->nm_moeda,
+				'vl_credito' => Khronos_Moeda::format($k->vl_credito),
+				'dt_ultima_movimentacao' => $k->dt_ultima_movimentacao,
+				'dt_ultimo_faturamento' => $k->dt_ultimo_faturamento,
+				'dt_ultima_transformacao' => $k->dt_ultima_transformacao,
+				'dt_ultima_regularizacao' => $k->dt_ultima_regularizacao
+			);
+		}
+		echo Zend_Json::encode(array('success' => true,'total' => $query->count(), 'data' => $data));
+	}
+	
+	public function contadoreslistAction() {
+		$auth = Zend_Auth::getInstance();
+		$auth->setStorage(new Zend_Auth_Storage_Session('portalAuth'));
+		if(!$auth->hasIdentity()) return;
+		
+		$id_local = $auth->getIdentity()->id_local;
+		
+		$query = Doctrine_Query::create()->from('ScmMaquina m');
+		$query->where('m.id_local = ' . $id_local);
+		$query->innerJoin('m.ScmStatusMaquina s')->addWhere('s.fl_alta = 1');
+		
+		$limit = (int) $this->getRequest()->getParam('limit');
+		if ($limit > 0) $query->limit($limit);
+		
+		$offset = (int) $this->getRequest()->getParam('start');
+		if ($offset > 0) $query->offset($offset);
+		
+		$sort = (string) $this->getRequest()->getParam('sort');
+		$dir = (string) $this->getRequest()->getParam('dir');
+		
+		if ($sort && ($dir == 'ASC' || $dir == 'DESC')) {
+			$query->orderby($sort . ' ' . $dir);
+		}
+		
+		$query->innerJoin('m.ScmFilial f')->innerJoin('f.ScmEmpresa e')->innerJoin('e.ScmUserEmpresa ue')->addWhere('ue.user_id = ' . $auth->getIdentity()->id);
+		$data = array();
+		foreach ($query->execute() as $k) {
+			$data[] = array(
+				'id' => $k->id,
+				'nr_serie_imob' => $k->nr_serie_imob,
+				'nr_serie_connect' => $k->nr_serie_connect,
+				'nr_serie_aux' => $k->nr_serie_aux,
+				'nm_jogo' => $k->ScmJogo->nm_jogo,
+				'nr_versao_jogo' => $k->nr_versao_jogo,
+				'nm_status_maquina' => $k->ScmStatusMaquina->nm_status_maquina,
+				'nm_moeda' => $k->ScmMoeda->nm_moeda,
+				'vl_credito' => Khronos_Moeda::format($k->vl_credito),
+				'id_local' => $k->id_local,
+				'id_protocolo' => $k->id_protocolo,
+				'dt_ultima_movimentacao' => $k->dt_ultima_movimentacao,
+				'dt_ultimo_faturamento' => $k->dt_ultimo_faturamento,
+				'dt_ultima_transformacao' => $k->dt_ultima_transformacao,
+				'dt_ultima_regularizacao' => $k->dt_ultima_regularizacao			
+			);
+		}
+		echo Zend_Json::encode(array('success' => true,'total' => $query->count(), 'data' => $data));
+	}
+	
+	public function getcontadoresAction() {
+		Khronos_Servidor::getContadoresPorMaquinas($this->getRequest()->getParam('id'));
+	}
+	
+	public function faturamentolistAction () {
+		$query = Doctrine_Query::create()
+			->select('f.id')
+			->addSelect('f.dt_fatura')
+			->addSelect('SUM(i.vl_empresa) as vl_fatura')
+			->from('ScmFaturaDoc f')
+			->innerJoin('f.ScmFaturaItem i')
+			->groupBy('f.dt_fatura, f.id')
+			->orderBy('f.dt_fatura DESC')
+			->limit(DMG_Config::get(16));
+		
+		$data = array();
+		foreach ($query->execute() as $k) {
+			$data[] = array(
+				'id' => $k->id,
+				'dt_fatura' => $k->dt_fatura,
+				'vl_fatura' => Khronos_Moeda::format($k->vl_fatura)
+			);
+		}
+		echo Zend_Json::encode(array('success' => true,'total' => $query->count(), 'data' => $data));
+	}
 }

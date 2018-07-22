@@ -1,0 +1,39 @@
+ScmFaturaExcecao:
+  options:
+    collate: utf8_unicode_ci
+    charset: utf8
+  tableName: scm_fatura_excecao
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    id_fatura_doc:
+      type: integer(4)
+      unsigned: 0
+      notnull: true
+      autoincrement: false
+    id_maquina:
+      type: integer(4)
+      unsigned: 0
+      notnull: true
+      autoincrement: false
+    id_fatura_excecao_tipo:
+      type: integer(4)
+      unsigned: 0
+      notnull: true
+      autoincrement: false
+  relations:
+    ScmMaquina:
+      local: id_maquina
+      foreign: id
+      type: one
+    ScmFaturaDoc:
+      local: id_fatura_doc
+      foreign: id
+      type: one
+    ScmFaturaExcecaoTipo:
+      local: id_fatura_excecao_tipo
+      foreign: id
+      type: one

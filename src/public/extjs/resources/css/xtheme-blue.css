@@ -6,11 +6,11 @@
  */
 
 body {
-	font-family: Tahoma, Arial, Verdana;
+	font-family: Arial, Verdana;
 	font-size: 12px;
 }
 .ext-el-mask {
-    background-color: #ccc;
+    background-color: #fff;
 }
 
 .ext-el-mask-msg {

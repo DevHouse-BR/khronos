@@ -1,6 +1,64 @@
-#loading { position: absolute; background: transparent url(../images/loading.gif) no-repeat scroll left top; display: block; top: 50%; left: 50%; margin-left: -70px; width: 140px; padding: 0 0 0 30px; height: 30px; margin-top: 0px; color:#006699; font-size: 22px; }
+.floatfiltro{
+	top:0px;
+	left:0px;
+	position:absolute;
+	background-color:#d4e1f2;
+	border-right: 1px solid #99bbe8;
+	border-bottom: 1px solid #99bbe8;
+	
+	-moz-box-shadow: 5px 5px 5px #777777;
+	-webkit-box-shadow: 5px 5px 5px #777777;
+	box-shadow: 5px 5px 5px #777777;
+	/* For IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#777777')";
+	/* For IE 5.5 - 7 */
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#777777');
+}
+.floatfiltro-column{
+	background-color:#d4e1f2;
+}
+.icon-addfilter { background: url('../images/icons/addfilter.png') no-repeat 0 0 !important;}
+.icon-filtered { background: url('../images/icons/filtered.png') no-repeat 0 0 !important;}
+.icon-removefilter { background: url('../images/icons/removefilter.png') no-repeat 0 0 !important;}
+
+.x-collapsed-title{color:#15428b;font:11px/15px tahoma,arial,verdana,sans-serif;padding:2px 5px;}
+
+.icon-edit_fatura { background-image: url(../images/icons/edit_fatura.png) !important; background-repeat: no-repeat; }
+.icon-admin { background-image: url(../images/icons/folder_table.png) !important; background-repeat: no-repeat; }
+.icon-user { background-image: url(../images/icons/user.png) !important; background-repeat: no-repeat; }
+.icon-empresas { background-image: url(../images/icons/empresas.png) !important; background-repeat: no-repeat; }
+.icon-filiais { background-image: url(../images/icons/filiais.png) !important; background-repeat: no-repeat; }
+.icon-parceiros { background-image: url(../images/icons/parceiro.png) !important; background-repeat: no-repeat; }
+.icon-status { background-image: url(../images/icons/status.png) !important; background-repeat: no-repeat; }
+.icon-config { background-image: url(../images/icons/config.png) !important; background-repeat: no-repeat; }
+.icon-maquina { background-image: url(../images/icons/maquina.png) !important; background-repeat: no-repeat; }
+.icon-locais { background-image: url(../images/icons/locais.png) !important; background-repeat: no-repeat; }
+.icon-tipo_local { background-image: url(../images/icons/tipo_local.png) !important; background-repeat: no-repeat; }
+.icon-jogos { background-image: url(../images/icons/jogos.png) !important; background-repeat: no-repeat; }
+.icon-gabinete { background-image: url(../images/icons/gabinete.png) !important; background-repeat: no-repeat; }
+.icon-session { background-image: url(../images/icons/session.png) !important; background-repeat: no-repeat; }
+.icon-parque { background-image: url(../images/icons/parque.png) !important; background-repeat: no-repeat; }
+.icon-entrada_maquina { background-image: url(../images/icons/entrada_maquina.png) !important; background-repeat: no-repeat; }
+.icon-saida_maquina { background-image: url(../images/icons/saida_maquina.png) !important; background-repeat: no-repeat; }
+.icon-ok_counter { background-image: url(../images/icons/ok_counter.png) !important; background-repeat: no-repeat; }
+.icon-trans_maquina { background-image: url(../images/icons/transformar_maquina.png) !important; background-repeat: no-repeat; }
+.icon-exec_verde { background-image: url(../images/icons/exec_verde.png) !important; background-repeat: no-repeat; }
+.icon-report-magnify { background-image: url(../images/icons/report_magnify.png) !important; background-repeat: no-repeat; }
+.icon-fechamento { background-image: url(../images/icons/fechamento.png) !important; background-repeat: no-repeat; }
+.icon-alert { background-image: url(../images/icons/bullet_error.png) !important; background-repeat: no-repeat; }
+.icon-relatorio-fechamento { background-image: url(../images/icons/relatorio_fechamento.png) !important; background-repeat: no-repeat; }
+.icon-consulta_fechamento { background-image: url(../images/icons/consulta_fechamento.png) !important; background-repeat: no-repeat; }
 
 .icon-save { background-image: url(../images/icons/save.gif) !important; background-repeat: no-repeat; }
+.icon-direita_um { background-image: url(../images/icons/um_direita.png) !important; background-repeat: no-repeat; }
+.icon-direita_todos { background-image: url(../images/icons/todos_direita.png) !important; background-repeat: no-repeat; }
+.icon-esquerda_um { background-image: url(../images/icons/um_esquerda.png) !important; background-repeat: no-repeat; }
+.icon-esquerda_todos { background-image: url(../images/icons/todos_esquerda.png) !important; background-repeat: no-repeat; }
+.icon-moedas { background-image: url(../images/icons/coins.png) !important; background-repeat: no-repeat; }
+.icon-calcular { background-image: url(../images/icons/calculator.png) !important; background-repeat: no-repeat; }
+.icon-percent { background-image: url(../images/icons/percent.png) !important; background-repeat: no-repeat; }
+.icon-book { background-image: url(../images/icons/book.png) !important; background-repeat: no-repeat; }
+.transparent-button{background: none;border: none}
 
 .silk-add { background-image: url(../images/icons/add.png) !important; background-repeat: no-repeat; }
 .silk-close  { background-image: url(../images/icons/close.png) !important; background-repeat: no-repeat; }
@@ -8,6 +66,7 @@
 .silk-cross { background-image: url(../images/icons/cross.png) !important; background-repeat: no-repeat; }
 .silk-delete { background-image: url(../images/icons/delete.png) !important; background-repeat: no-repeat; }
 .silk-Excel  { background-image: url(../images/icons/excel.png) !important; background-repeat: no-repeat; }
+.silk-PDF  { background-image: url(../images/icons/pdf.png) !important; background-repeat: no-repeat; }
 .silk-group { background-image: url(../images/icons/group.png) !important; background-repeat: no-repeat; }
 .silk-key { background-image: url(../images/icons/key.png) !important; background-repeat: no-repeat; }
 .silk-printer{ background-image: url(../images/icons/printer.png) !important; background-repeat: no-repeat; }
@@ -60,6 +119,13 @@ li.x-menu-list-item div { display: inline; }
 
 #tree1 .x-panel-body { overflow: auto !important; }
 #tree2 .x-panel-body { overflow: auto !important; }
+#tree3 .x-panel-body { overflow: auto !important; }
+#tree4 .x-panel-body { overflow: auto !important; }
+#tree5 .x-panel-body { overflow: auto !important; }
+#tree6 .x-panel-body { overflow: auto !important; }
+#tree7 .x-panel-body { overflow: auto !important; }
+#tree8 .x-panel-body { overflow: auto !important; }
+
 
 .x-panel-mc, .x-panel-body  { color: black }
 
@@ -75,4 +141,10 @@ li.x-menu-list-item div { display: inline; }
 }
 .ux-lovcombo-icon-unchecked {
 	background: transparent url(../extjs/resources/images/default/menu/unchecked.gif);
+}
+.fatura-nao-move {
+	background: #ff6666;
+}
+.fatura-em_temporaria {
+	background-color: orange;
 }

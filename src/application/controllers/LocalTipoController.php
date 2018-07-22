@@ -7,12 +7,12 @@ class LocalTipoController extends Zend_Controller_Action {
 	}
 	public function listAction () {
 		if (DMG_Acl::canAccess(46)) {
-			echo DMG_Crud::index('ScmTipoLocal', 'id, nm_tipo_local');
+			echo DMG_Crud::index($this, 'ScmTipoLocal', 'id, nm_tipo_local');
 		}
 	}
 	public function getAction () {
 		if (DMG_Acl::canAccess(48)) {
-			echo DMG_Crud::get('ScmTipoLocal', (int) $this->getRequest()->getParam('id'));
+			echo DMG_Crud::get($this, 'ScmTipoLocal', (int) $this->getRequest()->getParam('id'));
 		}
 	}
 	public function saveAction () {

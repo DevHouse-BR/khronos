@@ -1,0 +1,93 @@
+ScmFaturaDoc:
+  options:
+    collate: utf8_unicode_ci
+    charset: utf8
+  tableName: scm_fatura_doc
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    nr_fatura:
+      type: string(20)
+      unsigned: 0
+      notnull: false
+      unique: true
+    id_fatura_doc_status:
+      type: integer(4)
+      unsigned: 0
+      unique: true
+      autoincrement: false
+    dt_fatura:
+      type: timestamp
+      notnull: true
+    id_origem:
+      type: integer(4)
+      unsigned: 0
+      notnull: true
+      autoincrement: false
+    id_filial:
+      type: integer(4)
+      unsigned: 0
+      notnull: true
+      autoincrement: false
+    id_local:
+      type: integer(4)
+      unsigned: 0
+      notnull: true
+      autoincrement: false 
+    id_parceiro:
+      type: integer(4)
+      unsigned: 0
+      notnull: false
+      autoincrement: false
+    id_moeda:
+      type: integer(4)
+      unsigned: 0
+      notnull: true
+      autoincrement: false
+    id_usuario:
+      type: integer(4)
+      unsigned: 0
+      notnull: true
+      autoincrement: false
+    id_usuario_confirmacao:
+      type: integer(4)
+      unsigned: 0
+      notnull: false
+      autoincrement: false
+    dt_sistema:
+      type: timestamp
+      notnull: true
+  relations:
+    ScmFilial:
+      local: id_filial
+      foreign: id
+      type: one
+    ScmLocal:
+      local: id_local
+      foreign: id
+      type: one
+    ScmParceiro:
+      local: id_parceiro
+      foreign: id
+      type: one
+    ScmMoeda:
+      local: id_moeda
+      foreign: id
+      type: one
+    ScmUser_1:
+      class: ScmUser
+      local: id_usuario
+      foreign: id
+      type: one
+    ScmUser_2:
+      class: ScmUser
+      local: id_usuario_confirmacao
+      foreign: id
+      type: one 
+    ScmFaturaDocStatus:
+      local: id_fatura_doc_status
+      foreign: id
+      type: one

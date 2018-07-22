@@ -54,6 +54,20 @@ ScmMovimentacaoItem:
       primary: false
       notnull: false
       autoincrement: false
+    percent_local:
+      type: integer
+      notnull: false
+      range: [0, 100]
+    fl_diferenca: boolean
+    nr_dif_cont_1: integer
+    nr_dif_cont_2: integer
+    nr_dif_cont_3: integer
+    nr_dif_cont_4: integer
+    nr_dif_cont_5: integer
+    nr_dif_cont_6: integer
+  checks:
+    check_1: percent_local >= 0
+    check_2: percent_local <= 100
   relations:
     ScmMovimentacaoDoc:
       local: id_movimentacao_doc

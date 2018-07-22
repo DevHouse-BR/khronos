@@ -17,6 +17,32 @@ var AdministrationParceiroForm = Ext.extend(Ext.Window, {
 		AdministrationParceiroForm.superclass.constructor.apply(this, arguments);
 	},
 	initComponent: function() {
+		this.comboEmpresas = new Ext.form.ComboBox({
+			store: new Ext.data.JsonStore({
+				autoLoad:true,
+				url: '<?php echo $this->url(array('controller' => 'empresa', 'action' => 'list'), null, true); ?>',
+				baseParams: {
+					dir: 'ASC',
+					sort: 'nm_empresa',
+					limit: 15,
+					'filter[0][data][type]': 'string',
+					'filter[0][field]': 'nm_empresa',
+				},
+				root: 'data',
+				fields: ['id', 'nm_empresa'],
+			}),
+			minChars: 0,
+			queryParam: 'filter[0][data][value]',
+			hiddenName: 'id_empresa',
+			allowBlank: false,
+			displayField: 'nm_empresa',
+			valueField: 'id',
+			mode: 'remote',
+			triggerAction: 'all',
+			emptyText: '<?php echo DMG_Translate::_('grid.form.combobox.select'); ?>',
+			fieldLabel: '<?php echo DMG_Translate::_('administration.parceiro.form.nm_empresa.text'); ?>'
+		});
+		
 		this.formPanel = new Ext.form.FormPanel({
 			bodyStyle: 'padding:10px;',
 			border: false,
@@ -25,30 +51,7 @@ var AdministrationParceiroForm = Ext.extend(Ext.Window, {
 			defaults: {anchor: '-19'},
 			items:[
 				{fieldLabel: '<?php echo DMG_Translate::_('administration.parceiro.form.nm_parceiro.text'); ?>', name: 'nm_parceiro', allowBlank: false, maxLength: 255},
-				new Ext.form.ComboBox({
-					store: new Ext.data.JsonStore({
-						url: '<?php echo $this->url(array('controller' => 'empresa', 'action' => 'list'), null, true); ?>',
-						baseParams: {
-							dir: 'ASC',
-							sort: 'nm_empresa',
-							limit: 15,
-							'filter[0][data][type]': 'string',
-							'filter[0][field]': 'nm_empresa',
-						},
-						root: 'data',
-						fields: ['id', 'nm_empresa'],
-					}),
-					minChars: 0,
-					queryParam: 'filter[0][data][value]',
-					hiddenName: 'id_empresa',
-					allowBlank: false,
-					displayField: 'nm_empresa',
-					valueField: 'id',
-					mode: 'remote',
-					triggerAction: 'all',
-					emptyText: '<?php echo DMG_Translate::_('grid.form.combobox.select'); ?>',
-					fieldLabel: '<?php echo DMG_Translate::_('administration.parceiro.form.nm_empresa.text'); ?>'
-				}),
+				this.comboEmpresas
 			]
 		});
 		Ext.apply(this, {

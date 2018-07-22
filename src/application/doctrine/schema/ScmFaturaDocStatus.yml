@@ -1,0 +1,14 @@
+ScmFaturaDocStatus:
+  options:
+    collate: utf8_unicode_ci
+    charset: utf8
+  tableName: scm_fatura_doc_status
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+    nm_fatura_doc_status:
+      type: string(255)
+      notnull: true

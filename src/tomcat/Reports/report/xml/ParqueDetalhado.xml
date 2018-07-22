@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relatorio>
+	<id>3</id>
+	<grupo>1</grupo>
+	<ruleID>68</ruleID>
+	<arquivo>parque-detalhado.rptdesign</arquivo>
+	<saida>Parque_Detalhado</saida>
+	<nome>parque-detalhado</nome>
+	<traducao>
+		<es>Parque Detallado – Situación Actual</es>
+		<pt_BR>Parque Atual - Local / Máquinas</pt_BR>
+		<en>Parque Detalhado</en>
+	</traducao>
+	<descricao>
+		<es>Presenta la situación actual del parque de Máquinas detallado. La información es  agrupada por Local y también considera las máquinas que están en Tránsito.</es>
+		<pt_BR>Descrição em Português</pt_BR>
+		<en>English Description</en>
+	</descricao>
+	<filtros>
+		<filtro>
+			<tipo>empresa</tipo>
+			<nome>empresa</nome>
+			<traducao>
+				<es>Empresa</es>
+				<pt_BR>Empresa</pt_BR>
+				<en>Empresa</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>filial</tipo>
+			<nome>filial</nome>
+			<traducao>
+				<es>Filial</es>
+				<pt_BR>Filial</pt_BR>
+				<en>Filial</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>local</tipo>
+			<nome>local</nome>
+			<traducao>
+				<es>Local</es>
+				<pt_BR>Local</pt_BR>
+				<en>Local</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>gabinete</tipo>
+			<nome>gabinete</nome>
+			<traducao>
+				<es>Mueble</es>
+				<pt_BR>Gabinete</pt_BR>
+				<en>Gabinete</en>
+			</traducao>
+		</filtro>
+		<filtro>
+			<tipo>jogo</tipo>
+			<nome>jogo</nome>
+			<traducao>
+				<es>Juego</es>
+				<pt_BR>Jogo</pt_BR>
+				<en>Jogo</en>
+			</traducao>
+		</filtro>
+	</filtros>
+</relatorio>

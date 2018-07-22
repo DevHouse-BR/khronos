@@ -23,10 +23,23 @@ class RegularizacaoController extends Zend_Controller_Action {
 					->addWhere('m.id_local = ?', $local->id)
 					->addWhere('ue.user_id = ?', Zend_Auth::getInstance()->getIdentity()->id)
 					->innerJoin('m.ScmStatusMaquina st')
-					->addWhere('st.fl_permite_regularizacao = ?', 1)
-					->execute();
+					->addWhere('st.fl_permite_regularizacao = ?', 1);
+
+				$filter = $this->getRequest()->getParam('filter');
+				if (is_array($filter)) {
+					foreach ($filter as $k) {
+						$valor = "";
+						switch ($k['data']['type']) {
+							case 'string':
+								if(array_key_exists('value', $k['data']))								
+									$query->addWhere($k['field'] . ' ILIKE ?', '%' . $k['data']['value'] . '%');
+							break;
+						}
+					}
+				}
+				
 				$json = array();
-				foreach ($query as $k) {
+				foreach ($query->execute() as $k) {
 					$json[] = array(
 						'id' => $k->id,
 						'nr_serie_imob' => $k->nr_serie_imob,
@@ -35,7 +48,7 @@ class RegularizacaoController extends Zend_Controller_Action {
 						'nr_versao_jogo' => $k->nr_versao_jogo,
 						'nm_gabinete' => $k->ScmGabinete->nm_gabinete,
 						'simbolo_moeda' => $k->ScmMoeda->simbolo_moeda,
-						'vl_credito' => $k->vl_credito,
+						'vl_credito' => Khronos_Moeda::format($k->vl_credito),
 						'nm_status_maquina' => $k->ScmStatusMaquina->nm_status_maquina
 					);
 				}
@@ -48,6 +61,14 @@ class RegularizacaoController extends Zend_Controller_Action {
 			Doctrine_Manager::getInstance()->getCurrentConnection()->beginTransaction();
 			try {
 				$maquina = Doctrine::getTable('ScmMaquina')->find((int) $this->getRequest()->getParam('id'));
+				if (!$maquina) {
+					throw new Exception('regularizacao.maquina.invalid');
+				}
+				if ($maquina->ScmStatusMaquina->fl_permite_regularizacao == 0) {
+					throw new Exception('regularizacao.status.nao-permite');
+				}
+				if(Khronos_Faturamento_Misc::maquinaFatTemp($maquina->id))
+					throw new Exception(DMG_Translate::_('faturamento.operacoes.maquina.em.fatura.temp'));
 				$rgDoc = new ScmRegularizacaoDoc();
 				try {
 					$dt_regularizacao = new Zend_Date($this->getRequest()->getParam('dt_regularizacao'));
@@ -135,6 +156,15 @@ class RegularizacaoController extends Zend_Controller_Action {
 			Doctrine_Manager::getInstance()->getCurrentConnection()->beginTransaction();
 			try {
 				$maquina = Doctrine::getTable('ScmMaquina')->find((int) $this->getRequest()->getParam('id'));
+				if (!$maquina) {
+					throw new Exception('regularizacao.maquina.invalid');
+				}
+				if ($maquina->ScmStatusMaquina->fl_permite_regularizacao == 0) {
+					throw new Exception('regularizacao.status.nao-permite');
+				}
+				if(Khronos_Faturamento_Misc::maquinaFatTemp($maquina->id))
+					throw new Exception(DMG_Translate::_('faturamento.operacoes.maquina.em.fatura.temp'));
+					
 				$rgDoc = new ScmRegularizacaoDoc();
 				try {
 					$dt_regularizacao = new Zend_Date($this->getRequest()->getParam('dt_regularizacao'));

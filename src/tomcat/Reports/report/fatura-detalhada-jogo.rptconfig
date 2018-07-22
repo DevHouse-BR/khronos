@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
+    <list-property name="configVars">
+        <structure>
+            <property name="name">__isdisplay__id_usuario_341_0</property>
+            <property name="value">1</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__empresa_342_1</property>
+            <property name="value">all</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__filial_343_2</property>
+            <property name="value">all</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__local_344_3</property>
+            <property name="value">all</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__data_inicial_345_4</property>
+            <property name="value">2010-08-01 00:00:00.000</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__data_final_346_5</property>
+            <property name="value">2010-08-31 23:59:00.000</property>
+        </structure>
+        <structure>
+            <property name="name">data_inicial_345_6</property>
+            <property name="value">2010-08-01 00:00:00.000</property>
+        </structure>
+        <structure>
+            <property name="name">data_inicial_345_type_</property>
+            <property name="value">string</property>
+        </structure>
+        <structure>
+            <property name="name">filial_343_7</property>
+            <property name="value">all</property>
+        </structure>
+        <structure>
+            <property name="name">filial_343_type_</property>
+            <property name="value">string</property>
+        </structure>
+        <structure>
+            <property name="name">id_usuario_341_8</property>
+            <property name="value">1</property>
+        </structure>
+        <structure>
+            <property name="name">id_usuario_341_type_</property>
+            <property name="value">integer</property>
+        </structure>
+        <structure>
+            <property name="name">empresa_342_9</property>
+            <property name="value">all</property>
+        </structure>
+        <structure>
+            <property name="name">empresa_342_type_</property>
+            <property name="value">string</property>
+        </structure>
+        <structure>
+            <property name="name">local_344_10</property>
+            <property name="value">all</property>
+        </structure>
+        <structure>
+            <property name="name">local_344_type_</property>
+            <property name="value">string</property>
+        </structure>
+        <structure>
+            <property name="name">data_final_346_11</property>
+            <property name="value">2010-08-31 23:59:00.000</property>
+        </structure>
+        <structure>
+            <property name="name">data_final_346_type_</property>
+            <property name="value">string</property>
+        </structure>
+    </list-property>
+</report>

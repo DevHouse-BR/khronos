@@ -1,12 +1,16 @@
 var ParqueMaquinaForm = Ext.extend(Ext.Window, {
 	maquina: 0,
 	maximized: true,
-	modal: true,
+	//modal: true,
+	id:'parqueMaquinaWindow',
 	constrain: true,
 	maximizable: false,
 	resizable: false,
 	title: '<?php echo DMG_Translate::_('parque.maquina.form.title'); ?>',
-	layout: 'fit',
+	layout: 'hbox',
+	layoutConfig:{
+		align: 'stretch'
+	},
 	closeAction: 'hide',
 	limpaContadores: function () {
 		this.formPanel.getForm().findField('nr_cont_1').setValue('');
@@ -22,6 +26,25 @@ var ParqueMaquinaForm = Ext.extend(Ext.Window, {
 		this.formPanel.getForm().findField('nr_cont_5_parcial').setValue('');
 		this.formPanel.getForm().findField('nr_cont_6_parcial').setValue('');
 	},
+	percentLocal: function () {
+		var id_local = this.formPanel.getForm().findField('id_local').getValue();
+		var conn = new Ext.data.Connection();
+		conn.request({
+			url: '<?php echo $this->url(array('controller' => 'local', 'action' => 'percent')); ?>',
+			params: {
+				id_local: id_local
+			},
+			scope: this,
+			callback: function (a, b, c) {
+				try {
+					var data = Ext.decode(c.responseText);
+					if (data.success) {
+						this.formPanel.getForm().findField('percent_local').setValue(data.percent_local);
+					}
+				} catch (e) {};
+			}
+		});
+	},
 	setmaquina: function(maquina) {
 		this.maquina = maquina;
 	},
@@ -32,12 +55,24 @@ var ParqueMaquinaForm = Ext.extend(Ext.Window, {
 	initComponent: function() {
 		this.formPanel = new Ext.form.FormPanel({
 			layout: 'column',
-			height: '100%',
-			autoScroll: true,
+			id:'formMaquina',
+			flex:1,
+			monitorValid:true,
 			border: false,
 			bodyStyle: 'padding: 5px',
+			listeners:{
+				afterrender: function(formulario){
+					var bf = formulario.getForm().getEl();
+					var form = document.getElementById(bf.id);
+					form.setAttribute('style', 'overflow:auto !important; padding: 5px');
+				}
+			},
+			buttons: [
+				{text: '<?php echo DMG_Translate::_('grid.form.save'); ?>', formBind:true, iconCls: 'icon-save',scope: this,handler: this._onBtnSalvarClick},
+				{text: '<?php echo DMG_Translate::_('grid.form.cancel'); ?>', iconCls: 'silk-cross', scope: this, handler: this._onBtnCancelarClick}
+			],
 			items: [{
-				labelWidth: 120,
+				labelWidth: 130,
 				columnWidth: .5,
 				border: false,
 				autoHeight: true,
@@ -133,10 +168,11 @@ var ParqueMaquinaForm = Ext.extend(Ext.Window, {
 							baseParams: {
 								dir: 'ASC',
 								limit: 15,
+								combo:true,
 								id_filial: 0
 							},
 							root: 'data',
-							fields: ['id', 'nm_parceiro'],
+							fields: ['id', 'nm_parceiro']
 						}),
 						width: 200,
 						minChars: 0,
@@ -175,9 +211,13 @@ var ParqueMaquinaForm = Ext.extend(Ext.Window, {
 						fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.id_local.text'); ?>',
 						listeners: {
 							scope: this,
-							change: this.limpaContadores
+							select: function () {
+								this.percentLocal();
+								this.limpaContadores();
+							}
 						}
 					}),
+					{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.percent_local.text'); ?>', <?php if (!DMG_Acl::canAccess(74)): ?>disabled: 'disabled', <?php endif; ?>xtype: 'textfield', id: 'percent_local', maskRe: /[0-9]/, name: 'percent_local', allowBlank: false, maxLength: 3},
 					{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_serie_imob.text'); ?>', xtype: 'textfield', id: 'nr_serie_imob', name: 'nr_serie_imob', allowBlank: false, maxLength: 255},
 					{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_serie_connect.text'); ?>', xtype: 'textfield', id: 'nr_serie_connect', name: 'nr_serie_connect', allowBlank: false, maxLength: 255, listeners: {scope: this, change: this.limpaContadores}},
 					{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_serie_aux.text'); ?>', xtype: 'textfield', id: 'nr_serie_aux', name: 'nr_serie_aux', allowBlank: true, maxLength: 255},
@@ -205,7 +245,14 @@ var ParqueMaquinaForm = Ext.extend(Ext.Window, {
 						emptyText: '<?php echo DMG_Translate::_('grid.form.combobox.select'); ?>',
 						fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.id_jogo.text'); ?>'
 					}),
-					{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_versao_jogo.text'); ?>', xtype: 'textfield', id: 'nr_versao_jogo', name: 'nr_versao_jogo', allowBlank: false, maxLength: 255},
+					{
+						fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.nr_versao_jogo.text'); ?>', 
+						xtype: 'textfield', 
+						//id: 'nr_versao_jogo', 
+						name: 'nr_versao_jogo', 
+						allowBlank: false, 
+						maxLength: 255
+					},
 					new Ext.form.ComboBox({
 						store: new Ext.data.JsonStore({
 							url: '<?php echo $this->url(array('controller' => 'gabinete', 'action' => 'list'), null, true); ?>',
@@ -248,7 +295,15 @@ var ParqueMaquinaForm = Ext.extend(Ext.Window, {
 						emptyText: '<?php echo DMG_Translate::_('grid.form.combobox.select'); ?>',
 						fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.id_moeda.text'); ?>'
 					}),
-					{fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.vl_credito.text'); ?>', xtype: 'textfield', id: 'vl_credito', name: 'vl_credito', allowBlank: false, maxLength: 255},
+					{
+						fieldLabel: '<?php echo DMG_Translate::_('parque.maquina.form.vl_credito.text'); ?>', 
+						xtype: 'textfield', 
+						//id: 'vl_credito', 
+						name: 'vl_credito',
+						maskRe: /[0-9\,\.]/, 
+						allowBlank: false, 
+						maxLength: 255
+					},
 					new Ext.form.ComboBox({
 						store: new Ext.data.SimpleStore({
 							fields: ['code', 'name'],
@@ -413,12 +468,7 @@ var ParqueMaquinaForm = Ext.extend(Ext.Window, {
 			}]
 		});
 		Ext.apply(this, {
-			items: this.formPanel,
-			bbar: [
-				'->',
-				{text: '<?php echo DMG_Translate::_('grid.form.save'); ?>', iconCls: 'icon-save',scope: this,handler: this._onBtnSalvarClick},
-				{text: '<?php echo DMG_Translate::_('grid.form.cancel'); ?>', iconCls: 'silk-cross', scope: this, handler: this._onBtnCancelarClick}
-			]
+			items: this.formPanel
 		});
 		ParqueMaquinaForm.superclass.initComponent.call(this);
 	},
@@ -458,11 +508,13 @@ var ParqueMaquinaForm = Ext.extend(Ext.Window, {
 			this.formPanel.getForm().findField('nr_versao_jogo').disable();
 			this.formPanel.getForm().findField('vl_credito').disable();
 			this.formPanel.getForm().findField('id_gabinete').disable();
+			this.formPanel.getForm().findField('percent_local').disable();
 			this.el.mask('<?php echo DMG_Translate::_('grid.form.loading'); ?>');
 			this.formPanel.getForm().load({
 				url: '<?php echo $this->url(array('controller' => 'maquina', 'action' => 'get'), null, true); ?>',
 				params: {
-					id: this.maquina
+					id: this.maquina,
+					percent_local: this.formPanel.getForm().findField('percent_local').getValue(),
 				},
 				scope: this,
 				success: this._onFormLoad
@@ -522,6 +574,7 @@ var ParqueMaquinaForm = Ext.extend(Ext.Window, {
 			this.formPanel.getForm().findField('nr_versao_jogo').enable();
 			this.formPanel.getForm().findField('vl_credito').enable();
 			this.formPanel.getForm().findField('id_gabinete').enable();
+			this.formPanel.getForm().findField('percent_local').enable();
 		}
 	},
 	onDestroy: function() {

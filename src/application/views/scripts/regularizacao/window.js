@@ -2,11 +2,7 @@ var sm = new Ext.grid.CheckboxSelectionModel();
 var RegularizacaoWindowFilter = new Ext.ux.grid.GridFilters({
 	local: false,
 	menuFilterText: '<?php echo DMG_Translate::_('grid.filter.label'); ?>',
-	filters: [{
-		type: 'string',
-		dataIndex: 'name',
-		phpMode: true
-	}]
+	filters: []
 });
 var RegularizacaoWindow = Ext.extend(Ext.grid.GridPanel, {
 	border: false,
@@ -16,6 +12,11 @@ var RegularizacaoWindow = Ext.extend(Ext.grid.GridPanel, {
 	columnLines: true,
 	plugins: [RegularizacaoWindowFilter],
 	initComponent: function () {
+		RegularizacaoWindowFilter.addFilter({
+			type: 'string',
+			dataIndex: 'nr_serie_imob',
+			phpMode: true
+		});
 		this.store = new Ext.data.JsonStore({
 			url: '<?php echo $this->url(array('controller' => 'regularizacao', 'action' => 'list'), null, true); ?>',
 			root: 'data',
@@ -45,18 +46,21 @@ var RegularizacaoWindow = Ext.extend(Ext.grid.GridPanel, {
 				{name: 'vl_credito', type: 'string'},
 			]
 		});
+		
 		var paginator = new Ext.PagingToolbar({
 			store: this.store,
 			pageSize: 30,
-			plugins: [RegularizacaoWindowFilter]
+			plugins: [RegularizacaoWindowFilter],
+			buttons:['-', {
+				text: '<?php echo DMG_Translate::_('grid.bbar.clearfilter'); ?>',
+				scope:this,
+				handler: function(botao, evento){
+					RegularizacaoWindowFilter.clearFilters();
+					this.filtroField.reset();
+				}
+			}]
 		});
-		paginator.addSeparator();
-		var button = new Ext.Toolbar.Button();
-		button.text = '<?php echo DMG_Translate::_('grid.bbar.clearfilter'); ?>';
-		button.addListener('click', function(a, b) {
-			RegularizacaoWindowFilter.clearFilters();
-		});
-		paginator.addButton(button);
+
 		Ext.apply(this, {
 			viewConfig: {
 				emptyText: '<?php echo DMG_Translate::_('grid.empty'); ?>',
@@ -83,10 +87,24 @@ var RegularizacaoWindow = Ext.extend(Ext.grid.GridPanel, {
 					scope: this,
 					select: function(combo, record) {
 						this.store.baseParams.local = parseInt(record.get('id'));
-						this.store.reload();
+						RegularizacaoWindowFilter.getFilter(0).active = true;
+						RegularizacaoWindowFilter.getFilter(0).setValue(this.filtroField.getValue());
+						//this.store.reload();
 					}
 				}
-			}), '->',
+			}),{
+				xtype:'textfield',
+				style:'margin-left:5px',
+				ref: '../filtroField',
+				listeners:{
+					specialkey:function(campo, e){
+						if (e.getKey() == 13){
+							RegularizacaoWindowFilter.getFilter(0).active = true;
+							RegularizacaoWindowFilter.getFilter(0).setValue(campo.getValue());
+						}
+					}
+				}
+			}, '->',
 			<?php if (DMG_Acl::canAccess(63)): ?>
 			{
 				text: '<?php echo DMG_Translate::_('regularizacao.grid.regularizar.controlada'); ?>',
@@ -119,22 +137,22 @@ var RegularizacaoWindow = Ext.extend(Ext.grid.GridPanel, {
 				sortable: true
 			}, {
 				dataIndex: 'nm_jogo',
-				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_jogo.text'); ?>',
+				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_jogo.text'); ?>'
 			}, {
 				dataIndex: 'nr_versao_jogo',
-				header: '<?php echo DMG_Translate::_('parque.maquina.form.nr_versao_jogo.text'); ?>',
+				header: '<?php echo DMG_Translate::_('parque.maquina.form.nr_versao_jogo.text'); ?>'
 			}, {
 				dataIndex: 'nm_gabinete',
-				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_gabinete.text'); ?>',
+				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_gabinete.text'); ?>'
 			}, {
 				dataIndex: 'simbolo_moeda',
-				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_moeda.text'); ?>',
+				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_moeda.text'); ?>'
 			}, {
 				dataIndex: 'vl_credito',
-				header: '<?php echo DMG_Translate::_('parque.maquina.form.vl_credito.text'); ?>',
+				header: '<?php echo DMG_Translate::_('parque.maquina.form.vl_credito.text'); ?>'
 			}, {
 				dataIndex: 'nm_status_maquina',
-				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_status.text'); ?>',
+				header: '<?php echo DMG_Translate::_('parque.maquina.form.id_status.text'); ?>'
 			}]
 		});
 		RegularizacaoWindow.superclass.initComponent.call(this);
@@ -161,6 +179,13 @@ var RegularizacaoWindow = Ext.extend(Ext.grid.GridPanel, {
 			return false;
 		}
 		var record = this.getSelectionModel().getSelections();
+		
+		if(verificaMaquinaFaturaTemp(record[0].get('id'))){
+			uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: '<?php echo DMG_Translate::_('faturamento.operacoes.maquina.em.fatura.temp'); ?>'});
+			return;
+		}
+		
+		
 		this._newFormControlada();
 		this.windowControlada.setMaquina(record[0].get('id'));
 		this.windowControlada.show();
@@ -192,6 +217,12 @@ var RegularizacaoWindow = Ext.extend(Ext.grid.GridPanel, {
 			return false;
 		}
 		var record = this.getSelectionModel().getSelections();
+		
+		if(verificaMaquinaFaturaTemp(record[0].get('id'))){
+			uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: '<?php echo DMG_Translate::_('faturamento.operacoes.maquina.em.fatura.temp'); ?>'});
+			return;
+		}		
+		
 		this._newFormFalha();
 		this.windowFalha.setMaquina(record[0].get('id'));
 		this.windowFalha.show();

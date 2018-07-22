@@ -1,0 +1,44 @@
+ScmSession:
+  columns:
+    id:
+      type: integer
+      unsigned: 1
+      notnull: true
+      primary: true
+      autoincrement: true
+    id_usuario:
+      type: integer
+      unsigned: 0
+      notnull: false
+    id_local:
+      type: integer
+      unsigned: 0
+      notnull: false
+    dt_inicio_sessao:
+      type: timestamp
+      notnull: true
+    dt_fim_sessao:
+      type: timestamp
+      notnull: false
+    dt_ultimo_contato_sessao:
+      type: timestamp
+    ip:
+      type: string(255)
+    hostname:
+      type: string(255)
+    navegador:
+      type: string(255)
+    phpsessid:
+      type: string(32)
+      notnull: false
+      unique: true
+    disconnected: boolean
+  relations:
+    ScmUser:
+      local: id_usuario
+      foreign: id
+      type: one
+    ScmLocal:
+      local: id_local
+      foreign: id
+      type: one

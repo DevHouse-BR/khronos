@@ -10,7 +10,7 @@ ScmStatusMaquina:
     fl_alta: 1
   StatusMaquina_2:
     nm_status_maquina: 'Em trânsito'
-    fl_permite_movimentacao: 0
+    fl_permite_movimentacao: 1
     fl_permite_transformacao: 0
     fl_permite_faturamento: 0
     fl_permite_regularizacao: 0

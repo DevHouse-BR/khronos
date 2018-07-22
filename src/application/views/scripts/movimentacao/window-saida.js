@@ -2,11 +2,7 @@ var sm = new Ext.grid.CheckboxSelectionModel();
 var MovimentacaoSaidaWindowFilter = new Ext.ux.grid.GridFilters({
 	local: false,
 	menuFilterText: '<?php echo DMG_Translate::_('grid.filter.label'); ?>',
-	filters: [{
-		type: 'string',
-		dataIndex: 'nr_serie_imob',
-		phpMode: true
-	}]
+	filters: []
 });
 var MovimentacaoSaidaWindow = Ext.extend(Ext.grid.GridPanel, {
 	border: false,
@@ -16,6 +12,12 @@ var MovimentacaoSaidaWindow = Ext.extend(Ext.grid.GridPanel, {
 	columnLines: true,
 	plugins: [MovimentacaoSaidaWindowFilter],
 	initComponent: function () {
+		MovimentacaoSaidaWindowFilter.addFilter({
+			type: 'string',
+			dataIndex: 'nr_serie_imob',
+			phpMode: true
+		});
+	
 		this.store = new Ext.data.JsonStore({
 			url: '<?php echo $this->url(array('controller' => 'movimentacao', 'action' => 'lista-saida'), null, true); ?>',
 			root: 'data',
@@ -43,18 +45,21 @@ var MovimentacaoSaidaWindow = Ext.extend(Ext.grid.GridPanel, {
 				{name: 'nr_cont_6', type: 'int'}
 			]
 		});
+		
 		var paginator = new Ext.PagingToolbar({
 			store: this.store,
 			pageSize: 30,
-			plugins: [MovimentacaoSaidaWindowFilter]
+			plugins: [MovimentacaoSaidaWindowFilter],
+			buttons:['-', {
+				text: '<?php echo DMG_Translate::_('grid.bbar.clearfilter'); ?>',
+				scope:this,
+				handler: function(botao, evento){
+					MovimentacaoSaidaWindowFilter.clearFilters();
+					this.filtroField.reset();
+				}
+			}]
 		});
-		paginator.addSeparator();
-		var button = new Ext.Toolbar.Button();
-		button.text = '<?php echo DMG_Translate::_('grid.bbar.clearfilter'); ?>';
-		button.addListener('click', function(a, b) {
-			MovimentacaoSaidaWindowFilter.clearFilters();
-		});
-		paginator.addButton(button);
+		
 		var comboFilial = new Ext.form.ComboBox({
 			name: 'status',
 			minChars:3,
@@ -75,7 +80,9 @@ var MovimentacaoSaidaWindow = Ext.extend(Ext.grid.GridPanel, {
 				scope: this,
 				select: function(combo, record) {
 					this.store.baseParams.local = parseInt(record.get('id'));
-					this.store.reload();
+					MovimentacaoSaidaWindowFilter.getFilter(0).active = true;
+					MovimentacaoSaidaWindowFilter.getFilter(0).setValue(this.filtroField.getValue());
+					//this.store.reload();
 				}
 			}
 		});
@@ -85,7 +92,19 @@ var MovimentacaoSaidaWindow = Ext.extend(Ext.grid.GridPanel, {
 				deferEmptyText: false
 			},
 			bbar: paginator,
-			tbar: [comboFilial, '->',
+			tbar: [comboFilial,{
+				xtype:'textfield',
+				style:'margin-left:5px',
+				ref: '../filtroField',
+				listeners:{
+					specialkey:function(campo, e){
+						if (e.getKey() == 13){
+							MovimentacaoSaidaWindowFilter.getFilter(0).active = true;
+							MovimentacaoSaidaWindowFilter.getFilter(0).setValue(campo.getValue());
+						}
+					}
+				}
+			}, '->',
 			{
 				text: '<?php echo DMG_Translate::_('movimentacao-saida.retirar'); ?>',
 				iconCls: 'silk-cog',
@@ -154,6 +173,11 @@ var MovimentacaoSaidaWindow = Ext.extend(Ext.grid.GridPanel, {
 			return false;
 		}
 		var record = this.getSelectionModel().getSelections();
+		
+		if(verificaMaquinaFaturaTemp(record[0].get('id'))){
+			uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: '<?php echo DMG_Translate::_('faturamento.operacoes.maquina.em.fatura.temp'); ?>'});
+			return;
+		}
 		this._newForm(record[0].get('id'));
 	},
 	_onCadastroUsuarioSalvarExcluir: function () {
@@ -161,6 +185,12 @@ var MovimentacaoSaidaWindow = Ext.extend(Ext.grid.GridPanel, {
 	},
 	_onGridRowDblClick: function (grid, rowIndex, e) {
 		var record = grid.getStore().getAt(rowIndex);
+		
+		if(verificaMaquinaFaturaTemp(record.get('id'))){
+			uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: '<?php echo DMG_Translate::_('faturamento.operacoes.maquina.em.fatura.temp'); ?>'});
+			return;
+		}
+		
 		this._newForm(record.get('id'));
 	},
 	_newForm: function (id) {

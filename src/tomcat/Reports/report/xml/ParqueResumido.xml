@@ -1,47 +1,47 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <relatorio>
-	<id>2</id>
+	<id>5</id>
 	<grupo>1</grupo>
-	<ruleID>66</ruleID>
-	<arquivo>ParqueResumido.rptdesign</arquivo>
-	<saida>Parque_Resumido</saida>
-	<nome>parque-resumido</nome>
+	<ruleID>94</ruleID>
+	<arquivo>parque-historico-resumido.rptdesign</arquivo>
+	<saida>Parque_Historico_Resumido</saida>
+	<nome>parque-historico-resumido</nome>
 	<traducao>
-		<es>Parque Resumido</es>
-		<pt_BR>Parque Resumido</pt_BR>
-		<en>Parque Resumido</en>
+		<es>Parque Histórico – Resumen </es>
+		<pt_BR>Parque Histórico Resumido</pt_BR>
+		<en>Parque Histórico Resumido</en>
 	</traducao>
 	<descricao>
-		<es>Descripción en Español</es>
+		<es>Presenta un resumen del parque de Máquinas en una FECHA/HORA específica. La información es  agrupada por Empresa/Filial y también considera las máquinas que están en Tránsito.</es>
 		<pt_BR>Descrição em Português</pt_BR>
 		<en>English Description</en>
 	</descricao>
 	<filtros>
 		<filtro>
-			<tipo>grupo</tipo>
-			<nome>grupo</nome>
+			<tipo>empresa</tipo>
+			<nome>empresa</nome>
 			<traducao>
-				<es>Grupos</es>
-				<pt_BR>Grupos</pt_BR>
-				<en>Groups</en>
+				<es>Empresa</es>
+				<pt_BR>Empresa</pt_BR>
+				<en>Empresa</en>
 			</traducao>
 		</filtro>
 		<filtro>
-			<tipo>gabinete</tipo>
-			<nome>gabinete</nome>
+			<tipo>filial</tipo>
+			<nome>filial</nome>
 			<traducao>
-				<es>gabinete</es>
-				<pt_BR>gabinete</pt_BR>
-				<en>gabinete</en>
+				<es>Filial</es>
+				<pt_BR>Filial</pt_BR>
+				<en>Filial</en>
 			</traducao>
 		</filtro>
 		<filtro>
-			<tipo>jogo</tipo>
-			<nome>jogo</nome>
+			<tipo>data</tipo>
+			<nome>data</nome>
 			<traducao>
-				<es>jogo</es>
-				<pt_BR>jogo</pt_BR>
-				<en>jogo</en>
+				<es>Fecha</es>
+				<pt_BR>Data</pt_BR>
+				<en>Date</en>
 			</traducao>
 		</filtro>
 	</filtros>

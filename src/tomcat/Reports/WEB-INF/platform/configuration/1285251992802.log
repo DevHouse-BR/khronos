@@ -1,0 +1,49 @@
+!SESSION 2010-09-23 11:26:32.903 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.6.0_21
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=pt_BR
+
+!ENTRY org.eclipse.osgi 0 0 2010-09-23 11:26:32.904
+!MESSAGE The -clean (osgi.clean) option was not successful. Unable to clean the storage area: C:\wamp\www\dmg_khronos\tomcat\Reports\WEB-INF\platform\configuration\org.eclipse.osgi
+
+!ENTRY org.eclipse.osgi 4 0 2010-09-23 11:26:32.954
+!MESSAGE Error reading configuration: Unable to create lock manager.
+!STACK 0
+java.io.IOException: Unable to create lock manager.
+	at org.eclipse.osgi.storagemanager.StorageManager.open(StorageManager.java:687)
+	at org.eclipse.osgi.internal.baseadaptor.BaseStorage.initFileManager(BaseStorage.java:213)
+	at org.eclipse.osgi.internal.baseadaptor.BaseStorage.initialize(BaseStorage.java:147)
+	at org.eclipse.osgi.baseadaptor.BaseAdaptor.initializeStorage(BaseAdaptor.java:114)
+	at org.eclipse.osgi.framework.internal.core.Framework.initialize(Framework.java:185)
+	at org.eclipse.osgi.framework.internal.core.Framework.<init>(Framework.java:157)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.startup(EclipseStarter.java:286)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.birt.core.framework.osgi.OSGILauncher.doStartup(OSGILauncher.java:191)
+	at org.eclipse.birt.core.framework.osgi.OSGILauncher.access$0(OSGILauncher.java:94)
+	at org.eclipse.birt.core.framework.osgi.OSGILauncher$1.run(OSGILauncher.java:79)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.birt.core.framework.osgi.OSGILauncher.startup(OSGILauncher.java:75)
+	at org.eclipse.birt.core.framework.Platform.startup(Platform.java:79)
+	at org.eclipse.birt.report.service.ReportEngineService.setEngineContext(ReportEngineService.java:320)
+	at org.eclipse.birt.report.service.BirtViewerReportService.setContext(BirtViewerReportService.java:1022)
+	at org.eclipse.birt.report.listener.ViewerServletContextListener.contextInitialized(ViewerServletContextListener.java:62)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:3795)
+	at org.apache.catalina.core.StandardContext.start(StandardContext.java:4252)
+	at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:760)
+	at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:740)
+	at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:544)
+	at org.apache.catalina.startup.HostConfig.deployDirectory(HostConfig.java:980)
+	at org.apache.catalina.startup.HostConfig.deployDirectories(HostConfig.java:943)
+	at org.apache.catalina.startup.HostConfig.deployApps(HostConfig.java:500)
+	at org.apache.catalina.startup.HostConfig.check(HostConfig.java:1271)
+	at org.apache.catalina.startup.HostConfig.lifecycleEvent(HostConfig.java:301)
+	at org.apache.catalina.util.LifecycleSupport.fireLifecycleEvent(LifecycleSupport.java:120)
+	at org.apache.catalina.core.ContainerBase.backgroundProcess(ContainerBase.java:1306)
+	at org.apache.catalina.core.ContainerBase$ContainerBackgroundProcessor.processChildren(ContainerBase.java:1570)
+	at org.apache.catalina.core.ContainerBase$ContainerBackgroundProcessor.processChildren(ContainerBase.java:1579)
+	at org.apache.catalina.core.ContainerBase$ContainerBackgroundProcessor.run(ContainerBase.java:1559)
+	at java.lang.Thread.run(Unknown Source)

@@ -1,0 +1,1016 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.0.v20100531 Build &lt;2.6.0.v20100609-1613></property>
+    <simple-property-list name="includeResource">
+        <value>maquinas-em-transito</value>
+    </simple-property-list>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <parameters>
+        <scalar-parameter name="filial" id="1072">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <expression name="sortByColumn">dataSetRow["nm_filial"]</expression>
+            <property name="sortDirection">asc</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="empresa" id="1073">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="id_usuario" id="1097">
+            <property name="valueType">static</property>
+            <property name="dataType">integer</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="49">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">org.postgresql.Driver</property>
+            <property name="odaURL">jdbc:postgresql://localhost:5432/khronos?searchpath=public</property>
+            <property name="odaUser">khronos</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">MTIzNA==</encrypted-property>
+            <property name="odaJndiName">java:comp/env/jdbc/khronos</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="1024">
+            <structure name="cachedMetaData"/>
+            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText.replace("\"$1\"", reportContext.getParameterValue("empresa"));
+this.queryText = this.queryText.replace("\"$2\"", reportContext.getParameterValue("filial"));]]></method>
+            <property name="dataSource">Data Source</property>
+            <xml-property name="queryText"><![CDATA[SELECT
+f.id_empresa,
+e.nm_empresa,
+m.id_filial,
+f.nm_filial,
+m.nr_serie_imob,
+m.id_jogo,
+j.nm_jogo,
+m.nr_versao_jogo,
+m.id_gabinete,
+g.nm_gabinete,
+to_char(m.dt_ultima_movimentacao, 'DD/MM/YYYY') AS dt_movimentacao,
+extract(day from (now() - m.dt_ultima_movimentacao)) AS dias_em_transito
+FROM scm_maquina m
+INNER JOIN scm_jogo j ON j.id = m.id_jogo
+INNER JOIN scm_gabinete g ON g.id = m.id_gabinete
+INNER JOIN scm_filial f ON f.id = m.id_filial
+INNER JOIN scm_empresa e ON e.id = f.id_empresa
+WHERE m.id_status = 2
+AND e.id IN ("$1")
+AND f.id IN ("$2")]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>count</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>19</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>count</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>count</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>nm_empresa</design:name>
+            <design:position>2</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>45</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>nm_empresa</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>nm_empresa</design:label>
+            <design:formattingHints>
+              <design:displaySize>45</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>nm_filial</design:name>
+            <design:position>3</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>45</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>nm_filial</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>nm_filial</design:label>
+            <design:formattingHints>
+              <design:displaySize>45</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set1" id="1110">
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">param_1</property>
+                    <property name="paramName">id_usuario</property>
+                    <property name="dataType">integer</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">filiais</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">empresas</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">nm_usuario</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">image_uri</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="rowFetchLimit">0</property>
+            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText.replace("\"$2\"", reportContext.getParameterValue("empresa"));
+this.queryText = this.queryText.replace("\"$1\"", reportContext.getParameterValue("filial"));]]></method>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">filiais</property>
+                    <property name="nativeName">filiais</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">empresas</property>
+                    <property name="nativeName">empresas</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">nm_usuario</property>
+                    <property name="nativeName">nm_usuario</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">image_uri</property>
+                    <property name="nativeName">image_uri</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT
+array_to_string(array(SELECT nm_filial
+FROM scm_filial WHERE id IN ("$1")), ', ')
+AS filiais,
+array_to_string(array(SELECT nm_empresa
+FROM scm_empresa WHERE id IN ("$2")), ', ')
+AS empresas,
+(SELECT name FROM
+scm_user WHERE id = ?)
+AS nm_usuario,
+(SELECT value FROM scm_config
+WHERE id = 13) AS image_uri]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderTopStyle">none</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="leftMargin">0.25in</property>
+            <property name="headerHeight">1.6cm</property>
+            <property name="footerHeight">0.8cm</property>
+            <page-header>
+                <grid id="977">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="width">100%</property>
+                    <column id="978">
+                        <property name="width">25%</property>
+                    </column>
+                    <column id="979">
+                        <property name="width">50%</property>
+                    </column>
+                    <column id="980">
+                        <property name="width">25%</property>
+                    </column>
+                    <row id="981">
+                        <cell id="982">
+                            <image id="994">
+                                <property name="height">1.3cm</property>
+                                <property name="width">4.5cm</property>
+                                <property name="dataSet">Data Set1</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">filiais</property>
+                                        <expression name="expression">dataSetRow["filiais"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">empresas</property>
+                                        <expression name="expression">dataSetRow["empresas"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">nm_usuario</property>
+                                        <expression name="expression">dataSetRow["nm_usuario"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">image_uri</property>
+                                        <expression name="expression">dataSetRow["image_uri"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                </list-property>
+                                <property name="source">file</property>
+                                <expression name="uri" type="constant">images/logo-pq.png</expression>
+                            </image>
+                        </cell>
+                        <cell id="983">
+                            <property name="verticalAlign">middle</property>
+                            <label id="995">
+                                <property name="fontSize">14pt</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="textUnderline">underline</property>
+                                <text-property name="text" key="titulo">Máquinas en Tránsito</text-property>
+                            </label>
+                        </cell>
+                        <cell id="984">
+                            <data id="1113">
+                                <property name="textAlign">right</property>
+                                <property name="dataSet">Data Set1</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">nm_usuario</property>
+                                        <text-property name="displayName">nm_usuario</text-property>
+                                        <expression name="expression" type="javascript">impresso_por_params = new Array(1); impresso_por_params[0] = dataSetRow["nm_usuario"];
+reportContext.getMessage("impresso_por", reportContext.getLocale(), impresso_por_params);</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">nm_usuario</property>
+                            </data>
+                            <text-data id="1082">
+                                <property name="textAlign">right</property>
+                                <expression name="valueExpr">var impresso_em_params = new Array(5);
+var data = new Date();
+impresso_em_params[0] = data.getFullYear().toString();
+impresso_em_params[1] = data.getMonth()+1;
+impresso_em_params[2] = data.getDate();
+impresso_em_params[3] = data.getHours();
+impresso_em_params[4] = data.getMinutes();
+if (impresso_em_params[1] &lt; 10) {
+    impresso_em_params[1] = "0"+impresso_em_params[1];
+}
+if (impresso_em_params[2] &lt; 10) {
+    impresso_em_params[2] = "0"+impresso_em_params[2];
+}
+if (impresso_em_params[3] &lt; 10) {
+    impresso_em_params[3] = "0"+impresso_em_params[3];
+}
+if (impresso_em_params[4] &lt; 10) {
+    impresso_em_params[4] = "0"+impresso_em_params[4];
+}
+reportContext.getMessage("impresso_em", reportContext.getLocale(), impresso_em_params);</expression>
+                                <property name="contentType">html</property>
+                            </text-data>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <grid id="985">
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">medium</property>
+                    <column id="986"/>
+                    <column id="987"/>
+                    <row id="988">
+                        <cell id="989">
+                            <label id="991">
+                                <text-property name="text" key="nome_sistema">Sistema Khronos</text-property>
+                            </label>
+                        </cell>
+                        <cell id="990">
+                            <grid id="1150">
+                                <property name="width">3.8055555555555554in</property>
+                                <column id="1151">
+                                    <property name="width">2.3333333333333335in</property>
+                                </column>
+                                <column id="1152">
+                                    <property name="width">0.5in</property>
+                                </column>
+                                <column id="1153">
+                                    <property name="width">0.3611111111111111in</property>
+                                </column>
+                                <column id="1154">
+                                    <property name="width">0.6111111111111112in</property>
+                                </column>
+                                <row id="1155">
+                                    <cell id="1156">
+                                        <label id="1160">
+                                            <property name="textAlign">right</property>
+                                            <text-property name="text" key="pagina">Página</text-property>
+                                        </label>
+                                    </cell>
+                                    <cell id="1157">
+                                        <auto-text id="1163">
+                                            <property name="textAlign">right</property>
+                                            <property name="type">page-number</property>
+                                        </auto-text>
+                                    </cell>
+                                    <cell id="1158">
+                                        <label id="1161">
+                                            <property name="textAlign">center</property>
+                                            <text-property name="text" key="pagina_de">de</text-property>
+                                        </label>
+                                    </cell>
+                                    <cell id="1159">
+                                        <auto-text id="1164">
+                                            <property name="textAlign">left</property>
+                                            <property name="type">total-page</property>
+                                        </auto-text>
+                                    </cell>
+                                </row>
+                            </grid>
+                        </cell>
+                    </row>
+                </grid>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="1179">
+            <column id="1180"/>
+            <row id="1181">
+                <cell id="1182">
+                    <label id="1191">
+                        <property name="fontWeight">bold</property>
+                        <text-property name="text" key="filtros_titulo">Filtros seleccionados:</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row id="1183">
+                <cell id="1184">
+                    <data id="1192">
+                        <property name="dataSet">Data Set1</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">empresas</property>
+                                <text-property name="displayName">empresas</text-property>
+                                <expression name="expression" type="javascript">empresas_params = new Array(1); empresas_params[0] = dataSetRow["empresas"];
+reportContext.getMessage("empresas", reportContext.getLocale(), empresas_params);</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">empresas</property>
+                    </data>
+                </cell>
+            </row>
+            <row id="1185">
+                <cell id="1186">
+                    <data id="1193">
+                        <property name="dataSet">Data Set1</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">filiais</property>
+                                <text-property name="displayName">filiais</text-property>
+                                <expression name="expression" type="javascript">filiais_params = new Array(1); filiais_params[0] = dataSetRow["filiais"];
+reportContext.getMessage("filiais", reportContext.getLocale(), filiais_params);</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">filiais</property>
+                    </data>
+                </cell>
+            </row>
+        </grid>
+        <label id="1196">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <text-property name="text"> </text-property>
+        </label>
+        <label id="1197">
+            <text-property name="text"> </text-property>
+        </label>
+        <table id="1222">
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">nm_empresa</property>
+                    <text-property name="displayName">nm_empresa</text-property>
+                    <expression name="expression" type="javascript">subtotal_empresa_params = new Array(1); subtotal_empresa_params[0] = dataSetRow["nm_empresa"];
+reportContext.getMessage("subtotal_empresa", reportContext.getLocale(), subtotal_empresa_params);</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">nm_filial</property>
+                    <text-property name="displayName">nm_filial</text-property>
+                    <expression name="expression" type="javascript">subtotal_filial_params = new Array(1); subtotal_filial_params[0] = dataSetRow["nm_filial"];
+reportContext.getMessage("subtotal_filial", reportContext.getLocale(), subtotal_filial_params);</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">nr_serie_imob</property>
+                    <text-property name="displayName">nr_serie_imob</text-property>
+                    <expression name="expression">dataSetRow["nr_serie_imob"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">nm_jogo</property>
+                    <text-property name="displayName">nm_jogo</text-property>
+                    <expression name="expression">dataSetRow["nm_jogo"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">nr_versao_jogo</property>
+                    <text-property name="displayName">nr_versao_jogo</text-property>
+                    <expression name="expression">dataSetRow["nr_versao_jogo"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">nm_gabinete</property>
+                    <text-property name="displayName">nm_gabinete</text-property>
+                    <expression name="expression">dataSetRow["nm_gabinete"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">cabecalho_empresa</property>
+                    <text-property name="displayName">nm_empresa</text-property>
+                    <expression name="expression" type="javascript">header_empresa_params = new Array(1); header_empresa_params[0] = dataSetRow["nm_empresa"];
+reportContext.getMessage("header_empresa", reportContext.getLocale(), header_empresa_params);</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">cabecalho_filial</property>
+                    <text-property name="displayName">nm_filial</text-property>
+                    <expression name="expression" type="javascript">header_filial_params = new Array(1); header_filial_params[0] = dataSetRow["nm_filial"];
+reportContext.getMessage("header_filial", reportContext.getLocale(), header_filial_params);</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation</property>
+                    <property name="dataType">integer</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>empresaGroup</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">COUNT</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["nr_serie_imob"]</expression>
+                        </structure>
+                    </list-property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation_1</property>
+                    <property name="dataType">integer</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>filialGroup</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">COUNT</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["nr_serie_imob"]</expression>
+                        </structure>
+                    </list-property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation_2</property>
+                    <property name="dataType">integer</property>
+                    <property name="aggregateFunction">COUNT</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["nr_serie_imob"]</expression>
+                        </structure>
+                    </list-property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation_3</property>
+                    <property name="dataType">integer</property>
+                    <property name="aggregateFunction">COUNT</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["nr_serie_imob"]</expression>
+                        </structure>
+                    </list-property>
+                </structure>
+                <structure>
+                    <property name="name">dt_movimentacao</property>
+                    <text-property name="displayName">dt_movimentacao</text-property>
+                    <expression name="expression">dataSetRow["dt_movimentacao"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">dias_em_transito</property>
+                    <text-property name="displayName">dias_em_transito</text-property>
+                    <expression name="expression">dataSetRow["dias_em_transito"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
+            <column id="1313">
+                <property name="width">5%</property>
+            </column>
+            <column id="1264">
+                <property name="width">16%</property>
+            </column>
+            <column id="1265">
+                <property name="width">17%</property>
+            </column>
+            <column id="1266">
+                <property name="width">14%</property>
+            </column>
+            <column id="1267">
+                <property name="width">17%</property>
+            </column>
+            <column id="1392">
+                <property name="width">15%</property>
+            </column>
+            <column id="1381">
+                <property name="width">14%</property>
+            </column>
+            <header>
+                <row id="1223">
+                    <cell id="1304"/>
+                    <cell id="1230"/>
+                    <cell id="1232"/>
+                    <cell id="1234"/>
+                    <cell id="1236"/>
+                    <cell id="1382"/>
+                    <cell id="1371"/>
+                </row>
+            </header>
+            <group id="1292">
+                <property name="groupName">empresaGroup</property>
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr" type="javascript">row["nm_empresa"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue" type="javascript">row["nm_empresa"]</expression>
+                </structure>
+                <property name="repeatHeader">true</property>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">auto</property>
+                <property name="pageBreakBefore">auto</property>
+                <property name="pageBreakInside">auto</property>
+                <header>
+                    <row id="1293">
+                        <cell id="1305">
+                            <property name="colSpan">7</property>
+                            <property name="rowSpan">1</property>
+                            <data id="1303">
+                                <property name="fontWeight">bold</property>
+                                <property name="resultSetColumn">cabecalho_empresa</property>
+                            </data>
+                        </cell>
+                    </row>
+                    <row id="1349">
+                        <cell id="1350">
+                            <label id="1355">
+                                <text-property name="text"> </text-property>
+                            </label>
+                        </cell>
+                        <cell id="1351"/>
+                        <cell id="1352"/>
+                        <cell id="1353"/>
+                        <cell id="1354"/>
+                        <cell id="1384"/>
+                        <cell id="1373"/>
+                    </row>
+                </header>
+                <footer>
+                    <row id="1298">
+                        <cell id="1311">
+                            <property name="colSpan">6</property>
+                            <property name="rowSpan">1</property>
+                            <data id="1316">
+                                <property name="fontWeight">bold</property>
+                                <property name="resultSetColumn">nm_empresa</property>
+                            </data>
+                        </cell>
+                        <cell id="1378">
+                            <data id="1324">
+                                <property name="fontWeight">bold</property>
+                                <property name="textAlign">right</property>
+                                <property name="resultSetColumn">Aggregation</property>
+                            </data>
+                        </cell>
+                    </row>
+                    <row id="1334">
+                        <cell id="1335">
+                            <label id="1340">
+                                <text-property name="text"> </text-property>
+                            </label>
+                        </cell>
+                        <cell id="1336"/>
+                        <cell id="1337"/>
+                        <cell id="1338"/>
+                        <cell id="1339"/>
+                        <cell id="1390"/>
+                        <cell id="1379"/>
+                    </row>
+                </footer>
+            </group>
+            <group id="1280">
+                <property name="groupName">filialGroup</property>
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr" type="javascript">row["nm_filial"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue" type="javascript">row["nm_filial"]</expression>
+                </structure>
+                <property name="repeatHeader">true</property>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">auto</property>
+                <property name="pageBreakBefore">auto</property>
+                <property name="pageBreakInside">auto</property>
+                <header>
+                    <row id="1281">
+                        <cell id="1306">
+                            <property name="colSpan">7</property>
+                            <property name="rowSpan">1</property>
+                            <data id="1291">
+                                <property name="fontWeight">bold</property>
+                                <property name="resultSetColumn">cabecalho_filial</property>
+                            </data>
+                        </cell>
+                    </row>
+                    <row id="1397">
+                        <cell id="1398"/>
+                        <cell id="1399">
+                            <label id="1405">
+                                <property name="fontWeight">bold</property>
+                                <text-property name="text" key="lbl_nr_serie">Num Série</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1400">
+                            <label id="1406">
+                                <property name="fontWeight">bold</property>
+                                <text-property name="text" key="lbl_jogo">Juego</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1401">
+                            <label id="1407">
+                                <property name="fontWeight">bold</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text" key="lbl_versao">Versión</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1402">
+                            <label id="1408">
+                                <property name="fontWeight">bold</property>
+                                <property name="textAlign">left</property>
+                                <text-property name="text" key="lbl_gabinete">Mueble</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1403">
+                            <label id="1410">
+                                <property name="fontWeight">bold</property>
+                                <property name="textAlign">left</property>
+                                <text-property name="text" key="lbl_ultima_movimentacao">Última Mov.</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1404">
+                            <label id="1412">
+                                <property name="fontWeight">bold</property>
+                                <property name="textAlign">right</property>
+                                <text-property name="text" key="lbl_dias_em_transito">Días en Tránsito</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                </header>
+                <footer>
+                    <row id="1286">
+                        <cell id="1310">
+                            <property name="colSpan">6</property>
+                            <property name="rowSpan">1</property>
+                            <data id="1315">
+                                <property name="fontWeight">bold</property>
+                                <property name="resultSetColumn">nm_filial</property>
+                            </data>
+                        </cell>
+                        <cell id="1376">
+                            <data id="1325">
+                                <property name="fontWeight">bold</property>
+                                <property name="textAlign">right</property>
+                                <property name="resultSetColumn">Aggregation_1</property>
+                            </data>
+                        </cell>
+                    </row>
+                    <row id="1342">
+                        <cell id="1343">
+                            <label id="1348">
+                                <text-property name="text"> </text-property>
+                            </label>
+                        </cell>
+                        <cell id="1344"/>
+                        <cell id="1345"/>
+                        <cell id="1346"/>
+                        <cell id="1347"/>
+                        <cell id="1388"/>
+                        <cell id="1377"/>
+                    </row>
+                </footer>
+            </group>
+            <detail>
+                <row id="1238">
+                    <cell id="1308"/>
+                    <cell id="1245">
+                        <data id="1246">
+                            <property name="resultSetColumn">nr_serie_imob</property>
+                        </data>
+                    </cell>
+                    <cell id="1247">
+                        <data id="1248">
+                            <property name="resultSetColumn">nm_jogo</property>
+                        </data>
+                    </cell>
+                    <cell id="1249">
+                        <data id="1250">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">nr_versao_jogo</property>
+                        </data>
+                    </cell>
+                    <cell id="1251">
+                        <data id="1252">
+                            <property name="textAlign">left</property>
+                            <property name="resultSetColumn">nm_gabinete</property>
+                        </data>
+                    </cell>
+                    <cell id="1386">
+                        <data id="1394">
+                            <property name="textAlign">left</property>
+                            <property name="resultSetColumn">dt_movimentacao</property>
+                        </data>
+                    </cell>
+                    <cell id="1375">
+                        <data id="1396">
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">dias_em_transito</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="1253">
+                    <property name="backgroundColor">#C0C0C0</property>
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <cell id="1312">
+                        <property name="colSpan">6</property>
+                        <property name="rowSpan">1</property>
+                        <label id="1326">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text" key="total_geral">Total General</text-property>
+                        </label>
+                    </cell>
+                    <cell id="1380">
+                        <data id="1327">
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">Aggregation_2</property>
+                        </data>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+        <label id="1341">
+            <text-property name="text"> </text-property>
+        </label>
+    </body>
+    <list-property name="images">
+        <structure>
+            <property name="name">logo.png</property>
+            <property name="type">image/png</property>
+            <property name="data">
+                iVBORw0KGgoAAAANSUhEUgAAAIwAAAA0CAYAAABYWdAmAAAACXBIWXMAAC4jAAAuIwF4pT92AAAKT2lD
+                Q1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQ
+                SoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfA
+                CAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH
+                /w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBb
+                lCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7
+                AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKB
+                NA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl
+                7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7i
+                JIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k
+                4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAA
+                XkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv
+                1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRR
+                IkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQ
+                crQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXA
+                CTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPE
+                NyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJA
+                caT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgX
+                aPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZ
+                D5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2ep
+                O6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2q
+                qaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau
+                7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6fe
+                eb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYP
+                jGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFos
+                tqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuu
+                tm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPj
+                thPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofc
+                n8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw3
+                3jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5
+                QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz
+                30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7
+                F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgq
+                TXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+
+                xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2
+                pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWF
+                fevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaq
+                l+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7
+                vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRS
+                j9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtb
+                Ylu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh
+                0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L15
+                8Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89Hc
+                R/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfy
+                l5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz
+                /GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAEFxJREFUeNrs
+                nHtsW9d9x7/n3Mu3SFF2LCuyHdIm41iOH3QT5I1ZDjJsKbZFHgZsQ4NGajQEWdBa2j8ZgnWyUSxZ9k+U
+                BoOHTa3lrQHWYoCU5o9gaDwxS4c1mQszbutXxJhy6jhOPIkmKd73OfvjXpKXl5cS5RRDnNwfcMTH+Z3H
+                Pedzf+f3O4dXhHMOTzzpVKg3BJ54wHjiAeOJB4wnN6GItTeEkBuuJJ0aTQLIWKnbegWAAoAF6zU3n5/K
+                eUN+c0otOCL1N2sExoLkkBoODinhUJKJAtRoBCAEIAA1GHxVGaKqIlCuQlBUACgCmAVwfD4/lfWm4UsA
+                TDo1mlSD/gkpGh5G/y3Ys/M2FD4tIxjwgQrUBAYAJwS6zqAZDJKqQ18qQ7z0MYJLJVDDAIAcgHEPnC8w
+                MNvueOqw1hOdIKl+9G2I44WRhxELB/CNv/93gBJwQsEJATcrtLcGAkDXDSyXq2DnLyF85dNabhbAyHx+
+                quBNyxcEmHRqNElCgRnf1r6MrzeO9NY+HPuLP0A05Mf/5K/iG0d/AmYBA+KExfrDAcI5wDk4Y6h8vAgx
+                d8G+VB30rM3nH5hVo6R0ajTj7wqd6r1jcya8Lorfe3BnHZaaGIIALgiAIIBTEZzaX80EgYILFJxSEEFA
+                rP8WiPv3wegKAUAcwFw6NTrsTc1NHFanU6OZQCQ413dbb5z4RRiU4rEHdzTBwgkBFwQwKoJRwYJCAKfU
+                lgRwIpgWiFJwSsAogT8Sgv+hvTVoAOCYB81NCkw6NRqnfnGub0tvnAgEjFIYgou6BQzsFqZmcSzLAkrA
+                KamDBEoBQsEogRgKQHxgD7Rw0A7NoDc1N5uFoXRmfd+6OKUEAAEjJjRw+jqEgAsWJFQwYbCAqFsWasFT
+                d4xNiEDMz/5wEGx32l7rTDo1Gvem5yYBJp0aHRPDwcGuxlIBRohpHVp8Y2LB0LAy9fd2eGyg1N/XoipC
+                EN3Yg9Km3lqlcQDHvOm5CYBJp0bjEOhEdzzSQIJzExRKQNBqYUxQxOZXal+SahbFhMQegtcsDaUUPHEr
+                mCDUah7ylqabw8KMweeL+/2+ptCYcFgT3mpgmmCpLz8U9yTXIxYKNCxNPfSuhd8UAKlbGV/Ij8rG9fba
+                Jzq9kFQimUklkmOpRDK5lgFIJZLxVCI5lEokPWe7AxFdnNhDcDi3hHMzEQLezsIQYtFj7rkc3NWHv310
+                oK52+bqEsx9fx5vnPsbMqQWzLsIBQkCIuV0T8IkoblyH2Eef1IoNplOjmZXOoFKJZAbAnLWMAeYOcqFD
+                WI4BqIGSBTDtIbEGC5NOjQ5BFFydTUE32lRBHJZFwEBfDM89fHuT1qbuEO5JrMe5qyWzTB0wUv/MGAcT
+                BCjRsL3oE6tcQ9wGy1ol6SHw2Zakx9DwIZrEp+kA565RUt3ZFShiIT9e+N0diAWajVdJ1vH1H7yLs1fL
+                DVjszADQDAYAULoi9qJD3jR9foEZBDVnb1lSmtcu3YCgW9A4gaFi3co8N7gNAxsiLQ09f+I8zn5SaQDn
+                chIhqboFTKjJClgn4558DoFJ1ia0Wm0GhjCOoCS3WZLMpejgzo04ONDbonH85x9i5pdXmiDhdtPCAU03
+                ICkawLnbBmHmZhjMVCI5mEokv9CRnWjzXwZBGxOl6wZKpSpisYY/Ea5IgGG4LkkD60N47qHbWhp498Mi
+                nv+P+VbMOK87yADHtZJUz1MDATdgZm9wEoccwBXyC4XpdhNu+Uw1i1YE8BqA2fxCobhC/RP2NlKJJCwH
+                etz6ahjAfpuvVQDwlrMfVvurAVe0+lNYCVwAjzmu+y2rXM4tUmzXR+e1iy0hsk2Wri8jGPTD7zfVRM2A
+                X9NbgImFAnjhQAKxQLP/c7mk4Jkfn3FdfurhOhhKVRVVWQXh3DwV5ew3dcdnAMw4BvtAG/V2kzUEYCKV
+                SB50DrYjykKbsi+1ccqHU4nkBAB7vYMdbiW8lEokR1yAi8Pc8Bxqc30TqURyGsB4DQKXKLOpj1b/e9yX
+                JNbsnzDGceXqElRVd1iGZmCeu78fA+tDLa098/pZlBTdsiIw/Z96YgDnqCoaPilWQBgDGANnrNVPunFY
+                5hxfj7jdYR1GUzPWhNgtSztYpq2789gqEVwSwJzV17XKMZflb66DIGEYzbvoM6v0cba9D+MyUTVoZFlz
+                re2evjAO3t7a3vHcFZz9tGLV2QCk8cpxfVnG5WtlUNb4nQwYQ7BS/aywxF0GYiS/UJjtwNyPW1boiPXZ
+                Prn2yXjJUXY8v1Ag1t34skv+EaveA45JiLvo2svU0qSjPwBwyHbNh51LL4ARq70RR9mhVCI5bAFnDyhy
+                APZZ6aC1N/Xayht3LqFzDZpYLAyDdXb3P7JtHZ6fmzfrY8y0Xtarrmu4uliBLCkQGANhDFTTECqWEdV1
+                +A0DtCsEXdEA3QA4T6yBl7h1p9kH4kg7v8UxwPts63U2lUhmHVbqMQDTlkVIctEHI9wNqlSPXLxwZhIA
+                8guF4pavPPgE8wfjXDB/BiJWFscvvffOpK2e7OZ7H55jYqBmIQY3br8no3/8QVOHFn5x8rDjRjjuWD6G
+                3OCx4LBfC1KJZA7AKYf+uGMMsjYLnHPzG0UXk4J2ezGlUrVpeVpJNsUC+Oa9W/DKT/MAMwBmQJJVlJYl
+                lCoSqKFbyUCkXEFKVRDqDoL5fWCUmP6MouH61SXI18rD6dRoBsCB+fxUcZWmJxx32nR+oXC4gy4XnI5t
+                fqGQ7dv/+zkWCGfqMC4UsHj3V5OOmyqLC2fqHypb9w7a8otL//bGpLOx5S0DLzt8piG1e0Oz0i9OwtGf
+                XM8fPTPtK10ba1BVQP/9jwzKhhYXq2VzUsuL0y7XkkslkrM2yDIWFE6/6jqAyXZOfh2Y+fxUNp0aBYz2
+                wKxVvn7XZkz/dx7vX6tgeVkG0zUQwwDVTVgEw0C0WMIOysDWx1AO+qH5RPNUnHMIuo6ucBC+UADlX1/L
+                QNPn0qnR1aBx+gML7RSVzdthBCNggggjHAUWvt+io/dsaGlLMOSmNhhIcYV8d5/JULMCN2y+Ibo5wfXV
+                xlTQpess3LzPpfbelgEBbBshr7ldC+uKv0crxSHHWE0CGLNZ5wkAhyzn+GVnNObc8Mih7RHAKot/VW35
+                LhYQ8Ve/fQfKpWUwVQHRNFBNhahrEDQdgiSjX5LAuiMoR4JQI2Gwri6waBQ8GoXR1YVKJARf/3roXSGA
+                kAzWcCAJXwA8vmFi66N/4upU0vgt8AVDCPh8CGuyaxVhTW5Kbt8tzn4vt0KZt9zqXZr5p6JdL6TLGbe2
+                OuqPLsc7KWskd0Lb9QD07V+BkbwTfMNm5BcK4xY0zmV9DMAp56Gsc0nKgvMMDGNNVqZUlvCnf/4P+NZT
+                v4NHH9rZHFfu2YwDyR68feZDUMMAMQxwxsAMA9GlEhAQUA36wUIhGOEwWDAELooAY6CKApESSJyDxiPg
+                kgoiK2Pp1OgRNytDfH4IXd0goa4iicTihFrXYCjHLEeuSbraDOxqOquVc+Tv7USPExRIB+7hjfSnRY8A
+                CASAQG9tuRq//Z7f+iFRqk8RxoaNynVwZtTAOZZKJAuWA9xiYUyPWNPXZF0ef/K7mD99ES/+zY9c87//
+                5H7QahWQJDBZBpdlEFlBQJIhEQrN5wMP+GGEwuCRGBDtAbriYOEIjEAQuihiiQPcL8Lp7AnBMALrNiJy
+                WxqRLWkEe3pz/nDXVr+h53yaDDMpmT0PPdLixzTyzeRqpFx0Vivn0+SiLd/1WGPvga8O2uvwq/LCjfdH
+                yTXVpUnJNmUTdj3R0OqW8f13//NnF947ORLo3bQ1snVHNrxpG/yxHlDR1+RQNwFjPeZRgMHQ6dL0zsl5
+                nD1/2dyo+2gR069mW3QSG2L466G7EagsI7QsIbIsISrJ8OkGlhQNFdUAE0TA5weCISDWA4QjgD8AJoq4
+                VlGgUwGscWRQH5DIhj4EIhEInIFqMqgmjZ8+8XqR6sqI+dlMAmeH9j0w2DSQ9nzaZoLcdFYrRzU5a8vP
+                ONsFAKrKTzTXo+RuuD96c1miKi0n/Pvu3x+nqjxk0yucPvF6i5U+feL1Qnd/4lGRohjs7kHXrVsQ2XBr
+                vJ0PU4v9AVW7oQ20V46+gVJZavn+uccH8VBvDD3FMuKlZUTLVRBwEA5cWSzjarEKRdPNfRpDBxhDRdZw
+                6VoFJUkFgXtfmCK3JAA49fabOa4qR+rfq3Kcaeqxlcp2Un9H5XTth006mjKz565769Dsvfu+MabKwzad
+                wqmfnpi90f6cevvNAlOUrO1aB/fefV89khoY2JVkujrHVDle0+Gqctzsy/2De+66d87ev+LZnwftbdif
+                WWsBZj4/NQ2gAM4BWV0zNKWyhFeOvuGa949/N4J1AR8EVYeg6iAGh2gYILqBSnkZl678Ly4sXMWFDz7E
+                hcIVfHR1EVpVAjQdPt0AdVkqDUVuSXUP/t3/OsxU+Zwtb3DX7sxYu7KujqKLzmrlTv3s7X9lqpxt6CgZ
+                pmkXd+3ed2rXnn1Lhqq+ZC/PVGX8s/QHALimjDflqepLu3Zn+J279p4SfP6LhqJkbPkFpqmTZrAmP8E0
+                bZBp2sU7d2Uu7tqdmWOaetFQ5Hijfw3HXWwz7+MAZsCYaWkC/jVBM/1qFsOPD2JT/7rmvZn+dXjxO1/D
+                02NT9WMGv6IhoKiQJAkipTAMVnd6BUWGIFUhyAqCqgaiaC2hqi6vvCusKfLTYGzOdnw1cUd6++z5+QuF
+                1cq2q7+jcqpykDM2B84zK4T8AKUj586dme243jY6p3Mnczt27BwBY0cBBNu3SQqE0oO/PPer4h3p7Uld
+                loYdu9lJx9FPjlA6uSIw8/mp2XRqdBrAsLnTqpjQrOE/PDz77Vfxg+99s3UH+MAevPidr+HZb79qQiGr
+                iPokMEqgMgaqquYzTYyZYbgkI1qVEFiWQUwLU5zPT802JkYt1jx42y5nXc6dO5NNb912BBz7Hecph3VV
+                za22X+Kmo6tqwdFmi5w9+6sigH3pram/BOd/7ALLLKH05fc/mM/a2lq13pV0zp07M337tnSWczYBjiHH
+                0UgBhBwnhEy+/8F8EQDOz18o3L4tfYAzdsjlDKpF37rJ3Z+ttp4LmqtfKCFA0I+BgS04Ovlndevxzsl5
+                PP7kd10v7ujkKB45sMd1yZr+5xOAZTF4OAg1EkA1GIDi98GgFJRz+DQdYUVFoCJBqEi15XF8Pj81CU/+
+                X6Wjh/FboAEAUQD8PvzhY/fhW08/il9/tNgWmE396/DjHz2LWDSEUlnC8VezmP6XOZSuXTd3lO3i94EF
+                /TB8IphAQBiHoBugkgKi1n/pNz2fnxrxpu9zCkxbaGrgiAI2bdmAyx8ttj+EPLAHAMebP8kBut4KSsvu
+                m/WsErfOtRoyOZ+fGvem7nMOjA2adj/MaTys5qyjdlJtrPqDqILlaO+3DuQytu+zAI54/z/mJgLGBs6Y
+                dZYT/w32ZdICouhNyxcMGJu1GbO2iz8LONOe5fgSAOMAZwjmj4qGOiyWA3AcwKwHypcMGBeABi2L49xv
+                KFqg5Lxl5wsEjCeedCLefwL3xAPGEw8YTzxgPPGA8cQDxhNP7PJ/AwBJNvDX87IWSQAAAABJRU5ErkJg
+                gg==
+            </property>
+        </structure>
+    </list-property>
+</report>

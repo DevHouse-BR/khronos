@@ -7,6 +7,7 @@
  * 
  * @property integer $id
  * @property string $nm_protocolo
+ * @property Doctrine_Collection $ScmFaturaItem
  * @property Doctrine_Collection $ScmLocalServer
  * @property Doctrine_Collection $ScmMaquina
  * 
@@ -37,7 +38,11 @@ abstract class BaseScmProtocolo extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-    $this->hasMany('ScmLocalServer', array(
+    $this->hasMany('ScmFaturaItem', array(
+             'local' => 'id',
+             'foreign' => 'id_protocolo'));
+
+        $this->hasMany('ScmLocalServer', array(
              'local' => 'id',
              'foreign' => 'id_protocolo'));
 

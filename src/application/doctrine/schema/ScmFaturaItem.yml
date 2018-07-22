@@ -1,0 +1,115 @@
+ScmFaturaItem:
+  options:
+    collate: utf8_unicode_ci
+    charset: utf8
+  tableName: scm_fatura_item
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    id_fatura_doc:
+      type: integer(4)
+      unsigned: 0
+      notnull: true
+      autoincrement: false
+    vl_credito:
+      type: decimal(10)
+      notnull: true
+    nr_credito:
+      type: integer(4)
+      notnull: true
+    id_maquina:
+      type: integer(4)
+      unsigned: 0
+      notnull: true
+      autoincrement: false
+    id_jogo:
+      type: integer(4)
+      unsigned: 0
+      notnull: true
+      autoincrement: false
+    nr_versao_jogo:
+      type: string(45)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    id_gabinete:
+      type: integer(4)
+      unsigned: 0
+      notnull: true
+      autoincrement: false
+    id_protocolo:
+      type: integer(4)
+      unsigned: 0
+      notnull: true
+      autoincrement: false
+    id_moeda:
+      type: integer(4)
+      unsigned: 0
+      notnull: true
+      autoincrement: false
+    nr_cont_1: integer
+    nr_cont_2: integer
+    nr_cont_3: integer 
+    nr_cont_4: integer 
+    nr_cont_5: integer 
+    nr_cont_6: integer 
+    nr_cont_1_ant: integer
+    nr_cont_2_ant: integer
+    nr_cont_3_ant: integer
+    nr_cont_4_ant: integer
+    nr_cont_5_ant: integer
+    nr_cont_6_ant: integer
+    nr_dif_cont_1: integer
+    nr_dif_cont_2: integer
+    nr_dif_cont_3: integer
+    nr_dif_cont_4: integer
+    nr_dif_cont_5: integer
+    nr_dif_cont_6: integer
+    vl_dif_cont_1: decimal(10)
+    vl_dif_cont_2: decimal(10)
+    vl_dif_cont_3: decimal(10)
+    vl_dif_cont_4: decimal(10)
+    vl_dif_cont_5: decimal(10)
+    vl_dif_cont_6: decimal(10)
+    dias_na_fatura: integer
+    percent_local:
+      type: integer
+      notnull: false
+    vl_bruto:
+      type: decimal(10)
+      notnull: true
+    vl_local:
+      type: decimal(10)
+      notnull: true
+    vl_empresa:
+      type: decimal(10)
+      notnull: true
+  relations:
+    ScmMaquina:
+      local: id_maquina
+      foreign: id
+      type: one
+    ScmJogo:
+      local: id_jogo
+      foreign: id
+      type: one
+    ScmGabinete:
+      local: id_gabinete
+      foreign: id
+      type: one
+    ScmProtocolo:
+      local: id_protocolo
+      foreign: id
+      type: one
+    ScmFaturaDoc:
+      local: id_fatura_doc
+      foreign: id
+      type: one
+    ScmMoeda:
+      local: id_moeda
+      foreign: id
+      type: one

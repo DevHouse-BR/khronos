@@ -29,6 +29,11 @@ ScmConfig:
     name: 'Dirección del Servidor de Listados'
     value: 'localhost'
     system: true
+  Config_10:
+    id: 10
+    name: 'Timeout del Servidor de Listados'
+    value: 30
+    system: true
   Config_11:
     id: 11
     name: 'Porta del Servidor de Listados'
@@ -39,3 +44,43 @@ ScmConfig:
     name: 'Crédito para considerar jogando'
     value: '0.20'
     system: false
+  Config_13:
+    id: 13
+    name: 'Copyright'
+    value: 'Copyright &copy; DMG | All rights reserved - Powered by <a target="_blank" href="http://www.agenciadmg.com.br/">DMG</a>'
+    system: true
+  Config_14:
+    id: 14
+    name: 'Nombre del Portal'
+    value: 'Portal del Cliente - Sistema de Control Online'
+    system: true   
+  Config_15:
+    id: 15
+    name: 'Tempo limite das sessões'
+    value: '180'
+    system: true
+  Config_16:
+    id: 16
+    name: 'Limite de fatura exibidas no portal'
+    value: 30
+    system: false
+  Config_17:
+    id: 17
+    name: 'Faturar máquinas jogando'
+    value: 'S'
+    system: false
+  Config_18:
+    id: 18
+    name: 'Session Name'
+    value: 'khronos'
+    system: true
+  Config_19:
+    id: 19
+    name: 'Session Name Portal'
+    value: 'khronos_portal'
+    system: true
+  Config_20:
+    id: 20
+    name: 'Reports URL Path'
+    value: 'Reports'
+    system: true

@@ -2,28 +2,28 @@ ScmUser:
   User_1:
     name: 'Administrador'
     username: 'admin'
-    password: '1234'
-    email: 'rafael@agenciadmg.com.br'
-    language: 'pt_BR'
+    password: 'e6X9hJssakZST/pdtA/Gqg' # 1234
+    email: 'leonardo@devhouse.com.br'
+    language: 'es'
     status: 1
   User_2:
     name: 'Gerente'
     username: 'gerente'
-    password: '1234'
-    email: 'rafael@agenciadmg.com.br'
+    password: '5IL3ZMLaBtdVOjNpg7le6Q' # 1234
+    email: 'leo.lima.web@gmail.com'
     language: null
     status: 1
   User_3:
     name: 'Tecnico'
     username: 'tecnico'
-    password: '1234'
-    email: 'rafael@agenciadmg.com.br'
+    password: 'Q8seXX/ZnBruIFM5yDGbsw' #1234
+    email: 'llvasconcellos@hotmail.com'
     language: null
     status: 1
   User_4:
     name: 'Listados'
     username: 'listados'
-    password: '1234'
-    email: 'rafael@agenciadmg.com.br'
+    password: '+DxJg7t4/QICydc/QGsBNw' # 1234
+    email: 'leonardo@opentech.com.br'
     language: null
     status: 1

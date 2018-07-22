@@ -39,6 +39,16 @@ class MaquinaController extends Zend_Controller_Action {
 				}
 			}
 			$query->innerJoin('m.ScmFilial f')->innerJoin('f.ScmEmpresa e')->innerJoin('e.ScmUserEmpresa ue')->addWhere('ue.user_id = ' . Zend_Auth::getInstance()->getIdentity()->id);
+			
+			
+			$local = Doctrine::getTable('ScmLocal')->find((int) $this->getRequest()->getParam('local'));
+			if ($local) {
+				$query->addWhere('m.id_local = ?', $local->id);
+			}
+			
+			
+			
+			
 			$data = array();
 			foreach ($query->execute() as $k) {
 				$data[] = array(
@@ -52,13 +62,14 @@ class MaquinaController extends Zend_Controller_Action {
 					'nm_parceiro' => $k->ScmParceiro->nm_parceiro,
 					'simbolo_moeda' => $k->ScmMoeda->simbolo_moeda,
 					'nm_status_maquina' => $k->ScmStatusMaquina->nm_status_maquina,
-					'vl_credito' => $k->vl_credito,
+					'vl_credito' => Khronos_Moeda::format($k->vl_credito),
 					'nr_cont_1' => $k->nr_cont_1,
 					'nr_cont_2' => $k->nr_cont_2,
 					'nr_cont_3' => $k->nr_cont_3,
 					'nr_cont_4' => $k->nr_cont_4,
 					'nr_cont_5' => $k->nr_cont_5,
 					'nr_cont_6' => $k->nr_cont_6,
+					'percent_local' => $k->percent_local
 				);
 			}
 			echo Zend_Json::encode(array('total' => $query->count(), 'data' => $data));
@@ -85,7 +96,7 @@ class MaquinaController extends Zend_Controller_Action {
 							'id_jogo' => $obj->id_jogo,
 							'nr_versao_jogo' => $obj->nr_versao_jogo,
 							'id_gabinete' => $obj->id_gabinete,
-							'vl_credito' => $obj->vl_credito,
+							'vl_credito' => Khronos_Moeda::format($obj->vl_credito),
 							'id_protocolo' => $obj->id_protocolo,
 							'nr_cont_1' => $obj->nr_cont_1,
 							'nr_cont_2' => $obj->nr_cont_2,
@@ -99,6 +110,7 @@ class MaquinaController extends Zend_Controller_Action {
 							'nr_cont_4_parcial' => $obj->nr_cont_4_parcial,
 							'nr_cont_5_parcial' => $obj->nr_cont_5_parcial,
 							'nr_cont_6_parcial' => $obj->nr_cont_6_parcial,
+							'percent_local' => $obj->percent_local
 						)));
 						return;
 					}
@@ -120,7 +132,7 @@ class MaquinaController extends Zend_Controller_Action {
 				if ($data['offline'] == 1) {
 					throw new Exception(DMG_Translate::_('parque.maquina.busca_contadores.offline'));
 				}
-				if ($data['creditos'] > DMG_Config::get(12)) {
+				if ($data['creditos'] > 0) {
 					throw new Exception(DMG_Translate::_('parque.maquina.busca_contadores.jogando'));
 				}
 				echo Zend_Json::encode(array(
@@ -185,6 +197,65 @@ class MaquinaController extends Zend_Controller_Action {
 			}
 		}
 	}
+	
+	public function percentAction(){
+		$result = array();
+		try {
+			$id_maquina = (int) $this->getRequest()->getParam('id_maquina');
+			if(! $id_maquina > 0){
+				$result["success"] = false;
+				$result["errormsg"] = DMG_Translate::_('parque.maquina.erro_id_maquina');
+				throw new Exception();
+			}		
+			
+			$percent_local_new = $this->getRequest()->getParam('percent_local_new');
+			if(((int)$percent_local_new < 0) || ((int)$percent_local_new > 100)){
+				$result["success"] = false;
+				$result["errors"]["percent_local_new"] = DMG_Translate::_('parque.maquina.erro_percent_inv');
+				$result["errormsg"] = DMG_Translate::_('parque.maquina.erro_percent_inv');
+				throw new Exception();
+			}
+			
+			$maquina = Doctrine_Query::create()
+				->from('ScmMaquina m')
+				->innerJoin('m.ScmFilial f')
+				->innerJoin('f.ScmEmpresa e')
+				->innerJoin('e.ScmUserEmpresa ue')
+				->where('m.id = ?', $id_maquina)
+				->addWhere('ue.user_id = ' . Zend_Auth::getInstance()->getIdentity()->id)
+				->fetchOne();
+
+			if(!$maquina){
+				$result["success"] = false;
+				$result["errormsg"] = DMG_Translate::_('parque.maquina.erro_id_maquina');
+				throw new Exception();
+			}
+			
+			if($percent_local_new == $maquina->percent_local){
+				$result["success"] = false;
+				$result["errors"]["percent_local_new"] = DMG_Translate::_('parque.maquina.erro_percent_igual');
+				$result["errormsg"] = DMG_Translate::_('parque.maquina.erro_percent_igual');
+				throw new Exception();
+			}
+			
+			$obj = new ScmAjustePercentual();
+			$obj->id_maquina = $id_maquina;
+			$obj->id_filial = $maquina->id_filial;
+			$obj->id_local = $maquina->id_local;
+			$obj->percent_local_old = $maquina->percent_local;
+			$obj->percent_local_new = $percent_local_new;
+			$obj->save();
+			
+			$maquina->percent_local = $percent_local_new;
+			$maquina->save();
+			
+			echo Zend_Json::encode(array('success' => true));
+		}
+		catch (Exception $e){
+			echo Zend_Json::encode($result);
+			return;
+		}
+	}
 	protected function fillAndValidate (&$obj, $id) {
 		$error = array();
 		// nr_serie_connect
@@ -215,6 +286,19 @@ class MaquinaController extends Zend_Controller_Action {
 			$error['nr_serie_connect'] = DMG_Translate::_('parque.maquina.nr_serie_connect.repeaterror');
 		}
 		if (!$id) {
+			// percent_local
+			//		
+			try{
+				$percent_local = $this->getRequest()->getParam('percent_local');
+				if(((int)$percent_local < 0) || ((int)$percent_local > 100)){					
+					throw new Exception();
+				}
+				$obj->percent_local = (int) $percent_local;
+			}
+			catch(Exception $e){
+				$error["percent_local"] = DMG_Translate::_('parque.maquina.erro_percent_inv');
+			}
+			
 			// id_local
 			try {
 				if (!Doctrine::getTable('ScmLocal')->find($obj->id_local)) {
@@ -370,5 +454,12 @@ class MaquinaController extends Zend_Controller_Action {
 			$obj->id_usuario = Zend_Auth::getInstance()->getIdentity()->id;
 		}
 		return $error;
+	}
+	
+	public function verificaMaquinaFaturaTempAction(){
+		if(Khronos_Faturamento_Misc::maquinaFatTemp($this->getRequest()->getParam('id')))
+			$this->_helper->json(array('success' => true));
+		else 
+			$this->_helper->json(array('success' => false));
 	}
 }

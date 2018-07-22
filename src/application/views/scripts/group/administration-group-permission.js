@@ -4,7 +4,7 @@ var AdministrationGroupPermission = Ext.extend(Ext.Window, {
 	modal: true,
 	constrain: true,
 	maximizable: false,
-	resizable: false,
+	resizable: true,
 	width: 600,
 	height: 350,
 	title: '<?php echo DMG_Translate::_('administration.group.permission.title'); ?>',

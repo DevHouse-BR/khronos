@@ -35,6 +35,7 @@ class ScmMaquina extends BaseScmMaquina
 		$mvItem->nr_cont_4 = $this->nr_cont_4;
 		$mvItem->nr_cont_5 = $this->nr_cont_5;
 		$mvItem->nr_cont_6 = $this->nr_cont_6;
+		$mvItem->percent_local = $this->percent_local;
 		$mvItem->save();
 		$trDoc = new ScmTransformacaoDoc();
 		$trDoc->id_origem = 1;
@@ -69,6 +70,5 @@ class ScmMaquina extends BaseScmMaquina
 		$hsStatus->id_usuario = $this->id_usuario;
 		$hsStatus->dt_sistema = DMG_Date::now();
 		$hsStatus->save();
-		// faturamento, regularização
 	}
 }

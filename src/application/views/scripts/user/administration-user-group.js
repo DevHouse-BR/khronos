@@ -18,9 +18,9 @@ var AdministrationUserGroup = Ext.extend(Ext.Window, {
 		AdministrationUserGroup.superclass.constructor.apply(this, arguments);
 	},
 	initComponent: function() {
-		var tree1 = new Ext.tree.TreePanel({
-			name: 'tree1',
-			id: 'tree1',
+		var tree6 = new Ext.tree.TreePanel({
+			name: 'tree6',
+			id: 'tree6',
 			autoWidth: true,
 			height: 276,
 			border: false,
@@ -28,13 +28,13 @@ var AdministrationUserGroup = Ext.extend(Ext.Window, {
 			enableDD: true,
 			overflow: 'scroll',
 			dragConfig: {
-				ddGroup: 'tree1',
+				ddGroup: 'tree6',
 			},
 			dropConfig: {
-				ddGroup: 'tree2',
+				ddGroup: 'tree7',
 				onNodeDrop: function (a, b, c, data) {
-					tree1.root.appendChild(data.node);
-					tree1.root.expand();
+					tree6.root.appendChild(data.node);
+					tree6.root.expand();
 					return true;
 				}
 			},
@@ -53,22 +53,22 @@ var AdministrationUserGroup = Ext.extend(Ext.Window, {
 				id: '0'
 			})
 		});
-		var tree2 = new Ext.tree.TreePanel({
-			name: 'tree2',
-			id: 'tree2',
+		var tree7 = new Ext.tree.TreePanel({
+			name: 'tree7',
+			id: 'tree7',
 			autoWidth: true,
 			height: 276,
 			border: false,
 			useArrows: true,
 			enableDD: true,
 			dragConfig: {
-				ddGroup: 'tree2',
+				ddGroup: 'tree7',
 			},
 			dropConfig: {
-				ddGroup: 'tree1',
+				ddGroup: 'tree6',
 				onNodeDrop: function (a, b, c, data) {
-					tree2.root.appendChild(data.node);
-					tree2.root.expand();
+					tree7.root.appendChild(data.node);
+					tree7.root.expand();
 					return true;
 				}
 			},
@@ -87,11 +87,11 @@ var AdministrationUserGroup = Ext.extend(Ext.Window, {
 				id: '0'
 			})
 		});
-		tree1.on('load', function() {
-			tree1.expandAll();
+		tree6.on('load', function() {
+			tree6.expandAll();
 		});
-		tree2.on('load', function() {
-			tree2.expandAll();
+		tree7.on('load', function() {
+			tree7.expandAll();
 		});
 		this.formPanel = new Ext.form.FormPanel({
 			bodyStyle: 'padding: 5px;',
@@ -106,12 +106,12 @@ var AdministrationUserGroup = Ext.extend(Ext.Window, {
 					columnWidth: .5,
 					autoHeight: true,
 					layout: 'form',
-					items: [tree1],
+					items: [tree6],
 				}, {
 					columnWidth: .5,
 					autoHeight: true,
 					layout: 'form',
-					items: [tree2],
+					items: [tree7],
 				}]
 			}]
 		});
@@ -127,12 +127,12 @@ var AdministrationUserGroup = Ext.extend(Ext.Window, {
 	},
 	show: function() {
 		this.formPanel.user = this.user;
-		var tree1 = this.formPanel.items.items[0].items.items[0].items.items[0];
-		var tree2 = this.formPanel.items.items[0].items.items[1].items.items[0];
-		tree1.loader.baseParams.user = this.user;
-		tree2.loader.baseParams.user = this.user;
-		tree1.root.reload();
-		tree2.root.reload();
+		var tree6 = this.formPanel.items.items[0].items.items[0].items.items[0];
+		var tree7 = this.formPanel.items.items[0].items.items[1].items.items[0];
+		tree6.loader.baseParams.user = this.user;
+		tree7.loader.baseParams.user = this.user;
+		tree6.root.reload();
+		tree7.root.reload();
 		AdministrationUserGroup.superclass.show.apply(this, arguments);
 	},
 	onDestroy: function() {

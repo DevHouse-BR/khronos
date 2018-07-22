@@ -1,0 +1,71 @@
+ScmAjustePercentual:
+  tableName: scm_ajuste_percentual
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    id_maquina:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_filial:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    id_local:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    percent_local_old:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+      range: [0, 100]
+    percent_local_new:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+      range: [0, 100]
+    id_usuario:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    dt_sistema:
+      type: timestamp(25)
+      notnull: true
+  checks:
+    check_1: percent_local_old >= 0
+    check_2: percent_local_old <= 100
+    check_3: percent_local_new >= 0
+    check_4: percent_local_new <= 100
+  relations:
+    ScmMaquina:
+      local: id_maquina
+      foreign: id
+      type: one
+    ScmFilial:
+      local: id_filial
+      foreign: id
+      type: one
+    ScmLocal:
+      local: id_local
+      foreign: id
+      type: one
+    ScmUser:
+      local: id_usuario
+      foreign: id
+      type: one

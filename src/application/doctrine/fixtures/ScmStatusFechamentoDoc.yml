@@ -1,7 +1,0 @@
-ScmStatusFechamentoDoc:
-  StatusFechamentoDoc_1:
-    id: 1
-    nm_status_fechamento_doc: 'Temporário'
-  StatusFechamentoDoc_9:
-    id: 9
-    nm_status_fechamento_doc: 'Confirmado'

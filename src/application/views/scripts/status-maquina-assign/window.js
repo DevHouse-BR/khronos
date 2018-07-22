@@ -150,6 +150,12 @@ var StatusMaquinaAssignWindow = Ext.extend(Ext.grid.GridPanel, {
 			return false;
 		}
 		var record = this.getSelectionModel().getSelections();
+		
+		if(verificaMaquinaFaturaTemp(record[0].get('id'))){
+			uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('grid.form.alert.title'); ?>', msg: '<?php echo DMG_Translate::_('faturamento.operacoes.maquina.em.fatura.temp'); ?>'});
+			return;
+		}
+		
 		this._newFormControlada();
 		this.window.setMaquina(record[0].get('id'));
 		this.window.show();

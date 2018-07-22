@@ -1,11 +1,11 @@
 <?php
 class Khronos_MenuPortal {
-	public function getArray () {
+	public static function getArray () {
 		$menu = array(
 			array('nome' => 'menu.portal.menu', 'filhos' => array(
-				array('nome' => 'menu.portal.parque_maquinas', 'permissao' => 7, 'eXtype' => 'administration-group'),
-				array('nome' => 'menu.portal.consulta_contadores', 'permissao' => 7, 'eXtype' => 'administration-group'),
-				array('nome' => 'menu.portal.consulta_faturas_emitidas', 'permissao' => 7, 'eXtype' => 'administration-group')
+				array('nome' => 'menu.portal.parque_maquinas', 'permissao' => 7, 'eXtype' => 'consulta-parque-maquinas'),
+				array('nome' => 'menu.portal.consulta_contadores', 'permissao' => 7, 'eXtype' => 'consulta-contadores'),
+				array('nome' => 'menu.portal.consulta_faturas_emitidas', 'permissao' => 7, 'eXtype' => 'consulta-faturas')
 			))
 		);
 		$json = array();
@@ -15,14 +15,12 @@ class Khronos_MenuPortal {
 				continue;
 			}
 			foreach ($k['filhos'] as $m) {
-				if (DMG_Acl::canAccess($m['permissao'])) {
-					$children[] = array(
-						'text' => DMG_Translate::_($m['nome']),
-						'leaf' => true,
-						'iconCls' => 'no-icon',
-						'eXtype' => $m['eXtype']
-					);
-				}
+				$children[] = array(
+					'text' => DMG_Translate::_($m['nome']),
+					'leaf' => true,
+					'iconCls' => 'no-icon',
+					'eXtype' => $m['eXtype']
+				);
 			}
 			if (count($children)) {
 				$json[] = array(
@@ -34,7 +32,7 @@ class Khronos_MenuPortal {
 		}
 		return $json;
 	}
-	public function getJson () {
+	public static function getJson () {
 		return Zend_Json::encode(Khronos_MenuPortal::getArray());
 	}
 }

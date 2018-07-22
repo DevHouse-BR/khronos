@@ -1,7 +1,13 @@
 ScmLocalServer:
   ScmLocalServer_1:
-    ip_server: '192.168.0.1'
+    ip_server: '172.99.2.62'
     ScmLocal: ScmLocal_1
     ScmProtocolo: ScmProtocolo_1
     num_port: 80
-    timeout: 30
+    timeout: 10
+  ScmLocalServer_2:
+    ip_server: '172.99.2.62'
+    ScmLocal: ScmLocal_2
+    ScmProtocolo: ScmProtocolo_1
+    num_port: 80
+    timeout: 10

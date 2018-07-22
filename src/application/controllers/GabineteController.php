@@ -7,12 +7,12 @@ class GabineteController extends Zend_Controller_Action {
 	}
 	public function listAction () {
 		if (DMG_Acl::canAccess(21) || DMG_Acl::canAccess(26) || DMG_Acl::canAccess(27)) {
-			echo DMG_Crud::index('ScmGabinete', 'id, nm_gabinete');
+			echo DMG_Crud::index($this, 'ScmGabinete', 'id, nm_gabinete');
 		}
 	}
 	public function getAction () {
 		if (DMG_Acl::canAccess(22)) {
-			echo DMG_Crud::get('ScmGabinete', (int) $this->getRequest()->getParam('id'));
+			echo DMG_Crud::get($this, 'ScmGabinete', (int) $this->getRequest()->getParam('id'));
 		}
 	}
 	public function saveAction () {
@@ -45,7 +45,7 @@ class GabineteController extends Zend_Controller_Action {
 	}
 	public function deleteAction () {
 		if (DMG_Acl::canAccess(24)) {
-			echo DMG_Crud::delete('ScmGabinete', $this->getRequest()->getParam('id'));
+			echo DMG_Crud::delete($this, 'ScmGabinete', $this->getRequest()->getParam('id'));
 		}
 	}
 }

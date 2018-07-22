@@ -6,7 +6,7 @@ class FilialController extends Zend_Controller_Action {
 		$this->view->headMeta()->appendHttpEquiv('Content-Type', 'application/json; charset=UTF-8');
 	}
 	public function listAction () {
-		if (DMG_Acl::canAccess(42) || DMG_Acl::canAccess(26) || DMG_Acl::canAccess(27)) {
+		if (DMG_Acl::canAccess(42) || DMG_Acl::canAccess(26) || DMG_Acl::canAccess(27) || DMG_Acl::canAccess(73)) {
 			$query = Doctrine_Query::create()->from('ScmFilial f')->select('f.id, f.nm_filial');
 			$limit = (int) $this->getRequest()->getParam('limit');
 			if ($limit > 0) {
@@ -38,6 +38,7 @@ class FilialController extends Zend_Controller_Action {
 				}
 			}
 			$query->innerJoin('f.ScmEmpresa e')->innerJoin('e.ScmUserEmpresa ue')->addWhere('ue.user_id = ' . Zend_Auth::getInstance()->getIdentity()->id);
+			$data = array();
 			foreach ($query->execute() as $k) {
 				$data[] = array(
 					'id' => $k->id,
@@ -96,46 +97,38 @@ class FilialController extends Zend_Controller_Action {
 		}
 	}
 	public function saveAction () {
-		$id = (int) $this->getRequest()->getParam('id');
-		if ($id > 0) {
-			if (DMG_Acl::canAccess(43)) {
-				$obj = Doctrine::getTable('ScmFilial')->find($id);
-				if ($obj) {
-					foreach ($obj->ScmEmpresa->ScmUserEmpresa as $k) {
-						if ($k->user_id == Zend_Auth::getInstance()->getIdentity()->id) {
-							$obj->nm_filial = $this->getRequest()->getParam('nm_filial');
-							$qr = Doctrine_Query::create()->from('ScmUserEmpresa')->addWhere('id_empresa = ?', $this->getRequest()->getParam('id_empresa'))->addWhere('user_id = ?', Zend_Auth::getInstance()->getIdentity()->id);
-							$obj->id_empresa = $this->getRequest()->getParam('id_empresa');
-							try {
-								if (!$qr->count()) {
-									throw new Exception();
-								}
+		try {
+			$id = (int) $this->getRequest()->getParam('id');
+			if ($id > 0) {
+				if (DMG_Acl::canAccess(44)) {
+					$obj = Doctrine::getTable('ScmFilial')->find($id);
+					if ($obj) {
+						foreach ($obj->ScmEmpresa->ScmUserEmpresa as $k) {
+							if ($k->user_id == Zend_Auth::getInstance()->getIdentity()->id) {
+								$obj->nm_filial = $this->getRequest()->getParam('nm_filial');
 								$obj->save();
 								echo Zend_Json::encode(array('success' => true));
-							} catch (Exception $e) {
-								echo Zend_Json::encode(array('success' => false));
 							}
-							return;
 						}
 					}
 				}
-			}
-		} else {
-			if (DMG_Acl::canAccess(44)) {
-				$obj = new ScmFilial();
-				$obj->nm_filial = $this->getRequest()->getParam('nm_filial');
-				$qr = Doctrine_Query::create()->from('ScmUserEmpresa')->addWhere('id_empresa = ?', $this->getRequest()->getParam('id_empresa'))->addWhere('user_id = ?', Zend_Auth::getInstance()->getIdentity()->id);
-				$obj->id_empresa = $this->getRequest()->getParam('id_empresa');
-				try {
+			} 
+			else {
+				if (DMG_Acl::canAccess(43)) {
+					$obj = new ScmFilial();
+					$obj->nm_filial = $this->getRequest()->getParam('nm_filial');
+					$qr = Doctrine_Query::create()->from('ScmUserEmpresa')->addWhere('id_empresa = ?', $this->getRequest()->getParam('id_empresa'))->addWhere('user_id = ?', Zend_Auth::getInstance()->getIdentity()->id);
+					$obj->id_empresa = $this->getRequest()->getParam('id_empresa');					
 					if (!$qr->count()) {
-						throw new Exception();
+						throw new Exception(DMG_Translate::_('grid.empty'));
 					}
 					$obj->save();
 					echo Zend_Json::encode(array('success' => true));
-				} catch (Exception $e) {
-					echo Zend_Json::encode(array('success' => false));
 				}
 			}
+		}
+		catch (Exception $e) {
+			echo Zend_Json::encode(array('success' => false, 'errormsg' => $e->getMessage()));
 		}
 	}
 }
