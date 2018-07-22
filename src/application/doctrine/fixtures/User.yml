@@ -3,27 +3,27 @@ ScmUser:
     name: 'Administrador'
     username: 'admin'
     password: 'e6X9hJssakZST/pdtA/Gqg' # 1234
-    email: 'leonardo@devhouse.com.br'
-    language: 'es'
+    email: 'contato@devhouse.com.br'
+    language: 'pt_BR'
     status: 1
   User_2:
     name: 'Gerente'
     username: 'gerente'
     password: '5IL3ZMLaBtdVOjNpg7le6Q' # 1234
-    email: 'leo.lima.web@gmail.com'
+    email: 'gerente@devhouse.com.br'
     language: null
     status: 1
   User_3:
     name: 'Tecnico'
     username: 'tecnico'
     password: 'Q8seXX/ZnBruIFM5yDGbsw' #1234
-    email: 'llvasconcellos@hotmail.com'
+    email: 'tec@devhouse.com.br'
     language: null
     status: 1
   User_4:
-    name: 'Listados'
-    username: 'listados'
+    name: 'Relatorios'
+    username: 'relatorios'
     password: '+DxJg7t4/QICydc/QGsBNw' # 1234
-    email: 'leonardo@opentech.com.br'
+    email: 'rel@devhouse.com.br'
     language: null
     status: 1

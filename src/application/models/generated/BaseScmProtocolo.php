@@ -8,8 +8,8 @@
  * @property integer $id
  * @property string $nm_protocolo
  * @property Doctrine_Collection $ScmFaturaItem
- * @property Doctrine_Collection $ScmMaquina
  * @property Doctrine_Collection $ScmLocalServer
+ * @property Doctrine_Collection $ScmMaquina
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -42,11 +42,11 @@ abstract class BaseScmProtocolo extends Doctrine_Record
              'local' => 'id',
              'foreign' => 'id_protocolo'));
 
-        $this->hasMany('ScmMaquina', array(
+        $this->hasMany('ScmLocalServer', array(
              'local' => 'id',
              'foreign' => 'id_protocolo'));
 
-        $this->hasMany('ScmLocalServer', array(
+        $this->hasMany('ScmMaquina', array(
              'local' => 'id',
              'foreign' => 'id_protocolo'));
     }

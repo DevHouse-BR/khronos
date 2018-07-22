@@ -15,8 +15,8 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Chain.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Chain.php 25249 2013-02-06 09:54:24Z frosch $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -28,7 +28,7 @@ require_once 'Zend/Controller/Router/Route/Abstract.php';
  *
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Controller_Router_Route_Chain extends Zend_Controller_Router_Route_Abstract
@@ -39,22 +39,23 @@ class Zend_Controller_Router_Route_Chain extends Zend_Controller_Router_Route_Ab
     /**
      * Instantiates route based on passed Zend_Config structure
      *
-     * @param Zend_Config $config Configuration object
+     * @param  Zend_Config $config Configuration object
+     * @return Zend_Controller_Router_Route_Chain
      */
     public static function getInstance(Zend_Config $config)
     {
         $defs = ($config->defaults instanceof Zend_Config) ? $config->defaults->toArray() : array();
         return new self($config->route, $defs);
     }
-    
+
     /**
      * Add a route to this chain
-     * 
+     *
      * @param  Zend_Controller_Router_Route_Abstract $route
      * @param  string                                $separator
      * @return Zend_Controller_Router_Route_Chain
      */
-    public function chain(Zend_Controller_Router_Route_Abstract $route, $separator = '/')
+    public function chain(Zend_Controller_Router_Route_Abstract $route, $separator = self::URI_DELIMITER)
     {
         $this->_routes[]     = $route;
         $this->_separators[] = $separator;
@@ -68,40 +69,47 @@ class Zend_Controller_Router_Route_Chain extends Zend_Controller_Router_Route_Ab
      * Assigns and returns an array of defaults on a successful match.
      *
      * @param  Zend_Controller_Request_Http $request Request to get the path info from
+     * @param  null                         $partial
      * @return array|false An array of assigned values or a false on a mismatch
      */
     public function match($request, $partial = null)
     {
-        $path    = trim($request->getPathInfo(), '/');
-        $subPath = $path;
-        $values  = array();
+        $path        = trim($request->getPathInfo(), self::URI_DELIMITER);
+        $subPath     = $path;
+        $values      = array();
+        $numRoutes   = count($this->_routes);
+        $matchedPath = null;
 
         foreach ($this->_routes as $key => $route) {
-            if ($key > 0 && $matchedPath !== null) {
+            if ($key > 0
+                && $matchedPath !== null
+                && $subPath !== ''
+                && $subPath !== false
+            ) {
                 $separator = substr($subPath, 0, strlen($this->_separators[$key]));
-                
+
                 if ($separator !== $this->_separators[$key]) {
-                    return false;                
+                    return false;
                 }
-                
+
                 $subPath = substr($subPath, strlen($separator));
             }
-            
-            // TODO: Should be an interface method. Hack for 1.0 BC  
+
+            // TODO: Should be an interface method. Hack for 1.0 BC
             if (!method_exists($route, 'getVersion') || $route->getVersion() == 1) {
                 $match = $subPath;
             } else {
                 $request->setPathInfo($subPath);
-                $match = $request;                
+                $match = $request;
             }
-            
-            $res = $route->match($match, true);
+
+            $res = $route->match($match, true, ($key == $numRoutes - 1));
             if ($res === false) {
                 return false;
             }
-            
+
             $matchedPath = $route->getMatchedPath();
-            
+
             if ($matchedPath !== null) {
                 $subPath     = substr($subPath, strlen($matchedPath));
                 $separator   = substr($subPath, 0, strlen($this->_separators[$key]));
@@ -109,9 +117,9 @@ class Zend_Controller_Router_Route_Chain extends Zend_Controller_Router_Route_Ab
 
             $values = $res + $values;
         }
-        
+
         $request->setPathInfo($path);
-        
+
         if ($subPath !== '' && $subPath !== false) {
             return false;
         }
@@ -122,24 +130,26 @@ class Zend_Controller_Router_Route_Chain extends Zend_Controller_Router_Route_Ab
     /**
      * Assembles a URL path defined by this route
      *
-     * @param array $data An array of variable and value pairs used as parameters
+     * @param  array $data An array of variable and value pairs used as parameters
+     * @param  bool  $reset
+     * @param  bool  $encode
      * @return string Route path with user submitted parameters
      */
     public function assemble($data = array(), $reset = false, $encode = false)
     {
         $value     = '';
         $numRoutes = count($this->_routes);
-        
+
         foreach ($this->_routes as $key => $route) {
             if ($key > 0) {
                 $value .= $this->_separators[$key];
             }
-            
+
             $value .= $route->assemble($data, $reset, $encode, (($numRoutes - 1) > $key));
-            
+
             if (method_exists($route, 'getVariables')) {
                 $variables = $route->getVariables();
-                
+
                 foreach ($variables as $variable) {
                     $data[$variable] = null;
                 }
@@ -151,7 +161,7 @@ class Zend_Controller_Router_Route_Chain extends Zend_Controller_Router_Route_Ab
 
     /**
      * Set the request object for this and the child routes
-     * 
+     *
      * @param  Zend_Controller_Request_Abstract|null $request
      * @return void
      */
@@ -165,5 +175,42 @@ class Zend_Controller_Router_Route_Chain extends Zend_Controller_Router_Route_Ab
             }
         }
     }
+    
+    /**
+     * Return a single parameter of route's defaults
+     *
+     * @param  string $name Array key of the parameter
+     * @return string Previously set default
+     */
+    public function getDefault($name)
+    {
+        $default = null;
+        foreach ($this->_routes as $route) {
+            if (method_exists($route, 'getDefault')) {
+                $current = $route->getDefault($name);
+                if (null !== $current) {
+                    $default = $current;
+                }
+            }
+        }
 
+        return $default;
+    }
+
+    /**
+     * Return an array of defaults
+     *
+     * @return array Route defaults
+     */
+    public function getDefaults()
+    {
+        $defaults = array();
+        foreach ($this->_routes as $route) {
+            if (method_exists($route, 'getDefaults')) {
+                $defaults = array_merge($defaults, $route->getDefaults());
+            }
+        }
+
+        return $defaults;
+    }
 }

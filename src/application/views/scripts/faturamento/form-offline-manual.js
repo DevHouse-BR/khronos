@@ -43,7 +43,7 @@ Faturamento.preencheManualForm = Ext.extend(Ext.Window, {
 				border: false,
 				bodyStyle: 'margin-bottom: 10px; padding: 5px;',
 				items: [{
-					labelWidth: 100,
+					labelWidth: 80,
 					columnWidth: .5,
 					border: false,
 					autoHeight: true,
@@ -85,7 +85,7 @@ Faturamento.preencheManualForm = Ext.extend(Ext.Window, {
 						disabled: true
 					}]
 				}, {
-					labelWidth: 100,
+					labelWidth: 80,
 					columnWidth: .5,
 					border: false,
 					autoHeight: true,

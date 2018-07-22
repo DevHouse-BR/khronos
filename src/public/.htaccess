@@ -1,6 +1,6 @@
 FileETag none
 
-SetEnv APPLICATION_ENV development
+SetEnv APPLICATION_ENV production
 
 RewriteEngine On
 

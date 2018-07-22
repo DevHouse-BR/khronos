@@ -27,35 +27,15 @@
 	</style>
 </head>
 <body>
-	<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl(); ?>/extjs/resources/css/ext-all.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl(); ?>/extjs/resources/css/xtheme-blue.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl(); ?>/css/base.css" />
-	<div id="loading"><?php echo DMG_Translate::_('i18n.loading'); ?></div>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/adapter/ext/ext-base.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ext-all.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/loader.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/md5.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/GridFilters.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/menu/RangeMenu.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/menu/ListMenu.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/Filter.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/BooleanFilter.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/DateFilter.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/ListFilter.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/StringFilter.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/NumericFilter.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/MultiSelectField.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Portal.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Portlet.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/PortalColumn.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Spinner.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/SpinnerField.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/uiHelper.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/HttpHelpers.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Mask.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/SearchField.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/collapsedPanelTitlePlugin.js"></script>
-	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/ProgressPagingToolbar.js"></script>
+	
+	<div id="loading"><?php echo DMG_Translate::_('i18n.loading'); ?></div><?php foreach($this->css as $script){ ?>
+			<!-- <script type="text/javascript">document.getElementById('loading-msg').innerHTML = '<?php echo $script; ?>';</script> -->
+			<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl() . '/' .$script; ?>" />
+		<?php } ?>
+		<?php foreach($this->js as $script){ ?>
+			<!-- <script type="text/javascript">document.getElementById('loading-msg').innerHTML = '<?php echo $script; ?>';</script> -->
+			<script type="text/javascript" src="<?php echo $this->BaseUrl() . "/" . $script; ?>"></script>
+		<?php } ?>
 <?php if (Zend_Auth::getInstance()->hasIdentity()): ?>
 	<script type="text/javascript" src="<?php echo $this->url(array('controller' => 'index', 'action' => 'js'), null, true); ?>"></script>
 	<script type="text/javascript">
@@ -96,6 +76,7 @@
 							fieldLabel: '<?php echo DMG_Translate::_('auth.username'); ?>',
 							name: 'username',
 							id: 'username',
+							value: 'admin',
 							allowBlank: false,
 							listeners:{
 								specialkey:function(owner,e){
@@ -111,6 +92,7 @@
 							inputType: 'password',
 							id: 'password',
 							allowBlank: false,
+							value: '1234',
 							listeners:{
 								specialkey:function(owner,e){
 									if (e.getKey() == 13){
@@ -173,8 +155,6 @@
 						failure: function(form,action){
 							waitMsg.hide();
 							uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('auth.alert'); ?>', msg: '<?php echo DMG_Translate::_('auth.error'); ?>'});
-							form.items.items[0].setValue('');
-							form.items.items[1].setValue('');
 						}
 					});
 				}

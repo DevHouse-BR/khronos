@@ -1,0 +1,11 @@
+[25-Apr-2013 23:17:25 America/Chicago] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/local/lib/php/extensions/no-debug-non-zts-20090626/ixed.5.3.lin' - /usr/local/lib/php/extensions/no-debug-non-zts-20090626/ixed.5.3.lin: cannot open shared object file: No such file or directory in Unknown on line 0
+[25-Apr-2013 23:17:26 America/Chicago] PHP Warning:  include_once(Doctrine/Adapter/Pgsql.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory in /home/devhouse/public_html/showcase/khronos/library/Zend/Loader.php on line 134
+[25-Apr-2013 23:17:26 America/Chicago] PHP Warning:  include_once() [<a href='function.include'>function.include</a>]: Failed opening 'Doctrine/Adapter/Pgsql.php' for inclusion (include_path='/home/devhouse/public_html/showcase/khronos/application/../library:/home/devhouse/public_html/showcase/khronos/library:.:/usr/lib/php:/usr/local/lib/php') in /home/devhouse/public_html/showcase/khronos/library/Zend/Loader.php on line 134
+[25-Apr-2013 23:17:26 America/Chicago] PHP Fatal error:  Uncaught exception 'Zend_Controller_Response_Exception' with message 'Cannot send headers; headers already sent in /home/devhouse/public_html/showcase/khronos/library/Zend/Loader.php, line 134' in /home/devhouse/public_html/showcase/khronos/library/Zend/Controller/Response/Abstract.php:323
+Stack trace:
+#0 /home/devhouse/public_html/showcase/khronos/library/Zend/Controller/Response/Abstract.php(341): Zend_Controller_Response_Abstract->canSendHeaders(true)
+#1 /home/devhouse/public_html/showcase/khronos/library/Zend/Controller/Response/Abstract.php(768): Zend_Controller_Response_Abstract->sendHeaders()
+#2 /home/devhouse/public_html/showcase/khronos/library/Zend/Controller/Front.php(992): Zend_Controller_Response_Abstract->sendResponse()
+#3 /home/devhouse/public_html/showcase/khronos/library/Zend/Application/Bootstrap/Bootstrap.php(97): Zend_Controller_Front->dispatch()
+#4 /home/devhouse/public_html/showcase/khronos/library/Zend/Application.php(366): Zend_Application_Bootstrap_Bootstrap->run()
+#5 /home/devhouse/p in /home/devhouse/public_html/showcase/khronos/library/Zend/Controller/Response/Abstract.php on line 323

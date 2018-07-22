@@ -1,12 +1,12 @@
 ScmModule:
   Module_1:
-    name: 'Administración'
+    name: 'Administração'
   Module_2:
     name: 'Parque'
   Module_3:
-    name: 'Cierre'
+    name: 'Fechamento'
   Module_4:
-    name: 'Consultas y Listados'
+    name: 'Consultas e Relatórios'
   Module_5:
     name: 'Portal'
   Module_6:

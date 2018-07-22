@@ -3,10 +3,117 @@
 class IndexController extends Zend_Controller_Action {
 	public function init () {
 		$this->_helper->viewRenderer->setNoRender(true);
+		
+		$this->css = array(
+			'extjs/resources/css/ext-all.css',
+			'extjs/resources/css/xtheme-blue.css',
+			'css/base.css'
+		);
+		$this->jsLogin = array(
+			'index/app.js'
+		);
+		$this->js = array(
+			'extjs/adapter/ext/ext-base.js',
+			'extjs/ext-all.js',
+			'extjs/loader.js',
+			'extjs/ux/md5.js',
+			'extjs/ux/gridfilters/GridFilters.js',
+			'extjs/ux/gridfilters/menu/RangeMenu.js',
+			'extjs/ux/gridfilters/menu/ListMenu.js',
+			'extjs/ux/gridfilters/filter/Filter.js',
+			'extjs/ux/gridfilters/filter/BooleanFilter.js',
+			'extjs/ux/gridfilters/filter/DateFilter.js',
+			'extjs/ux/gridfilters/filter/ListFilter.js',
+			'extjs/ux/gridfilters/filter/StringFilter.js',
+			'extjs/ux/gridfilters/filter/NumericFilter.js',
+			'extjs/ux/MultiSelectField.js',
+			'extjs/ux/Portal.js',
+			'extjs/ux/Portlet.js',
+			'extjs/ux/PortalColumn.js',
+			'extjs/ux/Spinner.js',
+			'extjs/ux/SpinnerField.js',
+			'extjs/ux/uiHelper.js',
+			'extjs/ux/HttpHelpers.js',
+			'extjs/ux/Mask.js',
+			'extjs/ux/SearchField.js',
+			'extjs/ux/collapsedPanelTitlePlugin.js',
+			'extjs/ux/ProgressPagingToolbar.js'
+		);
+		
 	}
 	public function indexAction () {
+		
+		
+		if(APPLICATION_ENV == "development"){
+    		/*$ext = array(
+    			'extjs/adapter/ext/ext-base-debug.js',
+    			'extjs/ext-all-debug.js'
+    		);
+    		
+    		$ux = Khronos_UxScript::add();
+    		
+    		$js = array();
+    		$caminho = '../application/views/scripts/';
+    		if($logado){
+	    		foreach($this->js as $script){
+	    			$js[] = $caminho . $script;
+	    		}
+				$this->view->js = array_merge($ext, $ux, $js);
+    		}
+    		else{
+	    		foreach($this->jsLogin as $script){
+	    			$js[] = $caminho . $script;
+	    		}
+    			$this->view->js = array_merge($ext, $this->uxLogin, $js);
+    		}
+    		
+			$this->view->css = $this->css;*/
+    	}
+    	else {
+    		$this->view->js = array('index/compressedjs');
+    		$this->view->css = $this->css;
+    	}
+		
+		
+		
 		echo $this->view->render('index/index.phtml');
 	}
+
+	public function compressedjsAction(){
+/*
+    	$logado = Zend_Auth::getInstance()->hasIdentity();
+    	if($logado){
+	    	$ux  = Khronos_UxScript::add();
+	    	$js = $this->js;
+    	}
+    	else{
+    		$ux = $this->uxLogin;
+    		$js = $this->jsLogin;
+    	}
+		
+		$ext  = @file_get_contents('extjs/adapter/ext/ext-base.js') . chr(10);
+		$ext .= @file_get_contents('extjs/ext-all.js') . chr(10);
+		
+		foreach($ux as $script){
+			$output .= @file_get_contents($script) . chr(10);
+		}*/
+
+		foreach($this->js as $script){
+			//$script = str_replace("../application/views/scripts/", "", $script);
+			//$output .= $this->view->render($script) . chr(10);
+			$output .= @file_get_contents($script) . chr(10);
+		}
+		
+		ob_start("ob_gzhandler");
+		$this->view->headMeta()->appendHttpEquiv('Content-Encoding', 'gzip,deflate');
+		//echo $ext;
+		//echo DMG_JSMin::minify($output);
+		echo $output;
+		ob_end_flush();
+    }
+
+
+
 	public function authAction () {
 		if (!$this->getRequest()->isPost()) {
 			return;
@@ -113,7 +220,7 @@ class IndexController extends Zend_Controller_Action {
 			$errors['username'] = DMG_Translate::_('administration.user.form.username.validation');
 		}
 		// valida idioma
-		if ($id == 0) {
+		/*if ($id == 0) {
 			if (!strlen($this->getRequest()->getParam('password'))) {
 				$errors['password'] = DMG_Translate::_('administration.user.form.password.validation');
 			} else {
@@ -123,7 +230,7 @@ class IndexController extends Zend_Controller_Action {
 			if (strlen($this->getRequest()->getParam('password'))) {
 				$obj->password = $this->getRequest()->getParam('password');
 			}
-		}
+		}*/
 		if ($obj->status == '1') {
 			$obj->status = '1';
 		} else {
@@ -282,8 +389,14 @@ class IndexController extends Zend_Controller_Action {
 		if (DMG_Acl::canAccess(87)) {
 			$js .= $this->view->render('movimentacao/consulta-entrada.js');
 		}
-		//echo DMG_JSMin::minify($js);
-		echo $js;
+		ob_start("ob_gzhandler");
+		$this->view->headMeta()->appendHttpEquiv('Content-Encoding', 'gzip,deflate');
+		//echo $ext;
+		//echo DMG_JSMin::minify($output);
+		echo DMG_JSMin::minify($js);
+		ob_end_flush();
+		
+		//echo $js;
 	}
 	
 	public function infoAction () {

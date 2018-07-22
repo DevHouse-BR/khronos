@@ -52,10 +52,10 @@
  * @property Doctrine_Collection $ScmTransformacaoItem
  * @property ScmProtocolo $ScmProtocolo
  * @property Doctrine_Collection $ScmFaturaItem
- * @property Doctrine_Collection $ScmHistoricoStatus
- * @property Doctrine_Collection $ScmFaturaExcecao
  * @property Doctrine_Collection $ScmRegularizacaoItem
  * @property Doctrine_Collection $ScmAjustePercentual
+ * @property Doctrine_Collection $ScmHistoricoStatus
+ * @property Doctrine_Collection $ScmFaturaExcecao
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -400,19 +400,19 @@ abstract class BaseScmMaquina extends Doctrine_Record
              'local' => 'id',
              'foreign' => 'id_maquina'));
 
-        $this->hasMany('ScmHistoricoStatus', array(
-             'local' => 'id',
-             'foreign' => 'id_maquina'));
-
-        $this->hasMany('ScmFaturaExcecao', array(
-             'local' => 'id',
-             'foreign' => 'id_maquina'));
-
         $this->hasMany('ScmRegularizacaoItem', array(
              'local' => 'id',
              'foreign' => 'id_maquina'));
 
         $this->hasMany('ScmAjustePercentual', array(
+             'local' => 'id',
+             'foreign' => 'id_maquina'));
+
+        $this->hasMany('ScmHistoricoStatus', array(
+             'local' => 'id',
+             'foreign' => 'id_maquina'));
+
+        $this->hasMany('ScmFaturaExcecao', array(
              'local' => 'id',
              'foreign' => 'id_maquina'));
     }

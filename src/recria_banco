@@ -1,5 +1,0 @@
-#!/bin/sh
-php doctrine-cli build-all-reload --no-confirmation
-php doctrine.php
-php fill.php
-

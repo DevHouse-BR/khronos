@@ -15,21 +15,17 @@
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Similarity.php 16541 2009-07-07 06:59:03Z bkarwin $
+ * @version    $Id: Similarity.php 24593 2012-01-05 20:35:02Z matthew $
  */
-
-
-/** Zend_Search_Lucene_Search_Similarity_Default */
-require_once 'Zend/Search/Lucene/Search/Similarity/Default.php';
 
 
 /**
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Search_Lucene_Search_Similarity
@@ -326,6 +322,7 @@ abstract class Zend_Search_Lucene_Search_Similarity
     public static function getDefault()
     {
         if (!self::$_defaultImpl instanceof Zend_Search_Lucene_Search_Similarity) {
+            require_once 'Zend/Search/Lucene/Search/Similarity/Default.php';
             self::$_defaultImpl = new Zend_Search_Lucene_Search_Similarity_Default();
         }
 

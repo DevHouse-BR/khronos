@@ -15,10 +15,16 @@
  * @category   Zend
  * @package    Zend_Application
  * @subpackage Resource
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Modules.php 17730 2009-08-21 19:50:07Z matthew $
+ * @version    $Id: Modules.php 24593 2012-01-05 20:35:02Z matthew $
  */
+
+/**
+ * @see Zend_Application_Resource_ResourceAbstract
+ */
+require_once 'Zend/Application/Resource/ResourceAbstract.php';
+
 
 /**
  * Module bootstrapping resource
@@ -26,7 +32,7 @@
  * @category   Zend
  * @package    Zend_Application
  * @subpackage Resource
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Application_Resource_Modules extends Zend_Application_Resource_ResourceAbstract
@@ -56,6 +62,7 @@ class Zend_Application_Resource_Modules extends Zend_Application_Resource_Resour
      */
     public function init()
     {
+        $bootstraps = array();
         $bootstrap = $this->getBootstrap();
         $bootstrap->bootstrap('FrontController');
         $front = $bootstrap->getResource('FrontController');
@@ -92,17 +99,33 @@ class Zend_Application_Resource_Modules extends Zend_Application_Resource_Resour
             }
 
             if ($bootstrapClass == $curBootstrapClass) {
-                // If the found bootstrap class matches the one calling this 
+                // If the found bootstrap class matches the one calling this
                 // resource, don't re-execute.
                 continue;
             }
 
-            $moduleBootstrap = new $bootstrapClass($bootstrap);
-            $moduleBootstrap->bootstrap();
-            $this->_bootstraps[$module] = $moduleBootstrap;
+            $bootstraps[$module] = $bootstrapClass;
         }
 
-        return $this->_bootstraps;
+        return $this->_bootstraps = $this->bootstrapBootstraps($bootstraps);
+    }
+
+    /*
+     * Bootstraps the bootstraps found. Allows for easy extension.
+     * @param array $bootstraps Array containing the bootstraps to instantiate
+     */
+    protected function bootstrapBootstraps($bootstraps)
+    {
+        $bootstrap = $this->getBootstrap();
+        $out = new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS);
+
+        foreach($bootstraps as $module => $bootstrapClass) {
+            $moduleBootstrap = new $bootstrapClass($bootstrap);
+            $moduleBootstrap->bootstrap();
+            $out[$module] = $moduleBootstrap;
+        }
+
+        return $out;
     }
 
     /**

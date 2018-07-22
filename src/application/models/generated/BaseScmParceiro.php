@@ -9,12 +9,12 @@
  * @property string $nm_parceiro
  * @property integer $id_empresa
  * @property ScmEmpresa $ScmEmpresa
- * @property Doctrine_Collection $ScmRegularizacaoDoc
- * @property Doctrine_Collection $ScmTransformacaoDoc
- * @property Doctrine_Collection $ScmMaquina
  * @property Doctrine_Collection $ScmHistoricoStatus
  * @property Doctrine_Collection $ScmFaturaDoc
+ * @property Doctrine_Collection $ScmRegularizacaoDoc
  * @property Doctrine_Collection $ScmMovimentacaoDoc
+ * @property Doctrine_Collection $ScmMaquina
+ * @property Doctrine_Collection $ScmTransformacaoDoc
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -55,18 +55,6 @@ abstract class BaseScmParceiro extends Doctrine_Record
              'local' => 'id_empresa',
              'foreign' => 'id'));
 
-        $this->hasMany('ScmRegularizacaoDoc', array(
-             'local' => 'id',
-             'foreign' => 'id_parceiro'));
-
-        $this->hasMany('ScmTransformacaoDoc', array(
-             'local' => 'id',
-             'foreign' => 'id_parceiro'));
-
-        $this->hasMany('ScmMaquina', array(
-             'local' => 'id',
-             'foreign' => 'id_parceiro'));
-
         $this->hasMany('ScmHistoricoStatus', array(
              'local' => 'id',
              'foreign' => 'id_parceiro'));
@@ -75,7 +63,19 @@ abstract class BaseScmParceiro extends Doctrine_Record
              'local' => 'id',
              'foreign' => 'id_parceiro'));
 
+        $this->hasMany('ScmRegularizacaoDoc', array(
+             'local' => 'id',
+             'foreign' => 'id_parceiro'));
+
         $this->hasMany('ScmMovimentacaoDoc', array(
+             'local' => 'id',
+             'foreign' => 'id_parceiro'));
+
+        $this->hasMany('ScmMaquina', array(
+             'local' => 'id',
+             'foreign' => 'id_parceiro'));
+
+        $this->hasMany('ScmTransformacaoDoc', array(
              'local' => 'id',
              'foreign' => 'id_parceiro'));
     }

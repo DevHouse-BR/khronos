@@ -16,12 +16,12 @@
  * @property Doctrine_Collection $ScmMaquina
  * @property Doctrine_Collection $ScmMovimentacaoDoc
  * @property Doctrine_Collection $ScmTransformacaoDoc
- * @property Doctrine_Collection $ScmRegularizacaoDoc
- * @property Doctrine_Collection $ScmSession
+ * @property Doctrine_Collection $ScmAjustePercentual
  * @property Doctrine_Collection $ScmHistoricoStatus
  * @property Doctrine_Collection $ScmFaturaDoc
  * @property Doctrine_Collection $ScmLocalServer
- * @property Doctrine_Collection $ScmAjustePercentual
+ * @property Doctrine_Collection $ScmRegularizacaoDoc
+ * @property Doctrine_Collection $ScmSession
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -113,11 +113,7 @@ abstract class BaseScmLocal extends Doctrine_Record
              'local' => 'id',
              'foreign' => 'id_local'));
 
-        $this->hasMany('ScmRegularizacaoDoc', array(
-             'local' => 'id',
-             'foreign' => 'id_local'));
-
-        $this->hasMany('ScmSession', array(
+        $this->hasMany('ScmAjustePercentual', array(
              'local' => 'id',
              'foreign' => 'id_local'));
 
@@ -133,7 +129,11 @@ abstract class BaseScmLocal extends Doctrine_Record
              'local' => 'id',
              'foreign' => 'id_local'));
 
-        $this->hasMany('ScmAjustePercentual', array(
+        $this->hasMany('ScmRegularizacaoDoc', array(
+             'local' => 'id',
+             'foreign' => 'id_local'));
+
+        $this->hasMany('ScmSession', array(
              'local' => 'id',
              'foreign' => 'id_local'));
     }

@@ -8,8 +8,8 @@
  * @property integer $id
  * @property string $nm_empresa
  * @property Doctrine_Collection $ScmFilial
- * @property Doctrine_Collection $ScmParceiro
  * @property Doctrine_Collection $ScmUserEmpresa
+ * @property Doctrine_Collection $ScmParceiro
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -45,11 +45,11 @@ abstract class BaseScmEmpresa extends Doctrine_Record
              'local' => 'id',
              'foreign' => 'id_empresa'));
 
-        $this->hasMany('ScmParceiro', array(
+        $this->hasMany('ScmUserEmpresa', array(
              'local' => 'id',
              'foreign' => 'id_empresa'));
 
-        $this->hasMany('ScmUserEmpresa', array(
+        $this->hasMany('ScmParceiro', array(
              'local' => 'id',
              'foreign' => 'id_empresa'));
     }

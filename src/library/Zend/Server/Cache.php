@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Server
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Cache.php 16210 2009-06-21 19:22:17Z thomas $
+ * @version    $Id: Cache.php 24593 2012-01-05 20:35:02Z matthew $
  */
 
 /**
@@ -24,7 +24,7 @@
  *
  * @category   Zend
  * @package    Zend_Server
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Server_Cache
@@ -78,10 +78,10 @@ class Zend_Server_Cache
     /**
      * Load server definition from a file
      *
-     * Unserializes a stored server definition from $filename. Returns false if 
+     * Unserializes a stored server definition from $filename. Returns false if
      * it fails in any way, true on success.
      *
-     * Useful to prevent needing to build the server definition on each 
+     * Useful to prevent needing to build the server definition on each
      * request. Sample usage:
      *
      * <code>

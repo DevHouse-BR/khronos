@@ -116,7 +116,7 @@ class UserController extends Zend_Controller_Action {
 			$errors['username'] = DMG_Translate::_('administration.user.form.username.validation');
 		}
 		// valida idioma
-		if ($id == 0) {
+		/*if ($id == 0) {
 			if (!strlen($this->getRequest()->getParam('password'))) {
 				$errors['password'] = DMG_Translate::_('administration.user.form.password.validation');
 			} else {
@@ -126,7 +126,7 @@ class UserController extends Zend_Controller_Action {
 			if (strlen($this->getRequest()->getParam('password'))) {
 				$obj->password = $this->getRequest()->getParam('password');
 			}
-		}
+		}*/
 		if ($obj->status == '1') {
 			$obj->status = '1';
 		} else {
@@ -176,7 +176,7 @@ class UserController extends Zend_Controller_Action {
 		echo Zend_Json::encode(array('success' => true));
 	}
 	protected function getUnassignedGroup () {
-		// pega grupos dos quais o usuário não está
+		// pega grupos dos quais o usuï¿½rio nï¿½o estï¿½
 		$query = Doctrine_Query::create()->from('ScmGroup g')->addWhere('g.id NOT IN (SELECT ug.group_id FROM ScmUserGroup ug WHERE ug.user_id = ?)', $this->user->id)->execute();
 		$data = array();
 		foreach ($query as $l) {
@@ -189,7 +189,7 @@ class UserController extends Zend_Controller_Action {
 		echo Zend_Json::encode($data);
 	}
 	protected function getAssignedGroup () {
-		// pega grupos dos quais o usuário está
+		// pega grupos dos quais o usuï¿½rio estï¿½
 		$query = Doctrine::getTable('ScmUserGroup')->findByUserId($this->user->id);
 		$data = array();
 		foreach ($query as $l) {
@@ -239,7 +239,7 @@ class UserController extends Zend_Controller_Action {
 		echo Zend_Json::encode(array('success' => true));
 	}
 	protected function getUnassignedEmpresa () {
-		// pega grupos dos quais o usuário não está
+		// pega grupos dos quais o usuï¿½rio nï¿½o estï¿½
 		$query = Doctrine_Query::create()->from('ScmEmpresa e')->addWhere('e.id NOT IN (SELECT ue.id_empresa FROM ScmUserEmpresa ue WHERE ue.user_id = ?)', $this->user->id)->execute();
 		$data = array();
 		foreach ($query as $l) {
@@ -252,7 +252,7 @@ class UserController extends Zend_Controller_Action {
 		echo Zend_Json::encode($data);
 	}
 	protected function getAssignedEmpresa () {
-		// pega grupos dos quais o usuário está
+		// pega grupos dos quais o usuï¿½rio estï¿½
 		$query = Doctrine::getTable('ScmUserEmpresa')->findByUserId($this->user->id);
 		$data = array();
 		foreach ($query as $l) {

@@ -17,8 +17,8 @@ class DMG_Auth_Plugin extends Zend_Controller_Plugin_Abstract {
 			}
 		} else {
 			if (!Zend_Auth::getInstance()->hasIdentity()) {
-				// usuário não autenticado
-				// permissões: index/index, index/auth
+				// usuï¿½rio nï¿½o autenticado
+				// permissï¿½es: index/index, index/auth
 				if (!($controller == 'index' && ($action == 'index' || $action == 'auth' || $action = 'js'))) {
 					$request->setModuleName('default')->setControllerName('index')->setActionName('null')->setDispatched(false);
 				}
@@ -28,8 +28,8 @@ class DMG_Auth_Plugin extends Zend_Controller_Plugin_Abstract {
 					$session->dt_ultimo_contato_sessao = DMG_Date::now();
 					$session->save();
 				}
-				// usuário autenticado
-				// permissões: todas
+				// usuï¿½rio autenticado
+				// permissï¿½es: todas
 				if ($controller == 'index' && $action == 'auth') {
 					$request->setModuleName('default')->setControllerName('index')->setActionName('null')->setDispatched(false);
 				}

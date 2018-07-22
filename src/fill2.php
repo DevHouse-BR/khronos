@@ -1,32 +1,4 @@
 <?php
-
-date_default_timezone_set('America/Sao_Paulo');
-
-set_include_path(implode(PATH_SEPARATOR, array(get_include_path(), dirname(__FILE__) . '/library/')));
-
-define('APPLICATION_PATH', realpath('./application/'));
-
-function __autoload ($a) {
-	$a = explode('_', $a);
-	$a = implode('/', $a);
-	require_once('library/' . $a . '.php');
-}
-
-include_once 'library/Doctrine.php';
-
-$loader = Zend_Loader_Autoloader::getInstance();
-$loader->pushAutoloader(array('Doctrine', 'autoload'));
-$doctrineConfig = new Zend_Config_Ini('application/configs/application.ini', 'development');
-$doctrineConfig = $doctrineConfig->toArray();
-$doctrineConfig = $doctrineConfig['doctrine'];
-$manager = Doctrine_Manager::getInstance();
-$manager->setAttribute(Doctrine::ATTR_USE_DQL_CALLBACKS, true);
-$manager->setAttribute(Doctrine::ATTR_MODEL_LOADING, Doctrine::MODEL_LOADING_CONSERVATIVE);
-Doctrine::loadModels($doctrineConfig['models_path']);
-$manager->setCollate('utf8_unicode_ci');
-$manager->setCharset('utf8');
-$manager->openConnection($doctrineConfig['connection_string']);
-
 if (!Zend_Auth::getInstance()->authenticate(new DMG_Auth_Adapter('admin', 'e6X9hJssakZST/pdtA/Gqg'))->isValid()) {
 	throw new Exception('não logou');
 }
@@ -50,7 +22,7 @@ try {
 		$local->nm_local = 'Local #' . $k;
 	}
 
-	$nr_serie = 0;
+	$nr_serie = 1;
 	foreach (Doctrine::getTable('ScmFilial')->findAll() as $filial) {
 		foreach (Doctrine::getTable('ScmLocal')->findAll() as $local) {
 			foreach (Doctrine::getTable('ScmMoeda')->findAll() as $moeda) {
@@ -86,19 +58,23 @@ try {
 		}
 	}
 
+/*
 	foreach (Doctrine::getTable('ScmFilial')->findAll() as $filial) {
 		foreach (Doctrine::getTable('ScmLocal')->findAll() as $local) {
-			$fDoc = new ScmFaturaDoc();
-			$fDoc->id_fatura_doc_status = 1;
-			$fDoc->dt_fatura = DMG_Date::now();
-			$fDoc->id_origem = 1;
-			$fDoc->id_filial = $filial->id;
-			$fDoc->id_local = $local->id;
-			$fDoc->id_parceiro = null;
-			$fDoc->id_usuario = 1;
-			$fDoc->dt_sistema = DMG_Date::now();
-			$fDoc->save();
 			foreach (Doctrine::getTable('ScmMoeda')->findAll() as $moeda) {
+				echo("aquiiiii");
+				$fDoc = new ScmFaturaDoc();
+				$fDoc->id_fatura_doc_status = 1;
+				$fDoc->dt_fatura = DMG_Date::now();
+				$fDoc->id_origem = 1;
+				$fDoc->id_filial = $filial->id;
+				$fDoc->id_local = $local->id;
+				$fDoc->id_parceiro = null;
+				$fDoc->id_usuario = 1;
+				$fDoc->dt_sistema = DMG_Date::now();
+				$fDoc->id_moeda = $moeda->id;
+				$fDoc->save();
+				echo("salvou");
 				foreach (Doctrine::getTable('ScmJogo')->findAll() as $jogo) {
 					foreach (Doctrine_Query::create()
 						->from('ScmMaquina')
@@ -149,7 +125,7 @@ try {
 				}
 			}
 		}
-	}
+	}*/
 	Doctrine_Manager::getInstance()->getCurrentConnection()->commit();
 } catch (Exception $e) {
 	Doctrine_Manager::getInstance()->getCurrentConnection()->rollback();

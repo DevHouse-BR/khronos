@@ -1,42 +1,42 @@
 ScmConfig:
   Config_1:
     id: 1
-    name: 'Lenguaje por defecto'
-    value: 'es'
+    name: 'Lingua Padrão'
+    value: 'pt_BR'
   Config_2:
     id: 2
-    name: 'Nombre del sistema'
-    value: 'Sistema de Control Online'
+    name: 'Nome do Sistema'
+    value: 'Sistema de Controle Online'
   Config_3:
     id: 3
-    name: 'Dirección de la Logo'
+    name: 'Caminho para a Logo'
     value: 'images/logo.png'
   Config_4:
     id: 4
-    name: 'Contadores Obligatorios'
+    name: 'Contadores Obrigatórios'
     value: '1,2,3,4'
   Config_5:
     id: 5
-    name: 'Local por Defecto'
+    name: 'Local Padrão'
     value: '1'
   Config_6:
     id: 6
-    name: 'Número de registros por página'
+    name: 'Numero de registros por página'
     value: 15
     system: true
   Config_8:
     id: 8
-    name: 'Dirección del Servidor de Listados'
+    name: 'Caminho do Servidor de Relatórios'
     value: 'localhost'
     system: true
   Config_10:
     id: 10
-    name: 'Timeout del Servidor de Listados'
+    name: 'Timeout do Servidor de Relatórios'
     value: 30
     system: true
   Config_11:
     id: 11
-    name: 'Porta del Servidor de Listados'
+    name: 'Porta do Servidor de Relatórios'
     value: '8080'
     system: true
   Config_12:
@@ -47,12 +47,12 @@ ScmConfig:
   Config_13:
     id: 13
     name: 'Copyright'
-    value: 'Copyright &copy; DMG | All rights reserved - Powered by <a target="_blank" href="http://www.agenciadmg.com.br/">DMG</a>'
+    value: 'Copyright &copy; DevHouse | All rights reserved - Powered by <a target="_blank" href="http://www.devhouse.com.br/">DevHouse</a>'
     system: true
   Config_14:
     id: 14
-    name: 'Nombre del Portal'
-    value: 'Portal del Cliente - Sistema de Control Online'
+    name: 'Nome do Portal'
+    value: 'Portal do Cliente - Sistema de Controle Online'
     system: true   
   Config_15:
     id: 15

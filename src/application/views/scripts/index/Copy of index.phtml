@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><?php echo DMG_Config::get(2); ?></title>
+	<link href="/public/images/khronos.ico" rel="shortcut icon" />
+	<style type="text/css">
+		body{
+			background:#2f94c7 url('images/bg_khronos.jpg') no-repeat 50% top;
+			font-family:Arial,Verdana;
+		}
+		#loading {
+			position: absolute; 
+			background: transparent url(images/loading.gif) no-repeat scroll left top; 
+			display: block; 
+			top: 50%; 
+			left: 50%; 
+			margin-left: -70px; 
+			width: 140px;
+			padding: 0 0 0 40px; 
+			height: 32px;
+			line-height:32px;
+			margin-top: 0px; 
+			color:white;
+			font-size: 22px; 
+		}
+	</style>
+</head>
+<body>
+	<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl(); ?>/extjs/resources/css/ext-all.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl(); ?>/extjs/resources/css/xtheme-blue.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $this->BaseUrl(); ?>/css/base.css" />
+	<div id="loading"><?php echo DMG_Translate::_('i18n.loading'); ?></div>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/adapter/ext/ext-base.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ext-all.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/loader.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/md5.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/GridFilters.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/menu/RangeMenu.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/menu/ListMenu.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/Filter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/BooleanFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/DateFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/ListFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/StringFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/gridfilters/filter/NumericFilter.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/MultiSelectField.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Portal.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Portlet.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/PortalColumn.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Spinner.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/SpinnerField.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/uiHelper.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/HttpHelpers.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/Mask.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/SearchField.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/collapsedPanelTitlePlugin.js"></script>
+	<script type="text/javascript" src="<?php echo $this->BaseUrl(); ?>/extjs/ux/ProgressPagingToolbar.js"></script>
+<?php if (Zend_Auth::getInstance()->hasIdentity()): ?>
+	<script type="text/javascript" src="<?php echo $this->url(array('controller' => 'index', 'action' => 'js'), null, true); ?>"></script>
+	<script type="text/javascript">
+		Ext.onReady(function() {
+			new Principal();
+			Ext.QuickTips.init();
+			Ext.form.Field.prototype.msgTarget = 'side';
+			document.getElementById('loading').style.display = 'none';
+			document.body.style.background = 'none';
+			document.body.style.backgroundColor = '#dfe8f6';
+		});
+	</script>
+<?php else: ?>
+	<script type="text/javascript">
+		Ext.onReady(function(){
+			var win = new Ext.Window({
+				title: '<?php echo DMG_Translate::_('auth.title'); ?>',
+				width: 300,
+				height: 130,
+				y:300,
+				//modal: true,
+				closable: false,
+				//draggable: false,
+				resizable: false,
+				cls: 'x-form-item-label-login',
+				listeners:{
+					show: function(janela){
+						Ext.getCmp('username').focus(false, 500);
+					}
+			    }, 
+				items: [
+					new Ext.form.FormPanel({
+						id: 'formPanel',
+						bodyStyle: 'padding:5px',
+						baseCls: 'x-plain',
+						items: [{
+							xtype: 'textfield',
+							fieldLabel: '<?php echo DMG_Translate::_('auth.username'); ?>',
+							name: 'username',
+							id: 'username',
+							value: 'admin',
+							allowBlank: false,
+							listeners:{
+								specialkey:function(owner,e){
+									if (e.getKey() == 13){
+										Ext.getCmp('password').focus(true);
+									}
+								}
+							}
+						},{
+							xtype: 'textfield',
+							fieldLabel: '<?php echo DMG_Translate::_('auth.password'); ?>',
+							name: 'password',
+							inputType: 'password',
+							id: 'password',
+							allowBlank: false,
+							value: '1234',
+							listeners:{
+								specialkey:function(owner,e){
+									if (e.getKey() == 13){
+										doLogin();
+									}
+								}
+							}
+						}]
+					})
+				],
+				buttons: [{
+					text: 'Login',
+					handler: function(){
+						doLogin();
+					}
+				}]
+			});
+
+			var waitMsg =  new Ext.Window({
+				title: '<?php echo DMG_Translate::_('i18n.loading'); ?>',
+				width: 250,
+				height: 70,
+				modal: true,
+				closable: false,
+				resizable: false,
+				items:[{
+					xtype: 'progress',
+					ref: '../progress',
+					style:'margin:10px 10px 10px 10px'
+				}],
+				listeners:{
+					show: function(janela){
+						janela.progress.wait();
+					}
+				}
+			});
+
+			var doLogin = function(){
+				var form = Ext.getCmp('formPanel').getForm();
+				if(form.isValid()){
+					var pass = Ext.getCmp('password').getValue();
+					var user = Ext.getCmp('username').getValue();
+					pass = b64_hmac_md5(b64_hmac_md5(pass, "GB7!gj12@3fLp,hg7%$g2f"), user);
+					Ext.getCmp('password').setValue(pass);
+					waitMsg.show();
+					form.submit({
+						url: '<?php echo $this->url(array('controller' => 'index', 'action' => 'auth'), null, true); ?>',
+						success: function(form,action){
+							loader("<?php echo $this->url(array('controller' => 'index', 'action' => 'js'), null, true); ?>", function () {
+								win.destroy();
+								waitMsg.progress.reset();
+								waitMsg.destroy();
+								new Principal();
+								Ext.QuickTips.init();
+								Ext.form.Field.prototype.msgTarget = 'side';
+								document.body.style.background = 'none';
+								document.body.style.backgroundColor = '#dfe8f6';
+							});
+						},
+						failure: function(form,action){
+							waitMsg.hide();
+							uiHelper.showMessageBox({title: '<?php echo DMG_Translate::_('auth.alert'); ?>', msg: '<?php echo DMG_Translate::_('auth.error'); ?>'});
+						}
+					});
+				}
+
+
+
+			};
+			
+			document.getElementById('loading').style.display = 'none';
+			win.show();
+		});
+	</script>
+<?php endif; ?>
+</body>
+</html>

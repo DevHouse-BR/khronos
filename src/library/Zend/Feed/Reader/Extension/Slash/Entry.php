@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Entry.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id: Entry.php 24593 2012-01-05 20:35:02Z matthew $
  */
 
 /**
@@ -32,10 +32,10 @@ require_once 'Zend/Feed/Reader/Extension/EntryAbstract.php';
 /**
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Feed_Reader_Extension_Slash_Entry 
+class Zend_Feed_Reader_Extension_Slash_Entry
     extends Zend_Feed_Reader_Extension_EntryAbstract
 {
     /**

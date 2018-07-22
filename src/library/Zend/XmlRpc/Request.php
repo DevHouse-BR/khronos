@@ -14,7 +14,7 @@
  *
  * @category   Zend
  * @package    Zend_Controller
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -41,9 +41,9 @@ require_once 'Zend/XmlRpc/Fault.php';
  *
  * @category Zend
  * @package  Zend_XmlRpc
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version $Id: Request.php 17786 2009-08-23 22:26:33Z lars $
+ * @version $Id: Request.php 25033 2012-08-17 19:50:08Z matthew $
  */
 class Zend_XmlRpc_Request
 {
@@ -116,6 +116,7 @@ class Zend_XmlRpc_Request
     public function setEncoding($encoding)
     {
         $this->_encoding = $encoding;
+        Zend_XmlRpc_Value::setEncoding($encoding);
         return $this;
     }
 
@@ -302,12 +303,26 @@ class Zend_XmlRpc_Request
             return false;
         }
 
+        // @see ZF-12293 - disable external entities for security purposes
+        $loadEntities = libxml_disable_entity_loader(true);
         try {
-            $xml = @new SimpleXMLElement($request);
+            $dom = new DOMDocument;
+            $dom->loadXML($request);
+            foreach ($dom->childNodes as $child) {
+                if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
+                    require_once 'Zend/XmlRpc/Exception.php';
+                    throw new Zend_XmlRpc_Exception(
+                        'Invalid XML: Detected use of illegal DOCTYPE'
+                    );
+                }
+            }
+            $xml = simplexml_import_dom($dom);
+            libxml_disable_entity_loader($loadEntities);
         } catch (Exception $e) {
             // Not valid XML
             $this->_fault = new Zend_XmlRpc_Fault(631);
             $this->_fault->setEncoding($this->getEncoding());
+            libxml_disable_entity_loader($loadEntities);
             return false;
         }
 
@@ -401,29 +416,29 @@ class Zend_XmlRpc_Request
      *
      * @return string
      */
-    public function saveXML()
+    public function saveXml()
     {
         $args   = $this->_getXmlRpcParams();
         $method = $this->getMethod();
 
-        $dom = new DOMDocument('1.0', $this->getEncoding());
-        $mCall = $dom->appendChild($dom->createElement('methodCall'));
-        $mName = $mCall->appendChild($dom->createElement('methodName', $method));
+        $generator = Zend_XmlRpc_Value::getGenerator();
+        $generator->openElement('methodCall')
+                  ->openElement('methodName', $method)
+                  ->closeElement('methodName');
 
         if (is_array($args) && count($args)) {
-            $params = $mCall->appendChild($dom->createElement('params'));
+            $generator->openElement('params');
 
             foreach ($args as $arg) {
-                /* @var $arg Zend_XmlRpc_Value */
-                $argDOM = new DOMDocument('1.0', $this->getEncoding());
-                $argDOM->loadXML($arg->saveXML());
-
-                $param = $params->appendChild($dom->createElement('param'));
-                $param->appendChild($dom->importNode($argDOM->documentElement, 1));
+                $generator->openElement('param');
+                $arg->generateXml();
+                $generator->closeElement('param');
             }
+            $generator->closeElement('params');
         }
+        $generator->closeElement('methodCall');
 
-        return $dom->saveXML();
+        return $generator->flush();
     }
 
     /**

@@ -14,7 +14,7 @@
  *
  * @category   Zend
  * @package    Zend_Controller
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -35,9 +35,9 @@ require_once 'Zend/XmlRpc/Fault.php';
  *
  * @category Zend
  * @package  Zend_XmlRpc
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version $Id: Response.php 16208 2009-06-21 19:19:26Z thomas $
+ * @version $Id: Response.php 25033 2012-08-17 19:50:08Z matthew $
  */
 class Zend_XmlRpc_Response
 {
@@ -89,6 +89,7 @@ class Zend_XmlRpc_Response
     public function setEncoding($encoding)
     {
         $this->_encoding = $encoding;
+        Zend_XmlRpc_Value::setEncoding($encoding);
         return $this;
     }
 
@@ -175,9 +176,28 @@ class Zend_XmlRpc_Response
             return false;
         }
 
+        // @see ZF-12293 - disable external entities for security purposes
+        $loadEntities         = libxml_disable_entity_loader(true);
+        $useInternalXmlErrors = libxml_use_internal_errors(true);
         try {
-            $xml = @new SimpleXMLElement($response);
+            $dom = new DOMDocument;
+            $dom->loadXML($response);
+            foreach ($dom->childNodes as $child) {
+                if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
+                    require_once 'Zend/XmlRpc/Exception.php';
+                    throw new Zend_XmlRpc_Exception(
+                        'Invalid XML: Detected use of illegal DOCTYPE'
+                    );
+                }
+            }
+            // TODO: Locate why this passes tests but a simplexml import doesn't
+            // $xml = simplexml_import_dom($dom);
+            $xml = new SimpleXMLElement($response);
+            libxml_disable_entity_loader($loadEntities);
+            libxml_use_internal_errors($useInternalXmlErrors);
         } catch (Exception $e) {
+            libxml_disable_entity_loader($loadEntities);
+            libxml_use_internal_errors($useInternalXmlErrors);
             // Not valid XML
             $this->_fault = new Zend_XmlRpc_Fault(651);
             $this->_fault->setEncoding($this->getEncoding());
@@ -201,11 +221,11 @@ class Zend_XmlRpc_Response
 
         try {
             if (!isset($xml->params) || !isset($xml->params->param) || !isset($xml->params->param->value)) {
+                require_once 'Zend/XmlRpc/Value/Exception.php';
                 throw new Zend_XmlRpc_Value_Exception('Missing XML-RPC value in XML');
             }
             $valueXml = $xml->params->param->value->asXML();
-            $valueXml = preg_replace('/<\?xml version=.*?\?>/i', '', $valueXml);
-            $value = Zend_XmlRpc_Value::getXmlRpcValue(trim($valueXml), Zend_XmlRpc_Value::XML_STRING);
+            $value = Zend_XmlRpc_Value::getXmlRpcValue($valueXml, Zend_XmlRpc_Value::XML_STRING);
         } catch (Zend_XmlRpc_Value_Exception $e) {
             $this->_fault = new Zend_XmlRpc_Fault(653);
             $this->_fault->setEncoding($this->getEncoding());
@@ -221,20 +241,19 @@ class Zend_XmlRpc_Response
      *
      * @return string
      */
-    public function saveXML()
+    public function saveXml()
     {
         $value = $this->_getXmlRpcReturn();
-        $valueDOM = new DOMDocument('1.0', $this->getEncoding());
-        $valueDOM->loadXML($value->saveXML());
+        $generator = Zend_XmlRpc_Value::getGenerator();
+        $generator->openElement('methodResponse')
+                  ->openElement('params')
+                  ->openElement('param');
+        $value->generateXml();
+        $generator->closeElement('param')
+                  ->closeElement('params')
+                  ->closeElement('methodResponse');
 
-        $dom      = new DOMDocument('1.0', $this->getEncoding());
-        $response = $dom->appendChild($dom->createElement('methodResponse'));
-        $params   = $response->appendChild($dom->createElement('params'));
-        $param    = $params->appendChild($dom->createElement('param'));
-
-        $param->appendChild($dom->importNode($valueDOM->documentElement, true));
-
-        return $dom->saveXML();
+        return $generator->flush();
     }
 
     /**

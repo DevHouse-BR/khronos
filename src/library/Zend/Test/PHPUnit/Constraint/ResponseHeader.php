@@ -14,27 +14,29 @@
  *
  * @category   Zend
  * @package    Zend_Test
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @subpackage PHPUnit
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ResponseHeader.php 16874 2009-07-20 12:46:00Z mikaelkael $
+ * @version    $Id: ResponseHeader.php 25205 2013-01-10 11:23:25Z frosch $
  */
 
-/** PHPUnit_Framework_Constraint */
+/** @see PHPUnit_Framework_Constraint */
 require_once 'PHPUnit/Framework/Constraint.php';
 
 /**
  * Response header PHPUnit Constraint
  *
  * @uses       PHPUnit_Framework_Constraint
+ * @category   Zend
  * @package    Zend_Test
  * @subpackage PHPUnit
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Test_PHPUnit_Constraint_ResponseHeader extends PHPUnit_Framework_Constraint
 {
     /**#@+
-     * @const string Assertion type constants
+     * Assertion type constants
      */
     const ASSERT_RESPONSE_CODE   = 'assertResponseCode';
     const ASSERT_HEADER          = 'assertHeader';
@@ -63,6 +65,11 @@ class Zend_Test_PHPUnit_Constraint_ResponseHeader extends PHPUnit_Framework_Cons
      * @var int Response code
      */
     protected $_code              = 200;
+    
+    /**
+     * @var int Actual response code
+     */
+    protected $_actualCode        = null;
 
     /**
      * @var string Header
@@ -195,6 +202,9 @@ class Zend_Test_PHPUnit_Constraint_ResponseHeader extends PHPUnit_Framework_Cons
                     $failure = 'Failed asserting response code IS NOT "%s"';
                 }
                 $failure = sprintf($failure, $this->_code);
+                if (!$this->_negate && $this->_actualCode) {
+                    $failure .= sprintf(PHP_EOL . 'Was "%s"', $this->_actualCode);
+                }
                 break;
             case self::ASSERT_HEADER:
                 $failure = 'Failed asserting response header "%s" found';
@@ -248,6 +258,7 @@ class Zend_Test_PHPUnit_Constraint_ResponseHeader extends PHPUnit_Framework_Cons
     protected function _code(Zend_Controller_Response_Abstract $response, $code)
     {
         $test = $this->_getCode($response);
+        $this->_actualCode = $test;
         return ($test == $code);
     }
 
@@ -336,7 +347,7 @@ class Zend_Test_PHPUnit_Constraint_ResponseHeader extends PHPUnit_Framework_Cons
 
         $contents = str_replace($header . ': ', '', $fullHeader);
 
-        return (strstr($contents, $match));
+        return (strstr($contents, $match) !== false);
     }
 
     /**
@@ -355,7 +366,7 @@ class Zend_Test_PHPUnit_Constraint_ResponseHeader extends PHPUnit_Framework_Cons
 
         $contents = str_replace($header . ': ', '', $fullHeader);
 
-        return (!strstr($contents, $match));
+        return (strstr($contents, $match) === false);
     }
 
     /**
